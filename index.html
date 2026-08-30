@@ -560,10 +560,17 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
 
 /* ---------- PROGRESS CODE ---------- */
 .coderow{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-#code{flex:1 1 150px;min-width:0;font:inherit;font-family:"Barlow Condensed";font-weight:700;
+#code,#codein{font:inherit;font-family:"Barlow Condensed";font-weight:700;
   letter-spacing:.08em;font-size:14px;padding:8px 10px;border:2.5px solid var(--line);
   background:var(--bg);color:var(--text)}
-#code:focus{outline:3px solid var(--blue);outline-offset:2px}
+#code,#codein{flex:1 1 150px;min-width:0}
+#code[readonly]{cursor:default}
+#code:focus,#codein:focus{outline:3px solid var(--blue);outline-offset:2px}
+#codein::placeholder{color:var(--text);opacity:.45;letter-spacing:.04em}
+.plabel.sub{margin-top:16px}
+#code.idle{opacity:.5}
+.cbtn:disabled{opacity:.4;cursor:default}
+.codehint{margin-top:7px}
 .cbtn{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.09em;
   font-size:12.5px;padding:8px 12px 7px;border:2.5px solid var(--line);background:var(--invert-bg);
   color:var(--invert-text);cursor:pointer;flex:none}
@@ -666,10 +673,16 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
   <summary>Back up or restore progress</summary>
   <section class="progress" id="codebox">
     <span class="plabel">Your progress code</span>
-    <p class="hint" style="margin-top:6px">Ticks save automatically as you go. This code is a portable copy &mdash; keep it somewhere safe, or paste it in on another device to pick up where you left off.</p>
+    <p class="hint" style="margin-top:6px">Ticks save automatically on this device. The code below is generated from them &mdash; copy it, then paste it in on another device to pick up where you left off.</p>
     <div class="coderow">
-      <input id="code" spellcheck="false" autocomplete="off" aria-label="Progress code">
+      <input id="code" readonly spellcheck="false" autocomplete="off" aria-label="Your progress code">
       <button id="copycode" class="cbtn">Copy</button>
+    </div>
+    <p class="hint codehint" id="codehint" hidden>Tick your first title and a real code appears here.</p>
+
+    <span class="plabel sub">Have a code from another device?</span>
+    <div class="coderow">
+      <input id="codein" spellcheck="false" autocomplete="off" placeholder="Paste it here" aria-label="Paste a progress code">
       <button id="applycode" class="cbtn alt">Apply</button>
     </div>
     <div class="codestatus" id="codestatus"></div>
@@ -1741,7 +1754,15 @@ function decodeProgress(code){
 }
 function refreshCode(){
   const el = document.getElementById('code');
-  if(el && document.activeElement !== el) el.value = encodeProgress();
+  if(!el || document.activeElement === el) return;
+  el.value = encodeProgress();
+  /* With nothing ticked the code is all padding, which reads as an empty
+     box waiting to be filled in. Say what it is instead. */
+  const empty = watched.size === 0;
+  el.classList.toggle('idle', empty);
+  document.getElementById('copycode').disabled = empty;
+  const h = document.getElementById('codehint');
+  if(h) h.hidden = !empty;
 }
 function status(msg, bad){
   const el = document.getElementById('codestatus');
@@ -1762,13 +1783,17 @@ document.getElementById('copycode').addEventListener('click', async () => {
   }
 });
 document.getElementById('applycode').addEventListener('click', () => {
-  const v = document.getElementById('code').value;
+  const box = document.getElementById('codein');
+  const v = box.value.trim();
+  if(!v){ status('Paste a code first', true); return; }
   if(decodeProgress(v)){
     render(); save();
+    box.value = '';
     status('Progress restored');
   }else{
-    status('That code is not valid', true);
-    refreshCode();
+    /* Codes are generated, never invented -- say so, and leave what they
+       typed alone so a typo can be corrected rather than wiped. */
+    status('Not a code from this site \u2014 use Copy on your other device', true);
   }
 });
 
