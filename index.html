@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>The MCU, In Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Archivo+Black&family=Barlow+Condensed:wght@600;700&family=Barlow:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light dark;
+  --bg:#EFE4CD; --surface:#FBF6EA; --line:#14100D; --text:#14100D;
+  --shadow:#14100D;
+  --invert-bg:#14100D; --invert-text:#EFE4CD;
+  --tab-on-bg:#14100D; --tab-on-text:#FFC42E;
+  --ribbon-bg:#14100D; --ribbon-text:#EFE4CD; --ribbon-eyebrow:#FFC42E;
+  --red:#D92B1C; --red-ink:#D92B1C; --blue:#1B45C4; --blue-ink:#1B45C4;
+  --yellow:#FFC42E; --on-accent:#FBF6EA; --on-warm:#14100D;
+  --tint-blue:rgba(27,69,196,.09); --tint-red:rgba(217,43,28,.09);
+  --tint-branch:rgba(27,69,196,.07);
+  --done-bg:rgba(20,16,13,.06); --done-shadow:rgba(20,16,13,.4);
+  --h1-drop:rgba(20,16,13,.18);
+  --spine:26px;
+}
+@media (prefers-color-scheme:dark){ html:not([data-theme="light"]){
+    --bg:#1A1610; --surface:#252017; --line:#E9DFC6; --text:#EFE6D2;
+    --shadow:#0A0806;
+    --invert-bg:#E9DFC6; --invert-text:#1A1610;
+    --tab-on-bg:#E9DFC6; --tab-on-text:#1A1610;
+    --ribbon-bg:#E9DFC6; --ribbon-text:#1A1610; --ribbon-eyebrow:#AE2E17;
+    --red:#CE3220; --red-ink:#FF5B45; --blue:#3B5EDB; --blue-ink:#8AA5FF;
+    --yellow:#F0BE38; --on-accent:#FBF6EA; --on-warm:#17130E;
+    --tint-blue:rgba(138,165,255,.13); --tint-red:rgba(255,91,69,.13);
+    --tint-branch:rgba(138,165,255,.09);
+    --done-bg:rgba(233,223,198,.06); --done-shadow:rgba(233,223,198,.26);
+    --h1-drop:rgba(0,0,0,.55); } }
+html[data-theme="dark"]{
+    --bg:#1A1610; --surface:#252017; --line:#E9DFC6; --text:#EFE6D2;
+    --shadow:#0A0806;
+    --invert-bg:#E9DFC6; --invert-text:#1A1610;
+    --tab-on-bg:#E9DFC6; --tab-on-text:#1A1610;
+    --ribbon-bg:#E9DFC6; --ribbon-text:#1A1610; --ribbon-eyebrow:#AE2E17;
+    --red:#CE3220; --red-ink:#FF5B45; --blue:#3B5EDB; --blue-ink:#8AA5FF;
+    --yellow:#F0BE38; --on-accent:#FBF6EA; --on-warm:#17130E;
+    --tint-blue:rgba(138,165,255,.13); --tint-red:rgba(255,91,69,.13);
+    --tint-branch:rgba(138,165,255,.09);
+    --done-bg:rgba(233,223,198,.06); --done-shadow:rgba(233,223,198,.26);
+    --h1-drop:rgba(0,0,0,.55); }
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{
+  background-color:var(--bg);
+  color:var(--text);font-family:"Barlow",system-ui,sans-serif;
+  font-size:16px;line-height:1.45;padding-bottom:64px;overflow-x:hidden;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+
+/* ---------- THEME SWITCH ---------- */
+.themebar{display:flex;align-items:center;justify-content:flex-end;gap:9px;padding:14px 0 0}
+.themebar>span{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.14em;font-size:11px;opacity:.55}
+.tseg{display:flex;border:2.5px solid var(--line)}
+.tseg button{font:inherit;color:var(--text);background:var(--surface);border:none;cursor:pointer;
+  padding:5px 10px 4px;font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.09em;font-size:11.5px;line-height:1.2}
+.tseg button+button{border-left:2.5px solid var(--line)}
+.tseg button[aria-pressed="true"]{background:var(--invert-bg);color:var(--invert-text)}
+.tseg button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+/* ---------- COVER ---------- */
+.cover{padding:22px 0 18px;text-align:center}
+.kicker{display:inline-block;font-family:"Barlow Condensed";font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;font-size:13px;
+  background:var(--invert-bg);color:var(--invert-text);padding:5px 12px 4px;transform:rotate(-1.5deg)}
+h1{font-family:"Bangers";font-weight:400;margin:14px 0 0;
+  font-size:clamp(52px,15vw,104px);line-height:.86;letter-spacing:.02em;color:var(--red-ink);
+  text-shadow:3px 3px 0 var(--line),-1px -1px 0 var(--line),1px -1px 0 var(--line),
+   -1px 1px 0 var(--line),6px 6px 0 var(--h1-drop)}
+h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var(--yellow);margin-top:6px}
+.caption-box{background:var(--yellow);color:var(--on-warm);border:3px solid var(--line);
+  box-shadow:5px 5px 0 var(--shadow);padding:11px 14px;margin:22px auto 0;max-width:520px;
+  text-align:left;font-size:15px}
+.caption-box b{font-family:"Archivo Black";font-size:13px;letter-spacing:.03em}
+
+/* ---------- TABS ---------- */
+.tabs{display:flex;margin:26px 0 0;border:3px solid var(--line);
+  box-shadow:5px 5px 0 var(--shadow);overflow:hidden}
+.tabs button{flex:1;font:inherit;color:var(--text);background:var(--surface);border:none;cursor:pointer;
+  padding:14px 8px 12px;font-family:"Bangers";font-size:24px;letter-spacing:.03em;line-height:1;
+  transition:background .12s ease,color .12s ease}
+.tabs button+button{border-left:3px solid var(--line)}
+.tabs button[aria-selected="true"]{background:var(--tab-on-bg);color:var(--tab-on-text)}
+.tabs button:focus-visible{outline:3px solid var(--red);outline-offset:-7px}
+.pane[hidden]{display:none!important}
+
+/* ---------- PATH GATE ---------- */
+.gate{margin:32px 0 8px}
+.gate-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.gate-head .bolt{font-family:"Bangers";font-size:28px;color:var(--red-ink);line-height:1}
+.gate-head h2{font-family:"Archivo Black";font-size:15px;letter-spacing:.05em;text-transform:uppercase;margin:0}
+.paths{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:620px){.paths{grid-template-columns:repeat(3,1fr)}}
+.path{border:3px solid var(--line);background:var(--surface);color:var(--text);
+  box-shadow:5px 5px 0 var(--shadow);padding:13px 14px;text-align:left;cursor:pointer;font:inherit;
+  transition:transform .12s ease,box-shadow .12s ease,background .12s ease;display:block;width:100%}
+.path:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--shadow)}
+.path:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.path .pname{font-family:"Bangers";font-size:27px;line-height:1;letter-spacing:.02em;display:block}
+.path .pmeta{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;font-size:12px;opacity:.7;display:block;margin-top:5px}
+.path .pdesc{font-size:14px;margin-top:6px;display:block;line-height:1.3}
+.path[aria-pressed="true"]{background:var(--red);color:var(--on-accent);
+  transform:translate(3px,3px);box-shadow:2px 2px 0 var(--shadow)}
+.path[aria-pressed="true"] .pmeta{opacity:.9}
+
+/* ---------- ORDER TOGGLE ---------- */
+.orderbar{margin:22px 0 0;border:3px solid var(--line);background:var(--surface);
+  box-shadow:5px 5px 0 var(--shadow);padding:12px 13px}
+.orderbar .olabel{font-family:"Archivo Black";font-size:13px;letter-spacing:.04em;
+  text-transform:uppercase;display:block;margin-bottom:9px}
+.toggle{display:flex;border:3px solid var(--line);overflow:hidden}
+.toggle button{flex:1;font:inherit;color:var(--text);background:var(--surface);border:none;
+  cursor:pointer;padding:10px 8px;font-family:"Barlow Condensed";font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;font-size:14px;line-height:1.1}
+.toggle button+button{border-left:3px solid var(--line)}
+.toggle button[aria-pressed="true"]{background:var(--blue);color:var(--on-accent)}
+.toggle button:disabled{opacity:.4;cursor:not-allowed}
+.toggle button:disabled[aria-pressed="true"]{background:var(--bg);color:var(--text)}
+.toggle button:focus-visible{outline:3px solid var(--red);outline-offset:-6px}
+.ordernote{font-size:13.5px;margin-top:10px;line-height:1.35;font-style:italic;opacity:.75}
+
+/* ---------- PROGRESS ---------- */
+.progress{margin:22px 0 6px;border:3px solid var(--line);background:var(--surface);
+  box-shadow:5px 5px 0 var(--shadow);padding:11px 13px}
+.progress .ptop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.progress .plabel{font-family:"Archivo Black";font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.progress .pcount{font-family:"Bangers";font-size:24px;color:var(--red-ink);line-height:1}
+.bar{height:14px;border:2.5px solid var(--line);margin-top:9px;background:var(--bg);overflow:hidden}
+.bar span{display:block;height:100%;background:var(--red);width:0%;transition:width .3s ease}
+.reset{background:none;border:none;font-family:"Barlow Condensed";font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;font-size:12px;cursor:pointer;
+  color:var(--text);text-decoration:underline;padding:6px 0 0}
+.hint{font-size:13px;opacity:.65;margin-top:7px;font-style:italic}
+.hourline{display:flex;gap:14px;flex-wrap:wrap;margin-top:9px;
+  font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:12.5px}
+.hourline b{font-family:"Archivo Black";font-size:15px;font-weight:400;letter-spacing:0;
+  display:block;color:var(--red-ink);margin-top:1px}
+.hourline span{opacity:.62}
+
+/* ---------- SPINE ---------- */
+.chart{position:relative;margin-top:30px;padding-left:calc(var(--spine) + 22px)}
+.chart::before{content:"";position:absolute;left:var(--spine);top:6px;bottom:6px;width:5px;background:var(--line)}
+.node{position:relative;margin-bottom:14px}
+.node::before{content:"";position:absolute;left:-22px;top:26px;width:22px;height:4px;background:var(--line)}
+.node:has(.adslot)::before{display:none}
+.card{border:3px solid var(--line);background:var(--surface);color:var(--text);
+  box-shadow:5px 5px 0 var(--shadow);padding:11px 13px 12px;width:100%;text-align:left;font:inherit;
+  cursor:pointer;display:block;transition:transform .1s ease,box-shadow .1s ease}
+.card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--shadow)}
+.card:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.row1{display:flex;align-items:flex-start;gap:9px}
+.num{font-family:"Barlow Condensed";font-weight:700;font-size:14px;background:var(--invert-bg);
+  color:var(--invert-text);padding:2px 6px 1px;letter-spacing:.05em;flex:none;margin-top:3px}
+.ttl{font-family:"Archivo Black";font-size:16.5px;line-height:1.15;letter-spacing:-.01em;flex:1}
+.why{font-size:14.5px;margin-top:6px;line-height:1.32}
+
+.dates{display:flex;margin-top:10px;border:2.5px solid var(--line);background:var(--bg)}
+.dcell{flex:1;padding:6px 9px 7px;min-width:0}
+.dcell+.dcell{border-left:2.5px solid var(--line);background:var(--tint-blue)}
+.dk{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.13em;font-size:10.5px;opacity:.65;display:block}
+.dv{font-family:"Archivo Black";font-size:14px;line-height:1.15;display:block;margin-top:2px;
+  overflow-wrap:break-word}
+.dcell+.dcell .dv{color:var(--blue-ink)}
+.gapnote{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;font-size:11.5px;margin-top:6px;display:block;opacity:.6}
+
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;align-items:center}
+.tag{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;font-size:11px;padding:2.5px 7px 1.5px;border:2px solid var(--line)}
+.tag.essential{background:var(--red);color:var(--on-accent)}
+.tag.recommended{background:var(--blue);color:var(--on-accent)}
+.tag.optional{background:transparent;color:var(--text)}
+.tag.coming{background:var(--yellow);color:var(--on-warm)}
+.tag.kind{background:var(--invert-bg);color:var(--invert-text)}
+.tag.time{background:transparent;color:var(--text);border-style:dashed;opacity:.75}
+.card.done{background:var(--done-bg);box-shadow:2px 2px 0 var(--done-shadow);transform:translate(3px,3px)}
+.card.done .ttl,.card.done .why{opacity:.42;text-decoration:line-through;text-decoration-thickness:2px}
+.card.done .tags,.card.done .dates,.card.done .gapnote{opacity:.42}
+.check{position:absolute;right:-8px;top:-10px;width:34px;height:34px;background:var(--yellow);
+  color:var(--on-warm);border:3px solid var(--line);border-radius:50%;display:none;align-items:center;
+  justify-content:center;font-family:"Bangers";font-size:20px;line-height:1;transform:rotate(-8deg)}
+.card.done .check{display:flex}
+
+/* ---------- RIBBON ---------- */
+.phase{position:relative;margin:34px 0 18px}
+.phase::before{content:"";position:absolute;left:-22px;top:50%;width:22px;height:4px;background:var(--line)}
+.ribbon{background:var(--ribbon-bg);color:var(--ribbon-text);padding:9px 16px 8px;transform:skewX(-7deg);
+  box-shadow:5px 5px 0 var(--red);display:inline-block}
+.ribbon .inner{transform:skewX(7deg);display:block}
+.ribbon .pn{font-family:"Barlow Condensed";font-weight:700;letter-spacing:.2em;
+  font-size:11.5px;text-transform:uppercase;color:var(--ribbon-eyebrow);display:block}
+.ribbon .pt{font-family:"Bangers";font-size:30px;line-height:.95;letter-spacing:.02em;display:block}
+.phase-note{font-size:13.5px;margin-top:9px;max-width:470px;font-style:italic;color:var(--text);opacity:.72}
+
+/* ---------- BRANCH ---------- */
+.branch{position:relative;margin:6px 0 20px 16px;padding:12px 13px 13px;
+  border:3px dashed var(--line);background:var(--tint-branch)}
+.branch::before{content:"";position:absolute;left:-38px;top:30px;width:38px;height:4px;
+  background:repeating-linear-gradient(90deg,var(--line) 0 7px,transparent 7px 12px)}
+.branch h3{font-family:"Bangers";font-size:24px;margin:0;line-height:1;color:var(--blue-ink);letter-spacing:.02em}
+.branch .bq{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.12em;font-size:11px;background:var(--blue);color:var(--on-accent);
+  padding:2.5px 8px 1.5px;display:inline-block;margin-bottom:7px}
+.branch p{font-size:14px;margin:7px 0 0;line-height:1.35}
+.branch ul{margin:9px 0 0;padding-left:19px;font-size:14.5px}
+.branch li{margin-bottom:4px}
+.branch li b{font-family:"Archivo Black";font-size:13.5px;font-weight:400}
+.branch li em{font-style:normal;font-family:"Barlow Condensed";font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;font-size:11.5px;opacity:.7;display:block}
+
+/* ---------- CHARACTER TAB ---------- */
+.searchbar{margin:26px 0 0;border:3px solid var(--line);background:var(--surface);
+  box-shadow:5px 5px 0 var(--shadow);padding:12px 13px}
+.searchbar label{font-family:"Archivo Black";font-size:13px;letter-spacing:.04em;
+  text-transform:uppercase;display:block;margin-bottom:8px}
+#q{width:100%;font:inherit;font-size:16px;padding:10px 11px;border:3px solid var(--line);
+  background:var(--bg);color:var(--text);font-family:"Barlow"}
+#q::placeholder{color:var(--text);opacity:.45;font-style:italic}
+#q:focus{outline:3px solid var(--blue);outline-offset:2px}
+.groups{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.gbtn{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.09em;
+  font-size:12px;padding:6px 10px 5px;border:2.5px solid var(--line);background:var(--bg);
+  color:var(--text);cursor:pointer;transition:background .1s ease,color .1s ease}
+.gbtn[aria-pressed="true"]{background:var(--invert-bg);color:var(--invert-text)}
+.gbtn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.rolerow{display:flex;align-items:center;gap:9px;margin-top:12px;
+  border-top:2.5px dashed var(--line);padding-top:11px}
+.rolerow>span{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.14em;font-size:11px;opacity:.55}
+.ch.sup .cn{font-size:22px}
+.suptag{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;font-size:10px;border:2px solid var(--line);padding:2px 6px 1px;
+  display:inline-block;margin-top:7px;opacity:.6}
+.spoilrow{display:flex;align-items:center;gap:9px;margin-top:12px;
+  border-top:2.5px dashed var(--line);padding-top:11px}
+.switch{width:56px;height:28px;border:3px solid var(--line);background:var(--bg);
+  cursor:pointer;padding:0;position:relative;flex:none}
+.switch::after{content:"";position:absolute;top:1px;left:1px;width:20px;height:20px;
+  background:var(--line);transition:transform .15s ease}
+.switch[aria-pressed="true"]{background:var(--red)}
+.switch[aria-pressed="true"]::after{transform:translateX(28px);background:var(--on-accent)}
+.switch:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.spoilrow span{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;font-size:13px;line-height:1.2}
+
+.grouphead{margin:30px 0 14px}
+.grouphead .ribbon{box-shadow:5px 5px 0 var(--blue)}
+.roster{display:grid;grid-template-columns:1fr;gap:13px}
+@media(min-width:640px){.roster{grid-template-columns:1fr 1fr}}
+.ch{border:3px solid var(--line);background:var(--surface);box-shadow:5px 5px 0 var(--shadow);
+  padding:13px 14px 14px;position:relative}
+.ch .cn{font-family:"Bangers";font-size:27px;line-height:.98;letter-spacing:.02em;
+  color:var(--red-ink);display:block;
+  text-shadow:1px 1px 0 var(--line),-.5px -.5px 0 var(--line),.5px -.5px 0 var(--line),-.5px .5px 0 var(--line)}
+.ch .cr{font-family:"Archivo Black";font-size:12.5px;letter-spacing:.02em;display:block;
+  margin-top:4px;opacity:.62}
+.ch .cb{font-size:14.5px;line-height:1.34;margin-top:9px}
+.ch .cmeta{display:flex;margin-top:11px;border:2.5px solid var(--line);background:var(--bg)}
+.ch .cmeta .dcell+.dcell{background:var(--tint-red)}
+.ch .cmeta .dcell+.dcell .dv{color:var(--red-ink)}
+.ch .cbest{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;font-size:11.5px;margin-top:8px;display:block;opacity:.68}
+.ch .csp{margin-top:10px;border:2.5px solid var(--line);background:var(--yellow);
+  color:var(--on-warm);padding:7px 9px 8px}
+.ch .csp .spk{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.13em;font-size:10.5px;display:block;opacity:.7}
+.ch .csp .spv{font-size:13.5px;line-height:1.3;display:block;margin-top:2px}
+.ch .csp[hidden]{display:none}
+.run{margin-top:11px;border-top:2.5px dashed var(--line);padding-top:9px}
+.run>summary{cursor:pointer;list-style:none;font-family:"Barlow Condensed";font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;font-size:11.5px;display:flex;
+  align-items:center;gap:8px;flex-wrap:wrap}
+.run>summary::-webkit-details-marker{display:none}
+.run>summary::after{content:"+";font-family:"Bangers";font-size:17px;line-height:.8;margin-left:auto}
+.run[open]>summary::after{content:"\2212"}
+.run>summary:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.pips{display:flex;gap:3px;flex-wrap:wrap}
+.pip{width:9px;height:9px;border:2px solid var(--line);background:var(--bg);display:block}
+.pip.on{background:var(--red)}
+.runlist{list-style:none;margin:10px 0 0;padding:0}
+.runlist li{display:flex;align-items:baseline;gap:7px;margin-bottom:5px;font-size:13.5px;line-height:1.25}
+.runlist .rn{font-family:"Barlow Condensed";font-weight:700;font-size:11px;opacity:.5;
+  min-width:16px;flex:none;letter-spacing:.05em}
+.runlist button{font:inherit;background:none;border:none;padding:0;cursor:pointer;text-align:left;
+  color:var(--text);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px}
+.runlist button:hover{color:var(--red-ink)}
+.runlist button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.runlist li.seen button{opacity:.5;text-decoration-line:line-through underline}
+.runlist .rt{font-family:"Barlow Condensed";font-weight:700;font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;opacity:.45;flex:none}
+.gtag{position:absolute;top:-11px;right:10px;font-family:"Barlow Condensed";font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;font-size:10.5px;background:var(--invert-bg);
+  color:var(--invert-text);padding:3px 8px 2px;transform:rotate(-1.5deg)}
+.noresults{border:3px dashed var(--line);padding:22px 16px;text-align:center;
+  font-style:italic;opacity:.7;margin-top:24px}
+.count{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.09em;font-size:12.5px;opacity:.6;margin-top:20px;display:block}
+
+/* ---------- END ---------- */
+.finale{margin:34px 0 0;border:4px solid var(--line);background:var(--red);color:var(--on-accent);
+  box-shadow:8px 8px 0 var(--shadow);padding:20px 18px;text-align:center}
+.finale .ft{font-family:"Bangers";font-size:clamp(30px,8vw,46px);line-height:.95;letter-spacing:.02em;display:block}
+.finale p{font-size:15px;margin:10px auto 0;max-width:460px}
+.footnote{margin-top:28px;font-size:13.5px;color:var(--text);opacity:.72;line-height:1.45}
+.footnote b{font-family:"Archivo Black";font-size:12.5px}
+
+
+
+
+
+/* ---------- ONBOARDING ---------- */
+.onboard{border:3px solid var(--line);background:var(--surface);box-shadow:5px 5px 0 var(--shadow);
+  padding:18px 16px;margin:26px 0 0}
+.onboard[hidden]{display:none}
+.onboard .obk{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.16em;font-size:11px;opacity:.6;display:block}
+.onboard .obt{font-family:"Bangers";font-size:clamp(28px,7vw,38px);line-height:1;margin:6px 0 14px;
+  letter-spacing:.02em;color:var(--red-ink)}
+.obopts{display:grid;gap:9px}
+@media(min-width:620px){.obopts{grid-template-columns:repeat(3,1fr)}}
+.obopts button{font:inherit;color:var(--text);background:var(--bg);border:3px solid var(--line);
+  cursor:pointer;padding:12px 13px;text-align:left;font-family:"Archivo Black";font-size:14px;
+  line-height:1.2;transition:background .12s ease,color .12s ease}
+.obopts button small{display:block;font-family:"Barlow";font-weight:400;font-size:13px;
+  margin-top:5px;opacity:.7;letter-spacing:0}
+.obopts button:hover{background:var(--red);color:var(--on-accent)}
+.obopts button:hover small{opacity:.92}
+.obopts button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.obskip{background:none;border:none;font-family:"Barlow Condensed";font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;font-size:12px;cursor:pointer;color:var(--text);
+  text-decoration:underline;padding:12px 0 0;opacity:.65}
+
+/* ---------- NEXT UP ---------- */
+.nextup{border:4px solid var(--line);background:var(--surface);box-shadow:7px 7px 0 var(--shadow);
+  padding:16px 16px 17px;margin:26px 0 0;position:relative}
+.nextup[hidden]{display:none}
+.nuk{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.18em;
+  font-size:11px;background:var(--red);color:var(--on-accent);padding:4px 9px 3px;
+  display:inline-block;transform:rotate(-1deg)}
+.nut{font-family:"Bangers";font-size:clamp(30px,8vw,44px);line-height:.98;letter-spacing:.02em;
+  margin:11px 0 0;display:block}
+.numeta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.nuwhy{font-size:15px;line-height:1.34;margin:10px 0 0}
+.nuacts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.nubtn{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.09em;
+  font-size:13.5px;padding:11px 15px 10px;border:3px solid var(--line);background:var(--red);
+  color:var(--on-accent);cursor:pointer;flex:1 1 auto}
+.nubtn.ghost{background:var(--bg);color:var(--text)}
+.nubtn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.nudone{font-family:"Bangers";font-size:26px;line-height:1.05;color:var(--red-ink);display:block;margin-top:8px}
+
+/* ---------- CARD: body vs tick ---------- */
+.card{position:relative;padding-right:52px}
+.cardbody{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:none;
+  border:none;padding:0;cursor:pointer;margin:0}
+.cardbody:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+.tick{position:absolute;top:10px;right:10px;width:34px;height:34px;border:3px solid var(--line);
+  background:var(--bg);border-radius:50%;cursor:pointer;padding:0;display:flex;align-items:center;
+  justify-content:center;font-family:"Bangers";font-size:19px;line-height:1;color:transparent;
+  transition:background .12s ease,color .12s ease;z-index:2}
+.tick:hover{background:var(--tint-blue)}
+.tick[aria-pressed="true"]{background:var(--yellow);color:var(--on-warm);transform:rotate(-8deg)}
+.tick:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.card:hover{transform:none;box-shadow:5px 5px 0 var(--shadow)}
+.card.done{background:var(--done-bg);box-shadow:3px 3px 0 var(--done-shadow);transform:none}
+
+/* ---------- SPINE FILL ---------- */
+.spinefill{position:absolute;left:var(--spine);top:6px;width:5px;background:var(--red);
+  transition:height .35s ease;z-index:1;pointer-events:none}
+
+/* ---------- MILESTONE ---------- */
+.milestone::before{display:none}
+.msplash{border:4px solid var(--line);background:var(--yellow);color:var(--on-warm);
+  box-shadow:6px 6px 0 var(--shadow);padding:16px 15px;text-align:center;transform:rotate(-.6deg)}
+.msplash .mk{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.2em;font-size:11px;display:block;opacity:.75}
+.msplash .mt{font-family:"Bangers";font-size:clamp(30px,9vw,44px);line-height:1;display:block;margin-top:4px}
+.msplash .mb{font-size:14px;display:block;margin-top:6px;opacity:.8}
+
+/* ---------- PLANNER ---------- */
+.planner{border-top:2.5px dashed var(--line);margin-top:12px;padding-top:11px}
+.planner .prow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:12.5px}
+.planner select{font:inherit;font-family:"Barlow Condensed";font-weight:700;font-size:12.5px;
+  padding:5px 7px;border:2.5px solid var(--line);background:var(--bg);color:var(--text)}
+.planner select:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.planout{font-family:"Archivo Black";font-size:15px;margin-top:10px;line-height:1.3;color:var(--red-ink)}
+.planout small{display:block;font-family:"Barlow";font-weight:400;font-size:13px;
+  color:var(--text);opacity:.68;margin-top:3px}
+
+/* ---------- CODE (collapsed) ---------- */
+.codewrap{border:3px solid var(--line);background:var(--surface);box-shadow:5px 5px 0 var(--shadow);
+  margin:26px 0 0}
+.codewrap>summary{cursor:pointer;padding:12px 13px;font-family:"Archivo Black";font-size:12.5px;
+  letter-spacing:.04em;text-transform:uppercase;list-style:none}
+.codewrap>summary::-webkit-details-marker{display:none}
+.codewrap>summary::after{content:" +";float:right;font-family:"Bangers";font-size:19px;line-height:.8}
+.codewrap[open]>summary::after{content:" \2212"}
+.codewrap>summary:focus-visible{outline:3px solid var(--blue);outline-offset:-5px}
+#codebox{border:none;box-shadow:none;margin:0;padding:0 13px 13px;background:none}
+
+/* ---------- DETAIL SHEET ---------- */
+.sheet{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center}
+.sheet[hidden]{display:none}
+.sheetbg{position:absolute;inset:0;background:rgba(10,8,6,.62);border:none;padding:0;cursor:pointer}
+.sheetcard{position:relative;background:var(--surface);border:4px solid var(--line);
+  width:100%;max-width:640px;max-height:86vh;overflow-y:auto;padding:20px 18px 24px;
+  box-shadow:0 -6px 0 var(--shadow)}
+@media(min-width:700px){
+  .sheet{align-items:center}
+  .sheetcard{box-shadow:9px 9px 0 var(--shadow);max-height:80vh}
+}
+.sheetclose{position:absolute;top:10px;right:12px;width:38px;height:38px;border:3px solid var(--line);
+  background:var(--bg);color:var(--text);font-family:"Bangers";font-size:22px;line-height:1;
+  cursor:pointer;border-radius:50%;z-index:2}
+.sheetclose:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.shk{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.16em;
+  font-size:11px;opacity:.6;display:block;padding-right:44px}
+.sht{font-family:"Bangers";font-size:clamp(30px,8vw,42px);line-height:1;margin:5px 0 0;
+  letter-spacing:.02em;padding-right:44px;display:block}
+.shwhy{font-size:15px;line-height:1.36;margin:12px 0 0}
+.shsec{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.13em;
+  font-size:11px;opacity:.6;display:block;margin:16px 0 7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:"Barlow Condensed";font-weight:700;font-size:12.5px;letter-spacing:.04em;
+  padding:6px 10px 5px;border:2.5px solid var(--line);background:var(--bg);color:var(--text);
+  cursor:pointer;text-align:left}
+.chip:hover{background:var(--blue);color:var(--on-accent)}
+.chip:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.shbtn{width:100%;margin-top:18px;font-family:"Barlow Condensed";font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;font-size:14px;padding:13px;border:3px solid var(--line);
+  background:var(--red);color:var(--on-accent);cursor:pointer}
+.shbtn.on{background:var(--yellow);color:var(--on-warm)}
+.shbtn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+/* ---------- TOAST ---------- */
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:80;
+  display:flex;align-items:center;gap:12px;border:3px solid var(--line);background:var(--invert-bg);
+  color:var(--invert-text);box-shadow:5px 5px 0 var(--shadow);padding:11px 13px;
+  font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  font-size:13px;max-width:calc(100% - 32px)}
+.toast[hidden]{display:none}
+.toast button{font:inherit;font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.09em;font-size:13px;background:var(--yellow);color:var(--on-warm);
+  border:2.5px solid var(--line);padding:6px 11px 5px;cursor:pointer;flex:none}
+
+
+/* ---------- THREADS TAB ---------- */
+.thintro{margin:26px 0 0}
+.thlist{display:grid;gap:16px;margin-top:22px}
+@media(min-width:1000px){.thlist{grid-template-columns:1fr 1fr}}
+.th{border:3px solid var(--line);background:var(--surface);box-shadow:5px 5px 0 var(--shadow);
+  padding:15px 15px 16px}
+.thhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.thname{font-family:"Bangers";font-size:27px;line-height:1;letter-spacing:.02em;color:var(--red-ink);display:block}
+.thsub{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.12em;
+  font-size:11px;opacity:.6;display:block;margin-top:4px}
+.thcount{font-family:"Archivo Black";font-size:13px;flex:none;border:2.5px solid var(--line);
+  padding:4px 8px 3px;background:var(--bg)}
+.thcount.full{background:var(--yellow);color:var(--on-warm)}
+.thblurb{font-size:14px;line-height:1.35;margin:10px 0 0;opacity:.85}
+.thbar{height:9px;border:2.5px solid var(--line);margin-top:11px;background:var(--bg);overflow:hidden}
+.thbar span{display:block;height:100%;background:var(--red)}
+.chain{list-style:none;margin:14px 0 0;padding:0;position:relative}
+.chain::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:3px;background:var(--line);opacity:.45}
+.chain li{position:relative;padding:0 0 13px 28px}
+.chain li:last-child{padding-bottom:0}
+.chain .dot{position:absolute;left:0;top:3px;width:19px;height:19px;border:3px solid var(--line);
+  border-radius:50%;background:var(--bg);z-index:1}
+.chain li.seen .dot{background:var(--red)}
+.chain .cht{font:inherit;background:none;border:none;padding:0;cursor:pointer;text-align:left;
+  font-family:"Archivo Black";font-size:13.5px;line-height:1.2;color:var(--text);
+  text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px}
+.chain .cht:hover{color:var(--red-ink)}
+.chain .cht:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.chain .chn{display:block;font-size:13.5px;line-height:1.32;margin-top:3px;opacity:.78}
+.chain li.seen .cht{opacity:.5}
+.thfollow{width:100%;margin-top:14px;font-family:"Barlow Condensed";font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;font-size:13px;padding:10px;border:3px solid var(--line);
+  background:var(--invert-bg);color:var(--invert-text);cursor:pointer}
+.thfollow:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+.thnote{border:3px solid var(--line);border-top:none;background:var(--tint-blue);
+  padding:9px 12px 10px;font-size:14px;line-height:1.34;margin-right:5px}
+.thnk{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.14em;
+  font-size:10.5px;opacity:.6;display:block;margin-bottom:3px}
+
+/* thread filter banner on the chart */
+.thbanner{border:3px solid var(--line);background:var(--yellow);color:var(--on-warm);
+  box-shadow:5px 5px 0 var(--shadow);padding:12px 13px;margin:0 0 22px;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.thbanner[hidden]{display:none}
+.thbanner b{font-family:"Bangers";font-size:22px;letter-spacing:.02em;font-weight:400;display:block}
+.thbanner small{display:block;font-size:12.5px;opacity:.8}
+.thbanner button{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.09em;font-size:12px;padding:7px 11px 6px;border:2.5px solid var(--line);
+  background:var(--bg);color:var(--text);cursor:pointer;flex:none}
+
+/* prerequisite warning */
+.prewarn{display:block;margin-top:9px;border:2.5px solid var(--line);background:var(--yellow);
+  color:var(--on-warm);padding:6px 9px 7px;font-family:"Barlow Condensed";font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;font-size:11.5px;line-height:1.35}
+.prelist{list-style:none;margin:8px 0 0;padding:0}
+.prelist li{border-left:4px solid var(--red);padding:2px 0 2px 10px;margin-bottom:9px}
+.prelist .pt2{font-family:"Archivo Black";font-size:13.5px;display:block}
+.prelist .pw{font-size:13.5px;opacity:.75;display:block;margin-top:2px}
+.prelist .ok{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  font-size:10.5px;letter-spacing:.1em;opacity:.6}
+@media(max-width:520px){.tabs button{font-size:18px;padding:12px 4px 10px}}
+
+/* ---------- LEGAL ---------- */
+.legal{margin:46px 0 0;border-top:4px solid var(--line);padding-top:18px;
+  font-size:12.5px;line-height:1.5;color:var(--text);opacity:.66}
+.legal .lhead{font-family:"Archivo Black";font-size:11.5px;letter-spacing:.06em;
+  text-transform:uppercase;display:block;margin-bottom:7px;opacity:.85}
+.legal p{margin:0 0 9px}
+.legal p:last-child{margin-bottom:0}
+@media (min-width:1000px){.legal{columns:2;column-gap:40px}.legal .lhead{column-span:all}}
+
+/* ---------- AD SLOTS ----------
+   Reserved space so ads do not shift the layout when they load (protects
+   Core Web Vitals, which both Google ranking and ad RPM care about).
+   Paste your network's code inside each .adslot and delete the .adnote. */
+.adslot{border:2.5px dashed var(--line);background:var(--tint-branch);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  margin:26px 0;overflow:hidden;contain:layout}
+.adslot .adnote{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.14em;font-size:11px;opacity:.5;padding:10px;line-height:1.5}
+.adslot ins{display:block;width:100%}
+.ad-leader{min-height:110px}
+.ad-feed{min-height:270px}
+.ad-rail{min-height:260px;margin:22px 0 0}
+.ad-end{min-height:270px}
+.adlabel{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.16em;font-size:10px;opacity:.42;display:block;margin:20px 0 -18px;text-align:center}
+@media (min-width:1000px){
+  .ad-leader{min-height:100px}
+  .ad-feed{min-height:290px}
+}
+@media (max-width:520px){
+  .adslot{margin:20px 0}
+  .ad-leader{min-height:110px}
+  .ad-feed,.ad-end{min-height:260px}
+}
+
+/* ---------- PROGRESS CODE ---------- */
+.coderow{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+#code{flex:1 1 150px;min-width:0;font:inherit;font-family:"Barlow Condensed";font-weight:700;
+  letter-spacing:.08em;font-size:14px;padding:8px 10px;border:2.5px solid var(--line);
+  background:var(--bg);color:var(--text)}
+#code:focus{outline:3px solid var(--blue);outline-offset:2px}
+.cbtn{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.09em;
+  font-size:12.5px;padding:8px 12px 7px;border:2.5px solid var(--line);background:var(--invert-bg);
+  color:var(--invert-text);cursor:pointer;flex:none}
+.cbtn.alt{background:var(--bg);color:var(--text)}
+.cbtn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.codestatus{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;font-size:12px;margin-top:8px;min-height:15px;color:var(--blue-ink)}
+.codestatus.bad{color:var(--red-ink)}
+
+/* ---------- DESKTOP ---------- */
+@media (min-width:1000px){
+  .wrap{max-width:1220px;padding:0 32px}
+  #pane-watch:not([hidden]){display:grid;grid-template-columns:330px minmax(0,1fr);
+    gap:38px;align-items:start;margin-top:8px}
+  .rail{position:sticky;top:20px;max-height:calc(100vh - 40px);overflow-y:auto;
+    padding-right:4px;scrollbar-width:thin}
+  .rail .gate{margin-top:0}
+  .rail .paths{grid-template-columns:1fr;gap:9px}
+  .rail .path .pname{font-size:23px}
+  .rail .path .pdesc{font-size:13.5px}
+  .stage{min-width:0}
+  .chart{margin-top:0}
+  .cover{padding:26px 0 10px}
+  .roster{grid-template-columns:repeat(3,1fr)}
+  .onboard,.nextup{grid-column:1/-1}
+  .onboard{margin-top:0}
+  .caption-box{max-width:640px}
+  .finale{max-width:none}
+}
+@media (min-width:1000px) and (max-width:1160px){
+  .roster{grid-template-columns:repeat(2,1fr)}
+}
+
+@media (max-width:520px){
+  :root{--spine:13px}
+  .wrap{padding:0 12px}
+  .chart{padding-left:calc(var(--spine) + 15px)}
+  .node::before{left:-15px;width:15px}
+  .phase::before{left:-15px;width:15px}
+  .branch{margin-left:10px}
+  .branch::before{left:-25px;width:25px}
+  .card,.path,.progress,.searchbar,.orderbar,.caption-box,.ch,.tabs{box-shadow:4px 4px 0 var(--shadow)}
+  .card:hover{transform:none;box-shadow:4px 4px 0 var(--shadow)}
+  .path:hover{transform:none;box-shadow:4px 4px 0 var(--shadow)}
+  .ttl{font-size:15.5px}
+  .why{font-size:14px}
+  .ribbon .pt{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="themebar">
+    <span>Theme</span>
+    <div class="tseg" id="tseg">
+      <button data-t="auto" aria-pressed="true">Auto</button>
+      <button data-t="light" aria-pressed="false">Light</button>
+      <button data-t="dark" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+
+  <header class="cover">
+    <span class="kicker">63 titles · released vs. set in</span>
+    <h1>The MCU<span class="sm">in the order that works</span></h1>
+    <div class="caption-box">
+      <b>HOW TO READ THIS:</b> Every panel shows two dates — when it hit screens, and when it happens in the story. They are frequently nowhere near each other. Pick a path, pick an order, tap panels to check them off.
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-watch" aria-controls="pane-watch" aria-selected="true">Watch order</button>
+    <button role="tab" id="tab-chars" aria-controls="pane-chars" aria-selected="false">Who&rsquo;s who</button>
+    <button role="tab" id="tab-threads" aria-controls="pane-threads" aria-selected="false">How it connects</button>
+  </nav>
+
+
+  <span class="adlabel">Advertisement</span>
+  <div class="adslot ad-leader">
+    <!-- PASTE AD CODE HERE -->
+    <span class="adnote">Leaderboard slot &middot; 728&times;90 desktop, 320&times;100 mobile</span>
+  </div>
+
+  <div class="pane" id="pane-watch" role="tabpanel" aria-labelledby="tab-watch">
+
+  <section class="onboard" id="onboard" hidden>
+    <span class="obk">First time here</span>
+    <h2 class="obt">Where are you starting from?</h2>
+    <div class="obopts">
+      <button data-ob="recommended">Total beginner<small>Never seen any of it. Give me the good version.</small></button>
+      <button data-ob="essential">Prepping for Doomsday<small>Just what December actually needs.</small></button>
+      <button data-ob="all">Seen most of it<small>Show me everything so I can find the gaps.</small></button>
+    </div>
+    <button class="obskip" data-ob="skip">Skip, just show the chart</button>
+  </section>
+
+  <section class="nextup" id="nextup" hidden></section>
+
+  <aside class="rail">
+
+  <details class="codewrap">
+  <summary>Back up or restore progress</summary>
+  <section class="progress" id="codebox">
+    <span class="plabel">Your progress code</span>
+    <p class="hint" style="margin-top:6px">Ticks save automatically as you go. This code is a portable copy &mdash; keep it somewhere safe, or paste it in on another device to pick up where you left off.</p>
+    <div class="coderow">
+      <input id="code" spellcheck="false" autocomplete="off" aria-label="Progress code">
+      <button id="copycode" class="cbtn">Copy</button>
+      <button id="applycode" class="cbtn alt">Apply</button>
+    </div>
+    <div class="codestatus" id="codestatus"></div>
+  </section>
+  </details>
+
+  <section class="gate">
+    <div class="gate-head"><span class="bolt">▶</span><h2>Pick your path</h2></div>
+    <div class="paths">
+      <button class="path" data-path="essential" aria-pressed="false">
+        <span class="pname">Speedrun</span>
+        <span class="pmeta" data-meta="essential"></span>
+        <span class="pdesc">The spine of the story. Skip one and something later stops making sense.</span>
+      </button>
+      <button class="path" data-path="recommended" aria-pressed="true">
+        <span class="pname">The Good Stuff</span>
+        <span class="pmeta" data-meta="recommended"></span>
+        <span class="pdesc">Essentials plus the ones people actually rewatch. Best value.</span>
+      </button>
+      <button class="path" data-path="all" aria-pressed="false">
+        <span class="pname">All In</span>
+        <span class="pmeta" data-meta="all"></span>
+        <span class="pdesc">Every film, series and special. You will have opinions about Eternals.</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="orderbar">
+    <span class="olabel">Sort the chart by</span>
+    <div class="toggle">
+      <button data-order="release" aria-pressed="true">Release order</button>
+      <button data-order="story" aria-pressed="false">Story order</button>
+    </div>
+    <p class="ordernote" id="ordernote"></p>
+  </section>
+
+  <section class="progress">
+    <div class="ptop">
+      <span class="plabel">Watched on this path</span>
+      <span class="pcount" id="pcount">0 / 0</span>
+    </div>
+    <div class="bar"><span id="pbar"></span></div>
+    <div class="hourline" id="phours"></div>
+    <div class="hint" id="phint">Tap a panel to mark it watched.</div>
+    <div class="planner">
+      <div class="prow">
+        <span>An evening is</span>
+        <select id="evlen" aria-label="Length of one viewing session">
+          <option value="1">1 hour</option><option value="1.5">1.5 hours</option>
+          <option value="2" selected>2 hours</option><option value="3">3 hours</option>
+        </select>
+        <span>and I watch</span>
+        <select id="evweek" aria-label="Sessions per week">
+          <option value="1">1 a week</option><option value="2" selected>2 a week</option>
+          <option value="3">3 a week</option><option value="5">5 a week</option><option value="7">every night</option>
+        </select>
+      </div>
+      <div class="planout" id="planout"></div>
+    </div>
+    <button class="reset" id="reset">Clear all check marks</button>
+  </section>
+
+
+
+  <span class="adlabel">Advertisement</span>
+  <div class="adslot ad-rail">
+    <!-- PASTE AD CODE HERE -->
+    <span class="adnote">Sidebar slot &middot; 300&times;250 &middot; desktop only</span>
+  </div>
+
+  </aside>
+
+  <div class="stage">
+
+  <div class="thbanner" id="thbanner" hidden>
+    <span><b id="thbname"></b><small id="thbsub"></small></span>
+    <button id="thbclear">Show everything</button>
+  </div>
+  <main class="chart" id="chart"></main>
+
+  <span class="adlabel">Advertisement</span>
+  <div class="adslot ad-end">
+    <!-- PASTE AD CODE HERE -->
+    <span class="adnote">End-of-content slot &middot; 336&times;280 or responsive</span>
+  </div>
+
+  <div class="finale">
+    <span class="ft">Then: Doomsday.</span>
+    <p>Everything above is the runway. <b>Avengers: Doomsday</b> lands 18 December 2026, and <b>Secret Wars</b> closes the Multiverse Saga on 17 December 2027.</p>
+  </div>
+
+  <p class="footnote">
+    <b>ABOUT THOSE STORY DATES.</b><br>
+    Marvel has officially dated the timeline up to roughly Endgame — that's where the Iron Man-is-set-in-2010 placement comes from, which surprises people. Anything after the Blip is reconstructed from on-screen clues and the odd interview, so treat late-Phase-Five placements as best-guess rather than gospel. A handful of titles sit in other universes entirely and have no fixed MCU date at all.
+  </p>
+
+  </div><!-- /stage -->
+  </div><!-- /pane-watch -->
+
+  <div class="pane" id="pane-chars" role="tabpanel" aria-labelledby="tab-chars" hidden>
+
+    <div class="caption-box" style="margin-top:26px;max-width:none">
+      <b>WHO IS THAT AGAIN?</b> Everyone worth knowing \u2014 leads and supporting cast alike, with who plays them, where they first turn up, and the one title that shows them at their best. Spoilers are switched off by default.
+    </div>
+
+    <section class="searchbar">
+      <label for="q">Find a character</label>
+      <input id="q" type="search" placeholder="Try a name, an alias, or an actor…" autocomplete="off">
+      <div class="groups" id="groups"></div>
+      <div class="rolerow">
+        <span>Show</span>
+        <div class="tseg" id="roleseg">
+          <button data-role="all" aria-pressed="true">Everyone</button>
+          <button data-role="lead" aria-pressed="false">Main only</button>
+        </div>
+      </div>
+      <div class="spoilrow">
+        <button class="switch" id="spoil" aria-pressed="false" aria-label="Show spoilers"></button>
+        <span id="spoillabel">Spoilers hidden</span>
+      </div>
+    </section>
+
+    <span class="count" id="ccount"></span>
+    <div id="roster"></div>
+
+    <p class="footnote">
+      <b>ONE RECASTING NOTE.</b><br>
+      A few roles changed hands: Bruce Banner, War Machine and Thaddeus Ross were all recast between films, and Robert Downey Jr. returns in Doomsday as Doctor Doom rather than Tony Stark. Marvel has not explained that last one, and probably won&rsquo;t until December.
+    </p>
+
+  </div><!-- /pane-chars -->
+
+  <div class="pane" id="pane-threads" role="tabpanel" aria-labelledby="tab-threads" hidden>
+    <div class="caption-box thintro">
+      <b>THE WEB, UNTANGLED:</b> Nobody can read a diagram with sixty titles on it. So instead here are nine storylines that each run straight through the franchise. Follow one at a time and the connections stop feeling like homework. Filled dots are titles you have already watched.
+    </div>
+    <div class="thlist" id="thlist"></div>
+  </div>
+
+  <footer class="legal">
+    <span class="lhead">Unofficial fan guide</span>
+    <p>Marvel, MCU, Avengers, and all related characters, titles, logos and imagery are trademarks and/or the property of Marvel Characters, Inc. and The Walt Disney Company. This is an independent fan-made reference. It is not affiliated with, endorsed by, sponsored by, or connected to Marvel, Marvel Studios, Disney, Sony Pictures, or any of their subsidiaries.</p>
+    <p>All films, series and specials referenced remain the property of their respective rights holders. No copyrighted footage, artwork or promotional material is reproduced here &mdash; every description is original writing.</p>
+    <p>Release dates, runtimes and cast credits are compiled from public sources and are approximate. In-universe placements are officially confirmed only up to roughly <i>Avengers: Endgame</i>; later dates are the fan community&rsquo;s best reconstruction from on-screen evidence and may be wrong. Corrections welcome.</p>
+    <p>Watch progress is stored on your own device. Nothing is transmitted to a server, and no account is required. Your progress code is generated locally in your browser.</p>
+  </footer>
+
+  <div class="sheet" id="sheet" hidden>
+    <button class="sheetbg" data-close aria-label="Close details"></button>
+    <div class="sheetcard" role="dialog" aria-modal="true" aria-labelledby="shtitle">
+      <button class="sheetclose" data-close aria-label="Close">&times;</button>
+      <div id="sheetbody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden><span id="toastmsg"></span><button id="toastundo">Undo</button></div>
+
+</div>
+
+<script>
+
+const AD_EVERY = 16;   /* an in-feed unit after every N titles */
+function adFeedHTML(){
+  return '<div class="node" style="--x:0"><span class="adlabel" style="margin:0 0 6px">Advertisement</span>'
+   + '<div class="adslot ad-feed" style="margin:0">'
+   + '<!-- PASTE IN-FEED AD CODE HERE -->'
+   + '<span class="adnote">In-feed slot &middot; responsive</span></div></div>';
+}
+
+/* set = in-universe. rel = release. s = chronological sort key. */
+const DATA = [
+{t:'phase',n:'Phase One',ttl:'Assemble',note:'Six films, one post-credits promise. The tone is still figuring itself out.'},
+{t:'i',id:'ironman',m:126,title:'Iron Man',rel:'2 May 2008',set:'2010',s:2010.1,kind:'Film',tier:'essential',why:'The one that started everything. Still holds up better than it has any right to.'},
+{t:'i',id:'hulk',m:112,title:'The Incredible Hulk',rel:'13 Jun 2008',set:'2011',s:2011.1,kind:'Film',tier:'optional',why:'The odd one out — different Banner, barely referenced again. Skip until you get curious.'},
+{t:'i',id:'im2',m:124,title:'Iron Man 2',rel:'7 May 2010',set:'2011',s:2011.2,kind:'Film',tier:'recommended',why:'Weakest of the trilogy, but introduces Black Widow and Rhodey in the suit.'},
+{t:'i',id:'thor',m:115,title:'Thor',rel:'6 May 2011',set:'2011',s:2011.3,kind:'Film',tier:'recommended',why:'Shakespeare in space. Sets up Loki, who is about to become very important.'},
+{t:'i',id:'cap1',m:124,title:'Captain America: The First Avenger',rel:'22 Jul 2011',set:'1943–1945',s:1943,kind:'Film',tier:'essential',why:'A WWII adventure that pays off for the next fifteen years. Steve\u2019s whole deal starts here.'},
+{t:'i',id:'avengers',m:143,title:'The Avengers',rel:'4 May 2012',set:'2012',s:2012.1,kind:'Film',tier:'essential',why:'The payoff nobody thought was possible. Everything before this was setup.'},
+
+{t:'phase',n:'Phase Two',ttl:'Expand',note:'Marvel starts taking swings — a heist comedy, a space opera, a paranoid thriller.'},
+{t:'i',id:'im3',m:130,title:'Iron Man 3',rel:'3 May 2013',set:'Christmas 2012',s:2012.9,kind:'Film',tier:'recommended',why:'Tony with PTSD and no suit. Divisive twist, genuinely great character work.'},
+{t:'i',id:'tdw',m:112,title:'Thor: The Dark World',rel:'8 Nov 2013',set:'2013',s:2013.1,kind:'Film',tier:'optional',why:'Widely agreed low point. One plot thread matters later; the rest you can miss.'},
+{t:'i',id:'winter',m:136,title:'Captain America: The Winter Soldier',rel:'4 Apr 2014',set:'2014',s:2014.1,kind:'Film',tier:'essential',why:'A 70s conspiracy thriller in a cape. Blows up the status quo permanently.'},
+{t:'i',id:'gotg',m:121,title:'Guardians of the Galaxy',rel:'1 Aug 2014',set:'2014',s:2014.2,kind:'Film',tier:'essential',why:'A talking raccoon, a great soundtrack, and the cosmic half of the universe opens up.'},
+{t:'i',id:'aou',m:141,title:'Avengers: Age of Ultron',rel:'1 May 2015',set:'2015',s:2015.1,kind:'Film',tier:'essential',why:'Overstuffed, but it introduces Wanda and Vision — both load-bearing later.'},
+{t:'i',id:'antman',m:117,title:'Ant-Man',rel:'17 Jul 2015',set:'2015',s:2015.2,kind:'Film',tier:'recommended',why:'Small, funny, low-stakes palate cleanser. Quietly plants the Quantum Realm.'},
+
+{t:'phase',n:'Phase Three',ttl:'The Snap',note:'The best sustained run in the franchise. Eleven films, one enormous landing.'},
+{t:'i',id:'civil',m:147,title:'Captain America: Civil War',rel:'6 May 2016',set:'2016',s:2016.1,kind:'Film',tier:'essential',why:'The Avengers break up. Also the best Spider-Man and Black Panther introductions you could ask for.'},
+{t:'i',id:'strange',m:115,title:'Doctor Strange',rel:'4 Nov 2016',set:'2016–2017',s:2016.5,kind:'Film',tier:'essential',why:'Magic enters the chat. Visually the most inventive film of this stretch.'},
+{t:'i',id:'gotg2',m:136,title:'Guardians of the Galaxy Vol. 2',rel:'5 May 2017',set:'2014',s:2014.3,kind:'Film',tier:'recommended',why:'Set only months after Vol. 1 despite the three-year gap. Less plot, more feelings.'},
+{t:'i',id:'homecoming',m:133,title:'Spider-Man: Homecoming',rel:'7 Jul 2017',set:'2016',s:2016.4,kind:'Film',tier:'essential',why:'A high school movie with a superb villain. Peter and Tony\u2019s relationship starts here.'},
+{t:'i',id:'ragnarok',m:130,title:'Thor: Ragnarok',rel:'3 Nov 2017',set:'2017',s:2017.1,kind:'Film',tier:'essential',why:'Thor gets a comedy transplant and it works perfectly. Ends on a gut punch.'},
+{t:'i',id:'bp',m:134,title:'Black Panther',rel:'16 Feb 2018',set:'2016',s:2016.3,kind:'Film',tier:'essential',why:'Picks up a week after Civil War. Killmonger is the best villain in the catalogue.'},
+{t:'i',id:'amw',m:118,title:'Ant-Man and the Wasp',rel:'6 Jul 2018',set:'2018',s:2018.05,kind:'Film',tier:'recommended',why:'Runs right up to the snap — its post-credits scene is the whole reason to watch.'},
+{t:'i',id:'iw',m:149,title:'Avengers: Infinity War',rel:'27 Apr 2018',set:'2018',s:2018.1,kind:'Film',tier:'essential',why:'Thanos wins. Watch this and Endgame close together if you can.'},
+{t:'i',id:'capmarvel',m:123,title:'Captain Marvel',rel:'8 Mar 2019',set:'1995',s:1995,kind:'Film',tier:'recommended',why:'A 90s flashback that explains Fury\u2019s pager. In release order, watch before Endgame.'},
+{t:'i',id:'endgame',m:181,title:'Avengers: Endgame',rel:'26 Apr 2019',set:'2018, then 2023',s:2018.2,kind:'Film',tier:'essential',why:'Three hours, a five-year time skip, eleven years of payoff. Clear your evening.'},
+{t:'i',id:'ffh',m:129,title:'Spider-Man: Far From Home',rel:'2 Jul 2019',set:'2024',s:2024.1,kind:'Film',tier:'recommended',why:'The epilogue to Endgame, disguised as a Euro trip. Big cliffhanger.'},
+
+{t:'phase',n:'Phase Four',ttl:'Grief & the Multiverse',note:'The sprawl begins. TV becomes required reading, and the optional pile gets tall.'},
+{t:'i',id:'wandavision',m:350,title:'WandaVision',rel:'15 Jan 2021',set:'2023',s:2023.1,kind:'Series',tier:'essential',why:'A sitcom pastiche about grief, set three weeks after Endgame. Strange and excellent.'},
+{t:'i',id:'tfatws',m:330,title:'The Falcon and the Winter Soldier',rel:'19 Mar 2021',set:'2024',s:2024.05,kind:'Series',tier:'recommended',why:'How Sam becomes Captain America. Necessary before Brave New World.'},
+{t:'i',id:'loki1',m:290,title:'Loki — Season 1',rel:'9 Jun 2021',set:'Outside time',s:2023.6,kind:'Series',tier:'essential',why:'Branches off from a 2012 Loki, then leaves the timeline entirely. The multiverse rulebook.'},
+{t:'i',id:'bw',m:134,title:'Black Widow',rel:'9 Jul 2021',set:'2016',s:2016.2,kind:'Film',tier:'optional',why:'A prequel slotted just after Civil War. Introduces Yelena, who is worth knowing.'},
+{t:'i',id:'whatif1',m:820,title:'What If…? — Seasons 1–3',rel:'2021 · 2023 · 2024',set:'Alternate universes',s:9001,kind:'Animated',tier:'optional',why:'Standalone what-if shorts. Fun, skippable, occasionally sneaks in a real plot thread.'},
+{t:'i',id:'shangchi',m:132,title:'Shang-Chi and the Legend of the Ten Rings',rel:'3 Sep 2021',set:'2024',s:2024.2,kind:'Film',tier:'recommended',why:'Best fight choreography in the MCU, full stop.'},
+{t:'i',id:'eternals',m:156,title:'Eternals',rel:'5 Nov 2021',set:'2024 (and 5000 BC)',s:2024.3,kind:'Film',tier:'optional',why:'Beautiful, slow, almost entirely disconnected. The most skippable film in the run.'},
+{t:'i',id:'hawkeye',m:270,title:'Hawkeye',rel:'24 Nov 2021',set:'Christmas 2024',s:2024.9,kind:'Series',tier:'recommended',why:'A Christmas caper that introduces Kate Bishop and sets up Echo.'},
+{t:'i',id:'nwh',m:148,title:'Spider-Man: No Way Home',rel:'17 Dec 2021',set:'2024',s:2024.96,kind:'Film',tier:'essential',why:'Watch Loki S1 and Doctor Strange first. That\u2019s all I\u2019ll say.'},
+{t:'i',id:'moonknight',m:280,title:'Moon Knight',rel:'30 Mar 2022',set:'2025',s:2025.1,kind:'Series',tier:'optional',why:'Self-contained Egyptian-mythology horror. No homework, no consequences elsewhere.'},
+{t:'i',id:'mom',m:126,title:'Doctor Strange in the Multiverse of Madness',rel:'6 May 2022',set:'2025',s:2025.2,kind:'Film',tier:'essential',why:'Requires WandaVision. Genuinely does not work without it.'},
+{t:'i',id:'msmarvel',m:280,title:'Ms. Marvel',rel:'8 Jun 2022',set:'2025',s:2025.3,kind:'Series',tier:'recommended',why:'The most charming thing Marvel has made in years. Leads straight into The Marvels.'},
+{t:'i',id:'lat',m:118,title:'Thor: Love and Thunder',rel:'8 Jul 2022',set:'2025',s:2025.4,kind:'Film',tier:'optional',why:'Ragnarok\u2019s tone dialled past the point of return. Christian Bale is great in it.'},
+{t:'i',id:'shehulk',m:300,title:'She-Hulk: Attorney at Law',rel:'18 Aug 2022',set:'2025',s:2025.5,kind:'Series',tier:'optional',why:'A legal sitcom that breaks the fourth wall. Also where Daredevil reappears.'},
+{t:'i',id:'werewolf',m:52,title:'Werewolf by Night',rel:'7 Oct 2022',set:'2025',s:2025.6,kind:'Special',tier:'optional',why:'52 minutes of black-and-white monster movie. Delightful and totally standalone.'},
+{t:'i',id:'wakanda2',m:161,title:'Black Panther: Wakanda Forever',rel:'11 Nov 2022',set:'2025',s:2025.7,kind:'Film',tier:'recommended',why:'A real tribute to Chadwick Boseman, plus Namor as an excellent antagonist.'},
+{t:'i',id:'gotgholiday',m:44,title:'The Guardians of the Galaxy Holiday Special',rel:'25 Nov 2022',set:'Christmas 2025',s:2025.9,kind:'Special',tier:'optional',why:'44 minutes of nonsense involving Kevin Bacon. Watch before Vol. 3 for one small payoff.'},
+
+{t:'phase',n:'Phase Five',ttl:'Regroup',note:'Marvel course-corrects. Fewer, better swings — and a couple of the best entries in years.'},
+{t:'i',id:'quantumania',m:124,title:'Ant-Man and the Wasp: Quantumania',rel:'17 Feb 2023',set:'2026',s:2026.1,kind:'Film',tier:'recommended',why:'Rough film, but it introduces Kang properly and matters for the Loki finale.'},
+{t:'i',id:'gotg3',m:150,title:'Guardians of the Galaxy Vol. 3',rel:'5 May 2023',set:'2026',s:2026.2,kind:'Film',tier:'recommended',why:'Rocket\u2019s backstory. Bring tissues, and maybe skip if you\u2019re sensitive about animals.'},
+{t:'i',id:'secretinvasion',m:300,title:'Secret Invasion',rel:'21 Jun 2023',set:'2026',s:2026.3,kind:'Series',tier:'optional',why:'A Fury spy thriller that didn\u2019t quite land. One consequence carries into The Marvels.'},
+{t:'i',id:'loki2',m:300,title:'Loki — Season 2',rel:'5 Oct 2023',set:'Outside time',s:2026.35,kind:'Series',tier:'essential',why:'The most important thing Marvel released between Endgame and Doomsday. Genuinely.'},
+{t:'i',id:'marvels',m:105,title:'The Marvels',rel:'10 Nov 2023',set:'2026',s:2026.4,kind:'Film',tier:'recommended',why:'Needs Ms. Marvel and Secret Invasion. Short, breezy, huge post-credits scene.'},
+{t:'i',id:'echo',m:220,title:'Echo',rel:'9 Jan 2024',set:'2025',s:2025.05,kind:'Series',tier:'optional',why:'A darker, street-level spin-off from Hawkeye. Kingpin features heavily.'},
+{t:'i',id:'dw',m:128,title:'Deadpool & Wolverine',rel:'26 Jul 2024',set:'2024, plus the Void',s:2024.4,kind:'Film',tier:'essential',why:'Folds the Fox X-Men era into the MCU. Loki S2 makes the plot mechanics click.'},
+{t:'i',id:'agatha',m:330,title:'Agatha All Along',rel:'18 Sep 2024',set:'2026',s:2026.5,kind:'Series',tier:'optional',why:'A WandaVision spin-off with a witchy road-trip structure. Sets up VisionQuest.'},
+{t:'i',id:'yfnsm',m:260,title:'Your Friendly Neighborhood Spider-Man — S1',rel:'29 Jan 2025',set:'Alternate universe',s:9003,kind:'Animated',tier:'optional',why:'A different animated Peter Parker. Very well reviewed, no homework needed.'},
+{t:'i',id:'bnw',m:118,title:'Captain America: Brave New World',rel:'14 Feb 2025',set:'2027',s:2027.1,kind:'Film',tier:'recommended',why:'Sam\u2019s first solo outing. Watch Falcon and the Winter Soldier first.'},
+{t:'i',id:'dd1',m:480,title:'Daredevil: Born Again — S1',rel:'4 Mar 2025',set:'2026',s:2026.6,kind:'Series',tier:'recommended',why:'Picks up the Netflix Daredevil thread. Matt versus Mayor Fisk.'},
+{t:'i',id:'thunderbolts',m:127,title:'Thunderbolts*',rel:'2 May 2025',set:'2027',s:2027.2,kind:'Film',tier:'essential',why:'A misfit team-up that turns out to be about depression. Best-reviewed film in years, and the asterisk matters.'},
+{t:'i',id:'ironheart',m:300,title:'Ironheart',rel:'24 Jun 2025',set:'2026',s:2025.95,kind:'Series',tier:'optional',why:'Riri Williams shortly after Wakanda Forever. Tech meets magic.'},
+{t:'i',id:'eyes',m:90,title:'Eyes of Wakanda',rel:'1 Aug 2025',set:'Ancient Wakanda',s:-1000,kind:'Animated',tier:'optional',why:'Anthology shorts spanning centuries of Wakandan history. Gorgeous, entirely optional.'},
+{t:'i',id:'zombies',m:90,title:'Marvel Zombies',rel:'2025',set:'Alternate universe',s:9002,kind:'Animated',tier:'optional',why:'Adult-animated horror spin-off from What If…?. Its own thing entirely.'},
+{t:'i',id:'ff',m:115,title:'The Fantastic Four: First Steps',rel:'25 Jul 2025',set:'Earth-828, a 1960s that never ended',s:9005,kind:'Film',tier:'essential',why:'A separate retro-futurist universe — and the direct on-ramp to Doomsday.'},
+
+{t:'phase',n:'Phase Six',ttl:'Doomsday',note:'You are here. Everything below is either out now or lands in the next few months.'},
+{t:'i',id:'wonderman',m:240,title:'Wonder Man',rel:'27 Jan 2026',set:'2027',s:2027.05,kind:'Series',tier:'optional',why:'A Hollywood satire about superhero fatigue, which is a bold thing for Marvel to make.'},
+{t:'i',id:'dd2',m:420,title:'Daredevil: Born Again — S2',rel:'24 Mar 2026',set:'2027',s:2027.3,kind:'Series',tier:'recommended',why:'Eight episodes, Jessica Jones returns, Fisk escalates. Better than season one.'},
+{t:'i',id:'punisher',m:60,title:'Punisher: One Last Kill',rel:'12 May 2026',set:'2027',s:2027.35,kind:'Special',tier:'optional',why:'A Frank Castle special running parallel to Born Again S2. Sets him up for Brand New Day.'},
+{t:'i',id:'bnd',m:130,title:'Spider-Man: Brand New Day',rel:'31 Jul 2026',set:'2027',s:2027.5,kind:'Film',tier:'essential',why:'Peter and the Punisher, a sentence I did not expect to type. Out now.'},
+{t:'i',id:'visionquest',m:400,title:'VisionQuest',rel:'Late 2026',set:'2027',s:2027.6,kind:'Series',tier:'coming',why:'The third part of the WandaVision / Agatha trilogy. Vision goes looking for his memory.'},
+{t:'i',id:'yfnsm2',m:260,title:'Your Friendly Neighborhood Spider-Man — S2',rel:'Fall 2026',set:'Alternate universe',s:9004,kind:'Animated',tier:'coming',why:'Venom, Gwen Stacy and a Daredevil crossover. Still its own universe.'},
+{t:'i',id:'doomsday',m:150,title:'Avengers: Doomsday',rel:'18 Dec 2026',set:'2027',s:2027.9,kind:'Film',tier:'coming',why:'Robert Downey Jr. returns as Doctor Doom. The Russos are back. This is the one.'},
+
+{t:'branch',id:'netflix',label:'The street-level detour',q:'Optional side quest',
+ text:'The old Netflix run is loosely canon and Born Again builds straight on it. Grim, grounded, heavy on hallway fights. Watch before Born Again S1.',
+ items:['<b>Daredevil</b> S1–S3 <em>Released 2015–18 · set 2015–18</em>','<b>Jessica Jones</b> S1–S3 <em>Released 2015–19 · set 2015–19</em>','<b>Luke Cage</b> · <b>Iron Fist</b> · <b>The Defenders</b> <em>Released 2016–18 · completists only</em>','<b>The Punisher</b> S1–S2 <em>Released 2017–19 · context for One Last Kill</em>']},
+
+{t:'branch',id:'adjacent',label:'Marvel-adjacent',q:'Not required',
+ text:'Same brand, separate continuity. None of it is homework for Doomsday.',
+ items:['<b>X-Men \u201997</b> S1–S2 <em>Released 2024 & 2026 · its own animated continuity</em>','<b>Agents of S.H.I.E.L.D.</b> S1–S7 <em>Released 2013–20 · nods to the films, not acknowledged by them</em>','<b>Runaways</b> · <b>Cloak & Dagger</b> · <b>Helstrom</b> <em>Released 2017–20 · the forgotten shelf</em>']}
+];
+
+const ERAS = [
+ {min:-99999,max:0,   n:'Long before',      ttl:'Ancient history',   note:'Centuries of Wakandan history, told out of order and decades after the fact.'},
+ {min:1900, max:1999, ttl:'The 20th century', n:'1943 – 1995',        note:'Two period pieces released a full eight years apart, sitting side by side.'},
+ {min:2000, max:2015.99, n:'2010 – 2015',   ttl:'Assembly',          note:'Marvel\u2019s official timeline puts Iron Man in 2010, not 2008. This trips everyone up.'},
+ {min:2016, max:2022.99, n:'2016 – 2018',   ttl:'Fracture',          note:'Civil War to Endgame. Black Widow and Black Panther slot in here despite arriving years later.'},
+ {min:2023, max:2026.99, n:'2023 – 2026',   ttl:'After the Blip',    note:'The post-Endgame sprawl. Dates here are reconstructed, not confirmed.'},
+ {min:2027, max:2999, n:'2027',             ttl:'Right now',         note:'The present day of the MCU, and where Doomsday picks up.'},
+ {min:9000, max:99999, n:'No fixed date',   ttl:'Other universes',   note:'Alternate realities with no place on the main timeline — including, crucially, the Fantastic Four.'}
+];
+
+let path='recommended', order='release', thread=null;
+let watched=new Set(), storageOK=true;
+function runtime(m){
+  if(!m) return '';
+  const hh=Math.floor(m/60), mm=m%60;
+  return hh ? (hh+'h'+(mm?' '+mm+'m':'')) : mm+'m';
+}
+function hoursOf(list){
+  return Math.round(list.reduce((s,r)=>s+(r.m||0),0)/60);
+}
+const chart=document.getElementById('chart');
+
+function visible(it){
+  if(thread){
+    const t=THREADS.find(x=>x.id===thread);
+    return !!(t && t.steps.some(s=>s.id===it.id));
+  }
+  if(it.tier==='coming') return true;
+  if(path==='all') return true;
+  if(path==='recommended') return it.tier==='essential'||it.tier==='recommended';
+  return it.tier==='essential';
+}
+function gapLabel(it){
+  const r=parseInt((it.rel.match(/\d{4}/)||[])[0],10);
+  const c=parseInt((it.set.match(/\d{4}/)||[])[0],10);
+  if(!r||!c) return '';
+  const d=c-r;
+  if(d===0) return '';
+  if(d>0) return 'Story runs ' + d + ' year' + (d===1?'':'s') + ' later than the release';
+  return 'Story is set ' + (-d) + ' year' + (d===-1?'':'s') + ' before the release';
+}
+function cardHTML(it,num){
+  const done=watched.has(it.id), g=gapLabel(it);
+  return '<div class="card'+(done?' done':'')+'" data-id="'+it.id+'">'
+   +'<button class="tick" data-tick="'+it.id+'" aria-pressed="'+done+'" aria-label="'
+     +(done?'Unmark ':'Mark ')+esc(it.title)+(done?' as unwatched':' as watched')+'">\u2714</button>'
+   +'<button class="cardbody" data-open="'+it.id+'"><span class="row1"><span class="num">'+String(num).padStart(2,'0')+'</span><span class="ttl">'+it.title+'</span></span>'
+   +'<span class="why">'+it.why+'</span>'
+   +'<span class="dates"><span class="dcell"><span class="dk">Released</span><span class="dv">'+it.rel+'</span></span>'
+   +'<span class="dcell"><span class="dk">Set in</span><span class="dv">'+it.set+'</span></span></span>'
+   +(g?'<span class="gapnote">'+g+'</span>':'')
+   +'<span class="tags"><span class="tag '+it.tier+'">'+(it.tier==='coming'?'Not out yet':it.tier)+'</span>'
+   +'<span class="tag kind">'+it.kind+'</span>'
+   +'<span class="tag time">'+runtime(it.m)+'</span></span>'
+   + missingPreHTML(it)
+   +'</button></div>';
+}
+function preOf(it){ return (PREREQ[it.id]||[]).map(x=>({item:DATA.find(r=>r.t==='i'&&r.id===x[0]), why:x[1]})).filter(x=>x.item); }
+function missingPre(it){ return preOf(it).filter(x=>!watched.has(x.item.id)); }
+function missingPreHTML(it){
+  if(watched.has(it.id)) return '';
+  const miss=missingPre(it);
+  if(!miss.length) return '';
+  return '<span class="prewarn">Watch first: '+miss.map(x=>x.item.title).join(' \u00b7 ')+'</span>';
+}
+function milestoneHTML(ph){
+  return '<div class="node milestone"><div class="msplash">'
+   +'<span class="mk">Phase complete</span><span class="mt">'+ph.ttl+'</span>'
+   +'<span class="mb">'+ph.n+' cleared. Keep going.</span></div></div>';
+}
+function ribbon(n,ttl,note){
+  return '<div class="phase"><div class="ribbon"><span class="inner"><span class="pn">'+n
+   +'</span><span class="pt">'+ttl+'</span></span></div><p class="phase-note">'+note+'</p></div>';
+}
+function branchHTML(b){
+  return '<div class="branch"><span class="bq">'+b.q+'</span><h3>'+b.label+'</h3><p>'+b.text
+   +'</p><ul>'+b.items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>';
+}
+
+function render(){
+  let html='', num=0;
+  if(thread){
+    const t=THREADS.find(x=>x.id===thread);
+    t.steps.forEach(s=>{
+      const it=DATA.find(r=>r.t==='i'&&r.id===s.id);
+      if(!it) return;
+      html+='<div class="node">'+cardHTML(it,++num)
+           +'<div class="thnote"><span class="thnk">What it adds</span>'+s.n+'</div></div>';
+    });
+  } else if(order==='release'){
+    let pend=null, curPhase=null, seen=[];
+    const flush=()=>{
+      if(curPhase && seen.length && seen.every(id=>watched.has(id))) html+=milestoneHTML(curPhase);
+      seen=[];
+    };
+    DATA.forEach(row=>{
+      if(row.t==='phase'){flush();pend=row;curPhase=row;return;}
+      if(row.t==='branch'){flush();curPhase=null;html+=branchHTML(row);return;}
+      if(!visible(row))return;
+      if(pend){html+=ribbon(pend.n,pend.ttl,pend.note);pend=null;}
+      seen.push(row.id);
+      html+='<div class="node">'+cardHTML(row,++num)+'</div>';
+      if(num%AD_EVERY===0) html+=adFeedHTML();
+    });
+    flush();
+  }else{
+    const items=DATA.filter(r=>r.t==='i'&&visible(r)).sort((a,b)=>a.s-b.s);
+    let cur=-1;
+    items.forEach(it=>{
+      const ei=ERAS.findIndex(e=>it.s>=e.min&&it.s<=e.max);
+      if(ei!==cur){cur=ei;const e=ERAS[ei];html+=ribbon(e.n,e.ttl,e.note);}
+      html+='<div class="node">'+cardHTML(it,++num)+'</div>';
+      if(num%AD_EVERY===0) html+=adFeedHTML();
+    });
+    DATA.filter(r=>r.t==='branch').forEach(b=>{html+=branchHTML(b);});
+  }
+  chart.innerHTML='<div class="spinefill" id="spinefill"></div>'+html;
+  document.querySelectorAll('.toggle button').forEach(b=>b.disabled=!!thread);
+  document.getElementById('ordernote').textContent = thread
+   ? 'Sorted by the thread\u2019s own story order. Clear the thread above to sort the full chart again.'
+   : order==='release'
+   ? 'Release order is the recommended first run — the reveals were built to land in this sequence. Watch the "set in" column drift wildly out of step with it.'
+   : 'Story order re-sorts everything by when it actually happens. Great for a rewatch, terrible for a first run: it puts Captain Marvel near the front and defuses half of Endgame.';
+  updateProgress();
+}
+function paintSpine(){
+  const f=document.getElementById('spinefill'); if(!f) return;
+  const done=chart.querySelectorAll('.card.done');
+  if(!done.length){f.style.height='0px';return;}
+  const last=done[done.length-1];
+  const cr=chart.getBoundingClientRect(), lr=last.getBoundingClientRect();
+  f.style.height=Math.max(0,(lr.bottom-cr.top)-6)+'px';
+}
+function currentList(){return DATA.filter(r=>r.t==='i'&&visible(r)&&r.tier!=='coming');}
+function orderedVisible(){
+  const items=DATA.filter(r=>r.t==='i'&&visible(r)&&r.tier!=='coming');
+  return order==='story' ? items.slice().sort((a,b)=>a.s-b.s) : items;
+}
+function paintPlan(list){
+  const out=document.getElementById('planout'); if(!out) return;
+  const evl=parseFloat(document.getElementById('evlen').value);
+  const evw=parseFloat(document.getElementById('evweek').value);
+  const hrs=hoursOf(list.filter(r=>!watched.has(r.id)));
+  if(!hrs){out.innerHTML='Nothing left on this path.';return;}
+  const evenings=Math.ceil(hrs/evl), weeks=Math.ceil(evenings/evw);
+  const done=new Date(Date.now()+weeks*7*864e5);
+  const dd=new Date(2026,11,18), days=Math.ceil((dd-Date.now())/864e5);
+  out.innerHTML='About '+evenings+' evening'+(evenings===1?'':'s')+', or '+weeks+' week'+(weeks===1?'':'s')
+   +' at that pace.<small>Finishing around '+done.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})
+   +'. Doomsday is in '+days+' days'
+   +(days>0 ? (weeks*7<=days ? ' \u2014 you are on track.' : ' \u2014 you would need '+Math.ceil(hrs/(days/7))+' hrs a week to make it.') : '.')
+   +'</small>';
+}
+function paintNextUp(){
+  const el=document.getElementById('nextup');
+  const list=orderedVisible();
+  const next=list.find(r=>!watched.has(r.id));
+  el.hidden=false;
+  if(!next){
+    el.innerHTML='<span class="nuk">All done</span>'
+     +'<span class="nudone">You have cleared this whole path. Doomsday can start without you worrying.</span>';
+    return;
+  }
+  el.innerHTML='<span class="nuk">Next up</span>'
+   +'<span class="nut">'+next.title+'</span>'
+   +'<span class="numeta"><span class="tag '+next.tier+'">'+next.tier+'</span>'
+   +'<span class="tag kind">'+next.kind+'</span>'
+   +'<span class="tag time">'+runtime(next.m)+'</span></span>'
+   +'<p class="nuwhy">'+next.why+'</p>'
+   +'<div class="nuacts"><button class="nubtn" data-tick="'+next.id+'">Mark watched</button>'
+   +'<button class="nubtn ghost" data-open="'+next.id+'">Details</button></div>';
+}
+function updateProgress(){
+  const l=currentList(), d=l.filter(r=>watched.has(r.id)).length;
+  const pct=l.length?Math.round(d/l.length*100):0;
+  document.getElementById('pcount').textContent=d+' / '+l.length;
+  document.getElementById('pbar').style.width=pct+'%';
+  const h=document.getElementById('phint');
+  if(d===0)h.textContent='Tap a panel to mark it watched.';
+  else if(pct===100)h.textContent='Path complete. Go argue about the rankings with someone.';
+  else if(pct>=60)h.textContent='Comfortably past halfway. Doomsday is in reach.';
+  else h.textContent=(l.length-d)+' to go on this path.';
+  const left=l.filter(r=>!watched.has(r.id));
+  document.getElementById('phours').innerHTML =
+    '<span>Hours left<b>'+hoursOf(left)+'h</b></span>'
+   +'<span>Hours watched<b>'+(hoursOf(l)-hoursOf(left))+'h</b></span>'
+   +'<span>Path total<b>'+hoursOf(l)+'h</b></span>';
+  paintNextUp(); paintSpine(); paintPlan(l); renderThreads(); renderChars();
+  refreshCode();
+}
+function toggleWatched(id){
+  if(watched.has(id)) watched.delete(id); else watched.add(id);
+  render(); save();
+  if(sheetId===id) openSheet(id);
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-tick]');
+  if(t){ toggleWatched(t.dataset.tick); return; }
+  const o=e.target.closest('[data-open]');
+  if(o){
+    if(!document.getElementById('pane-watch') || document.getElementById('pane-watch').hidden){
+      document.getElementById('tab-watch').click();
+    }
+    openSheet(o.dataset.open); return;
+  }
+});
+document.querySelectorAll('.path').forEach(b=>b.addEventListener('click',()=>{
+  path=b.dataset.path; if(thread) setThread(null);
+  document.querySelectorAll('.path').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  render(); save();
+}));
+document.querySelectorAll('.toggle button').forEach(b=>b.addEventListener('click',()=>{
+  order=b.dataset.order;
+  document.querySelectorAll('.toggle button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  render(); save();
+}));
+['evlen','evweek'].forEach(id=>document.getElementById(id)
+  .addEventListener('change',()=>{paintPlan(currentList());save();}));
+
+async function save(){
+  if(!storageOK)return;
+  try{await window.storage.set('mcu:state',JSON.stringify({path:path,order:order,watched:[...watched],
+    evlen:document.getElementById('evlen').value,
+    evweek:document.getElementById('evweek').value, seen:true}));}
+  catch(e){storageOK=false;}
+}
+async function load(){
+  let fresh=true;
+  try{
+    const r=await window.storage.get('mcu:state');
+    if(r&&r.value){
+      const s=JSON.parse(r.value);
+      if(s.path)path=s.path;
+      if(s.order)order=s.order;
+      if(Array.isArray(s.watched))watched=new Set(s.watched);
+      if(s.evlen)document.getElementById('evlen').value=s.evlen;
+      if(s.evweek)document.getElementById('evweek').value=s.evweek;
+      document.querySelectorAll('.path').forEach(b=>b.setAttribute('aria-pressed',b.dataset.path===path));
+      document.querySelectorAll('.toggle button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.order===order));
+      if(s.seen) fresh=false;
+    }
+  }catch(e){}
+  if(fresh) showOnboard();
+  render();
+}
+const CHARS = [
+/* ---- FOUNDING AVENGERS ---- */
+{n:'Iron Man',in:['ironman','im2','avengers','im3','aou','civil','homecoming','iw','endgame'],r:'Tony Stark',a:'Robert Downey Jr.',g:'Founders',d:'Iron Man',y:'2008',
+ b:'Billionaire arms dealer turned armoured superhero. Sarcastic, self-destructive, and the emotional centre of the whole Infinity Saga.',
+ best:'Iron Man · Civil War · Endgame', sp:'Dies at the end of Endgame. Downey returns in Doomsday as Doctor Doom \u2014 a different character entirely.'},
+{n:'Captain America',in:['cap1','avengers','winter','aou','civil','iw','endgame'],r:'Steve Rogers',a:'Chris Evans',g:'Founders',d:'The First Avenger',y:'2011',
+ b:'A frail kid from Brooklyn turned super-soldier and frozen for seventy years. The moral spine of the team, and stubborn about it.',
+ best:'The Winter Soldier · Civil War', sp:'Retires at the end of Endgame and hands the shield to Sam Wilson.'},
+{n:'Thor',in:['thor','avengers','tdw','aou','ragnarok','iw','endgame','lat'],r:'Thor Odinson',a:'Chris Hemsworth',g:'Founders',d:'Thor',y:'2011',
+ b:'Asgardian god of thunder. Starts as an arrogant prince, gets funnier and sadder in roughly equal measure across four films.',
+ best:'Ragnarok · Infinity War', sp:'Loses Asgard, then his family, then his purpose. Last seen wandering the cosmos.'},
+{n:'Hulk',in:['hulk','avengers','aou','ragnarok','iw','endgame','shehulk'],r:'Bruce Banner',a:'Edward Norton, then Mark Ruffalo',g:'Founders',d:'The Incredible Hulk',y:'2008',
+ b:'A physicist who turns into a green rage monster under stress. Recast after the 2008 film, which is why that one feels disconnected.',
+ best:'The Avengers · Ragnarok', sp:'Eventually merges both halves into "Smart Hulk". Reappears in Brand New Day.'},
+{n:'Black Widow',in:['im2','avengers','winter','aou','civil','iw','endgame','bw'],r:'Natasha Romanoff',a:'Scarlett Johansson',g:'Founders',d:'Iron Man 2',y:'2010',
+ b:'Former Russian assassin, now the team\u2019s spy and its conscience. Got a solo film a decade after her debut.',
+ best:'The Winter Soldier · Black Widow', sp:'Sacrifices herself on Vormir in Endgame.'},
+{n:'Hawkeye',in:['thor','avengers','aou','endgame','hawkeye'],r:'Clint Barton',a:'Jeremy Renner',g:'Founders',d:'Thor',y:'2011',
+ b:'A guy with a bow on a team of gods. Quietly the most human Avenger, with a secret family and a lot of guilt.',
+ best:'Age of Ultron · Hawkeye', sp:'Retires and passes the bow to Kate Bishop.'},
+
+/* ---- SECOND WAVE ---- */
+{n:'Falcon / Captain America',in:['winter','aou','civil','iw','endgame','tfatws','bnw'],r:'Sam Wilson',a:'Anthony Mackie',g:'Second wave',d:'The Winter Soldier',y:'2014',
+ b:'Air Force pararescue veteran with a winged flight pack. Takes up the shield after Steve, and has to earn it publicly.',
+ best:'Falcon and the Winter Soldier · Brave New World', sp:'Currently the MCU\u2019s Captain America, no serum required.'},
+{n:'Winter Soldier',in:['cap1','winter','civil','bp','iw','endgame','tfatws','thunderbolts'],r:'Bucky Barnes',a:'Sebastian Stan',g:'Second wave',d:'The First Avenger',y:'2011',
+ b:'Steve\u2019s best friend, presumed dead, then brainwashed into a HYDRA assassin for seventy years. Spends the rest of his arc making up for it.',
+ best:'The Winter Soldier · Thunderbolts*', sp:'Ends up leading the Thunderbolts, and running for Congress.'},
+{n:'War Machine',in:['ironman','im2','im3','aou','civil','iw','endgame','secretinvasion','bnw'],r:'James Rhodes',a:'Terrence Howard, then Don Cheadle',g:'Second wave',d:'Iron Man',y:'2008',
+ b:'Air Force colonel, Tony\u2019s oldest friend, and the military\u2019s answer to the Iron Man suit. Recast after the first film.',
+ best:'Iron Man 2 · Civil War', sp:'Paralysed in Civil War, walks again with a leg brace. Impersonated by a Skrull in Secret Invasion.'},
+{n:'Scarlet Witch',in:['aou','civil','iw','endgame','wandavision','mom'],r:'Wanda Maximoff',a:'Elizabeth Olsen',g:'Second wave',d:'Age of Ultron',y:'2015',
+ b:'Sokovian volunteer given reality-warping powers by an Infinity Stone. The MCU\u2019s most powerful character and its saddest.',
+ best:'WandaVision · Multiverse of Madness', sp:'Turns antagonist in Multiverse of Madness. Her fate is left deliberately open.'},
+{n:'Vision',in:['aou','civil','iw','wandavision'],r:'\u2014',a:'Paul Bettany',g:'Second wave',d:'Age of Ultron',y:'2015',
+ b:'An android built from Tony\u2019s AI, Ultron\u2019s body and the Mind Stone. Bettany voiced JARVIS in the films before this.',
+ best:'WandaVision', sp:'Killed in Infinity War. A white, memory-less version survives \u2014 the subject of VisionQuest.'},
+{n:'Ant-Man',in:['antman','civil','amw','endgame','quantumania'],r:'Scott Lang',a:'Paul Rudd',g:'Second wave',d:'Ant-Man',y:'2015',
+ b:'An ex-burglar who inherits a shrinking suit and mostly wants to be a good dad. The comic relief who accidentally saves everyone.',
+ best:'Ant-Man · Endgame', sp:'His five years in the Quantum Realm are the reason Endgame\u2019s plan works at all.'},
+{n:'Wasp',in:['antman','amw','endgame','quantumania'],r:'Hope van Dyne',a:'Evangeline Lilly',g:'Second wave',d:'Ant-Man',y:'2015',
+ b:'Hank Pym\u2019s daughter, and a far more competent operator than Scott. Gets the suit in the second film.',
+ best:'Ant-Man and the Wasp', sp:'Last seen in Quantumania.'},
+{n:'Spider-Man',in:['civil','homecoming','iw','endgame','ffh','nwh','bnd'],r:'Peter Parker',a:'Tom Holland',g:'Second wave',d:'Civil War',y:'2016',
+ b:'A teenager from Queens, mentored by Tony Stark. The youngest Avenger and the one the audience worries about most.',
+ best:'Homecoming · No Way Home', sp:'Ends No Way Home erased from everyone\u2019s memory, starting completely over.'},
+{n:'Black Panther',in:['civil','bp','iw','endgame'],r:'T\u2019Challa',a:'Chadwick Boseman',g:'Second wave',d:'Civil War',y:'2016',
+ b:'King of Wakanda, a hidden African nation with the most advanced technology on Earth. Boseman died in 2020 and the role was not recast.',
+ best:'Black Panther', sp:'Written out respectfully in Wakanda Forever. Shuri takes the mantle.'},
+{n:'Shuri',in:['bp','iw','endgame','wakanda2','ironheart'],r:'\u2014',a:'Letitia Wright',g:'Second wave',d:'Black Panther',y:'2018',
+ b:'T\u2019Challa\u2019s younger sister and Wakanda\u2019s chief engineer. Smartest person in the MCU, and knows it.',
+ best:'Black Panther · Wakanda Forever', sp:'Becomes the new Black Panther.'},
+{n:'Doctor Strange',in:['strange','ragnarok','iw','endgame','nwh','mom'],r:'Stephen Strange',a:'Benedict Cumberbatch',g:'Second wave',d:'Doctor Strange',y:'2016',
+ b:'An arrogant neurosurgeon who loses the use of his hands and finds sorcery instead. Guardian of the multiverse, and bad at it.',
+ best:'Doctor Strange · Infinity War', sp:'Personally responsible for cracking the multiverse open in No Way Home.'},
+{n:'Captain Marvel',in:['capmarvel','endgame','marvels'],r:'Carol Danvers',a:'Brie Larson',g:'Second wave',d:'Captain Marvel',y:'2019',
+ b:'An Air Force pilot fused with Infinity Stone energy. Comfortably the most powerful Avenger, which is why the writers keep sending her off-world.',
+ best:'Captain Marvel · The Marvels', sp:'Spends most of the saga in space fixing things nobody sees.'},
+{n:'Nick Fury',in:['ironman','im2','avengers','winter','aou','capmarvel','iw','endgame','ffh','secretinvasion','marvels'],r:'\u2014',a:'Samuel L. Jackson',g:'Second wave',d:'Iron Man',y:'2008',
+ b:'Director of S.H.I.E.L.D. and the man who assembled the team. Appears in a post-credits scene in the very first film.',
+ best:'The Winter Soldier · Secret Invasion', sp:'Loses S.H.I.E.L.D., loses his eye, loses most of his credibility by Secret Invasion.'},
+
+/* ---- COSMIC ---- */
+{n:'Star-Lord',in:['gotg','gotg2','iw','endgame','gotgholiday','gotg3','lat'],r:'Peter Quill',a:'Chris Pratt',g:'Cosmic',d:'Guardians of the Galaxy',y:'2014',
+ b:'Abducted from Earth as a child in 1988 and raised by space pirates. Leads the Guardians badly but with real conviction.',
+ best:'Guardians of the Galaxy', sp:'Returns to Earth at the end of Vol. 3.'},
+{n:'Gamora',in:['gotg','gotg2','iw','endgame','gotg3'],r:'\u2014',a:'Zoe Salda\u00f1a',g:'Cosmic',d:'Guardians of the Galaxy',y:'2014',
+ b:'Thanos\u2019 adopted daughter, raised as a weapon, defected to the Guardians. "The deadliest woman in the galaxy."',
+ best:'Guardians of the Galaxy · Infinity War', sp:'Killed in Infinity War. A 2014 version from an alternate timeline replaces her, with none of the memories.'},
+{n:'Rocket',in:['gotg','gotg2','iw','endgame','gotgholiday','gotg3','lat'],r:'Subject 89P13',a:'Bradley Cooper (voice)',g:'Cosmic',d:'Guardians of the Galaxy',y:'2014',
+ b:'A genetically engineered raccoon with a gun fixation and unresolved trauma. Vol. 3 is essentially his origin story.',
+ best:'Guardians Vol. 3', sp:'Takes over as leader of the Guardians.'},
+{n:'Groot',in:['gotg','gotg2','iw','endgame','gotgholiday','gotg3','lat'],r:'\u2014',a:'Vin Diesel (voice)',g:'Cosmic',d:'Guardians of the Galaxy',y:'2014',
+ b:'A tree. Says three words. Somehow the most emotionally effective character in the cosmic corner.',
+ best:'Guardians of the Galaxy', sp:'Dies in Vol. 1 and regrows \u2014 technically Baby Groot is his son.'},
+{n:'Drax',in:['gotg','gotg2','iw','endgame','gotgholiday','gotg3','lat'],r:'Drax the Destroyer',a:'Dave Bautista',g:'Cosmic',d:'Guardians of the Galaxy',y:'2014',
+ b:'Takes everything literally. Lost his family to Thanos, which the films treat with more weight than you expect.',
+ best:'Guardians of the Galaxy', sp:'Retires to raise the rescued children on Knowhere.'},
+{n:'Nebula',in:['gotg','gotg2','iw','endgame','gotg3'],r:'\u2014',a:'Karen Gillan',g:'Cosmic',d:'Guardians of the Galaxy',y:'2014',
+ b:'Gamora\u2019s cybernetic sister, rebuilt piece by piece by Thanos every time she lost to her. Has the best arc of any Guardian.',
+ best:'Endgame · Guardians Vol. 3', sp:'Goes from villain to the closest thing the Guardians have to a parent.'},
+{n:'Mantis',in:['gotg2','iw','endgame','gotgholiday','gotg3','lat'],r:'\u2014',a:'Pom Klementieff',g:'Cosmic',d:'Guardians Vol. 2',y:'2017',
+ b:'An empath who can read and alter emotions by touch. Socially oblivious in a way the films find endlessly funny.',
+ best:'Guardians Vol. 2 · Holiday Special', sp:'Revealed to be Quill\u2019s half-sister. Leaves the team at the end of Vol. 3.'},
+{n:'Loki',in:['thor','avengers','tdw','ragnarok','iw','endgame','loki1','loki2'],r:'Loki Laufeyson',a:'Tom Hiddleston',g:'Cosmic',d:'Thor',y:'2011',
+ b:'God of mischief, Thor\u2019s adopted brother, and the MCU\u2019s first great villain. Then its most surprising redemption.',
+ best:'The Avengers · Loki S1 & S2', sp:'Killed in Infinity War. A 2012 variant escapes and becomes the load-bearing pillar of the multiverse.'},
+{n:'Thanos',in:['avengers','gotg','aou','iw','endgame'],r:'\u2014',a:'Josh Brolin',g:'Cosmic',d:'The Avengers',y:'2012',
+ b:'A Titan who wants to halve all life in the universe to save it. Teased for six years before finally showing up properly.',
+ best:'Infinity War', sp:'Wins in Infinity War, loses in Endgame.'},
+
+/* ---- NEW GUARD ---- */
+{n:'Shang-Chi',r:'Xu Shang-Chi',a:'Simu Liu',g:'New guard',d:'Shang-Chi',y:'2021',
+ b:'Trained as an assassin by his warlord father, then hid as a valet in San Francisco. Inherits the Ten Rings.',
+ best:'Shang-Chi', sp:'The rings are a signal to something, and nobody knows what yet.'},
+{n:'Ms. Marvel',in:['msmarvel','marvels'],r:'Kamala Khan',a:'Iman Vellani',g:'New guard',d:'Ms. Marvel',y:'2022',
+ b:'A Pakistani-American teenager from Jersey City and an enormous Captain Marvel fan, who gets powers of her own.',
+ best:'Ms. Marvel · The Marvels', sp:'Starts recruiting a young team at the end of The Marvels.'},
+{n:'Yelena Belova',in:['bw','hawkeye','thunderbolts'],r:'\u2014',a:'Florence Pugh',g:'New guard',d:'Black Widow',y:'2021',
+ b:'Natasha\u2019s younger sister, also Red Room-trained, considerably funnier. Steals every scene she is in.',
+ best:'Black Widow · Thunderbolts*', sp:'Ends up on the Thunderbolts \u2014 sorry, the New Avengers.'},
+{n:'Kate Bishop',r:'\u2014',a:'Hailee Steinfeld',g:'New guard',d:'Hawkeye',y:'2021',
+ b:'A wealthy, extremely enthusiastic archer who appoints herself Clint\u2019s protege. He does not agree at first.',
+ best:'Hawkeye', sp:'Inherits the Hawkeye name.'},
+{n:'Ironheart',in:['wakanda2','ironheart'],r:'Riri Williams',a:'Dominique Thorne',g:'New guard',d:'Wakanda Forever',y:'2022',
+ b:'An MIT student who built an Iron Man-class suit in her dorm. Then got dragged into international politics for it.',
+ best:'Ironheart', sp:'Her series ends with a deal she really should not have made.'},
+{n:'US Agent',in:['tfatws','thunderbolts'],r:'John Walker',a:'Wyatt Russell',g:'New guard',d:'Falcon and the Winter Soldier',y:'2021',
+ b:'The government\u2019s replacement Captain America. A decorated soldier who is exactly the wrong person for the symbol.',
+ best:'Falcon and the Winter Soldier · Thunderbolts*', sp:'Rehabilitated, sort of, on the Thunderbolts team.'},
+{n:'Red Guardian',in:['bw','thunderbolts'],r:'Alexei Shostakov',a:'David Harbour',g:'New guard',d:'Black Widow',y:'2021',
+ b:'The Soviet Union\u2019s answer to Captain America, decades past his prime and desperate to talk about it.',
+ best:'Black Widow · Thunderbolts*', sp:'Comic relief who turns out to have real depth in Thunderbolts*.'},
+{n:'Moon Knight',r:'Marc Spector / Steven Grant',a:'Oscar Isaac',g:'New guard',d:'Moon Knight',y:'2022',
+ b:'A mercenary with dissociative identity disorder, serving as avatar to an Egyptian moon god. Entirely self-contained so far.',
+ best:'Moon Knight', sp:'There is a third personality, and he is worse.'},
+{n:'She-Hulk',r:'Jennifer Walters',a:'Tatiana Maslany',g:'New guard',d:'She-Hulk',y:'2022',
+ b:'Bruce Banner\u2019s cousin, a lawyer who gets Hulk powers via a blood transfusion and keeps her personality intact.',
+ best:'She-Hulk', sp:'Breaks the fourth wall harder than anyone in the MCU.'},
+{n:'Deadpool',r:'Wade Wilson',a:'Ryan Reynolds',g:'New guard',d:'Deadpool & Wolverine',y:'2024',
+ b:'Immortal, foul-mouthed, aware he is in a film. Two Fox-era films precede his MCU debut and are worth watching first.',
+ best:'Deadpool & Wolverine', sp:'Now officially inside the sacred timeline.'},
+{n:'Wolverine',r:'Logan',a:'Hugh Jackman',g:'New guard',d:'Deadpool & Wolverine',y:'2024',
+ b:'Twenty-four years of Fox X-Men films, then a return nobody expected. A variant, not the one from Logan.',
+ best:'Deadpool & Wolverine', sp:'Expected back for Doomsday.'},
+{n:'Valentina Allegra de Fontaine',in:['bw','tfatws','wakanda2','thunderbolts'],r:'\u2014',a:'Julia Louis-Dreyfus',g:'New guard',d:'Falcon and the Winter Soldier',y:'2021',
+ b:'A shadowy government fixer who has been quietly recruiting antiheroes across half a dozen projects.',
+ best:'Thunderbolts*', sp:'The architect of the Thunderbolts, and not a good person.'},
+{n:'Sentry / The Void',r:'Robert Reynolds',a:'Lewis Pullman',g:'New guard',d:'Thunderbolts*',y:'2025',
+ b:'A man with the power of a million exploding suns and untreated mental illness. The most dangerous being in the MCU.',
+ best:'Thunderbolts*', sp:'The Void is his depression, made literal and city-sized.'},
+
+/* ---- STREET LEVEL ---- */
+{n:'Daredevil',in:['shehulk','echo','dd1','dd2','bnd'],r:'Matt Murdock',a:'Charlie Cox',g:'Street level',d:'Daredevil (Netflix)',y:'2015',
+ b:'A blind Catholic lawyer in Hell\u2019s Kitchen whose remaining senses are superhuman. Beats people up at night, feels awful about it.',
+ best:'Daredevil S1 · Born Again', sp:'Fully absorbed into the MCU as of She-Hulk and Born Again.'},
+{n:'Kingpin',in:['hawkeye','echo','dd1','dd2'],r:'Wilson Fisk',a:'Vincent D\u2019Onofrio',g:'Street level',d:'Daredevil (Netflix)',y:'2015',
+ b:'A crime lord with an art collection and a temper. Arguably the best-acted villain in anything Marvel has made.',
+ best:'Daredevil S1 · Born Again S1 & S2', sp:'Becomes Mayor of New York, then imposes martial law.'},
+{n:'The Punisher',in:['punisher','bnd'],r:'Frank Castle',a:'Jon Bernthal',g:'Street level',d:'Daredevil S2',y:'2016',
+ b:'A Marine whose family was murdered, now a one-man war on organised crime. The moral opposite of Daredevil.',
+ best:'The Punisher S1 · One Last Kill', sp:'Turns up in Spider-Man: Brand New Day.'},
+{n:'Jessica Jones',in:['dd2'],r:'\u2014',a:'Krysten Ritter',g:'Street level',d:'Jessica Jones',y:'2015',
+ b:'A super-strong private investigator with a drinking problem and PTSD. Her first season is the best thing the Netflix run produced.',
+ best:'Jessica Jones S1', sp:'Returns in Born Again S2 after a seven-year absence.'},
+{n:'Echo',in:['hawkeye','echo'],r:'Maya Lopez',a:'Alaqua Cox',g:'Street level',d:'Hawkeye',y:'2021',
+ b:'A deaf Choctaw woman who can perfectly copy any movement she sees. Raised by Kingpin, which complicates things.',
+ best:'Echo', sp:'Gains ancestral powers by the end of her series.'},
+
+/* ---- MYSTIC ---- */
+{n:'Agatha Harkness',in:['wandavision','agatha'],r:'\u2014',a:'Kathryn Hahn',g:'Mystic',d:'WandaVision',y:'2021',
+ b:'A centuries-old witch who spent WandaVision pretending to be a nosy neighbour. Got her own show out of one song.',
+ best:'WandaVision · Agatha All Along', sp:'Her series sets up VisionQuest and introduces Wanda\u2019s son.'},
+{n:'Wong',in:['strange','iw','endgame','shangchi','nwh','mom','shehulk'],r:'\u2014',a:'Benedict Wong',g:'Mystic',d:'Doctor Strange',y:'2016',
+ b:'Sorcerer Supreme, librarian, and the MCU\u2019s most reliable straight man. Turns up everywhere.',
+ best:'She-Hulk · Multiverse of Madness', sp:'Officially outranks Strange.'},
+{n:'America Chavez',r:'\u2014',a:'Xochitl Gomez',g:'Mystic',d:'Multiverse of Madness',y:'2022',
+ b:'A teenager who can punch holes between universes but cannot control it. Extremely valuable to everyone, which is her problem.',
+ best:'Multiverse of Madness', sp:'Training at Kamar-Taj.'},
+
+/* ---- FANTASTIC FOUR ---- */
+{n:'Mister Fantastic',r:'Reed Richards',a:'Pedro Pascal',g:'Fantastic Four',d:'First Steps',y:'2025',
+ b:'The smartest man in his universe, and elastic. Leads the First Family from a retro-futurist 1960s Earth.',
+ best:'The Fantastic Four: First Steps', sp:'Their universe is a separate one \u2014 Earth-828.'},
+{n:'Invisible Woman',r:'Sue Storm',a:'Vanessa Kirby',g:'Fantastic Four',d:'First Steps',y:'2025',
+ b:'Invisibility and force fields. The actual strategist of the team, and the emotional lead of the film.',
+ best:'The Fantastic Four: First Steps', sp:'\u2014'},
+{n:'Human Torch',r:'Johnny Storm',a:'Joseph Quinn',g:'Fantastic Four',d:'First Steps',y:'2025',
+ b:'Sue\u2019s younger brother. Sets himself on fire and flies. Enjoys it enormously.',
+ best:'The Fantastic Four: First Steps', sp:'\u2014'},
+{n:'The Thing',r:'Ben Grimm',a:'Ebon Moss-Bachrach',g:'Fantastic Four',d:'First Steps',y:'2025',
+ b:'A pilot turned into a rock-skinned strongman. The heart of the four, and the one who paid the highest price.',
+ best:'The Fantastic Four: First Steps', sp:'\u2014'},
+
+/* ---- BIG BADS ---- */
+{n:'Doctor Doom',r:'Victor von Doom',a:'Robert Downey Jr.',g:'Big bads',d:'Avengers: Doomsday',y:'2026',
+ b:'Marvel\u2019s greatest villain, arriving in December 2026 \u2014 played by the actor who launched the franchise as Iron Man. Marvel has not explained why yet.',
+ best:'Avengers: Doomsday (18 Dec 2026)', sp:'The whole Multiverse Saga has been building to this.'},
+{n:'Kang / He Who Remains',in:['loki1','quantumania','loki2'],r:'\u2014',a:'Jonathan Majors',g:'Big bads',d:'Loki S1',y:'2021',
+ b:'A time-travelling conqueror with infinite variants. Originally set up as the saga\u2019s big bad before Marvel changed direction.',
+ best:'Loki S1 · Quantumania', sp:'Replaced by Doom as the main antagonist after Majors was recast out of the role.'},
+{n:'Namor',r:'K\u2019uk\u2019ulkan',a:'Tenoch Huerta Mej\u00eda',g:'Big bads',d:'Wakanda Forever',y:'2022',
+ b:'Mutant king of an underwater Mesoamerican civilisation. Not really a villain, which is what makes him work.',
+ best:'Wakanda Forever', sp:'Openly plotting a future war on the surface world.'},
+{n:'Red Hulk',in:['hulk','civil','iw','endgame','bnw'],r:'Thaddeus Ross',a:'William Hurt, then Harrison Ford',g:'Big bads',d:'The Incredible Hulk',y:'2008',
+ b:'The general who hunted Bruce Banner for years, later US President. Recast after Hurt\u2019s death in 2022.',
+ best:'Brave New World', sp:'Becomes Red Hulk, then resigns the presidency.'},
+{n:'Ultron',r:'\u2014',a:'James Spader',g:'Big bads',d:'Age of Ultron',y:'2015',
+ b:'A peacekeeping AI built by Tony Stark that immediately concluded humanity was the problem. Sardonic in exactly Tony\u2019s register.',
+ best:'Age of Ultron', sp:'Spader returns for VisionQuest.'},
+
+/* ---- INNER CIRCLE ---- */
+{n:'Howard Stark',in:['antman','cap1','im2','civil','endgame'],r:'\u2014',a:'John Slattery / Dominic Cooper',g:'Inner circle',d:'Iron Man 2',y:'2010',s:1,
+ b:'Tony\u2019s father. Founded Stark Industries, funded the super-soldier programme, helped build S.H.I.E.L.D. Slattery plays him old, Cooper young.',
+ best:'The First Avenger \u00b7 Endgame', sp:'Murdered by the Winter Soldier in 1991 \u2014 the reveal that breaks the Avengers apart in Civil War.'},
+{n:'Peggy Carter',in:['cap1','winter','antman','civil','endgame'],r:'\u2014',a:'Hayley Atwell',g:'Inner circle',d:'The First Avenger',y:'2011',s:1,
+ b:'SOE officer and Steve\u2019s equal in every scene they share. Co-founds S.H.I.E.L.D. after the war.',
+ best:'The First Avenger \u00b7 Winter Soldier', sp:'Steve goes back for the dance at the end of Endgame.'},
+{n:'Pepper Potts',in:['ironman','im2','avengers','im3','homecoming','iw','endgame'],r:'\u2014',a:'Gwyneth Paltrow',g:'Inner circle',d:'Iron Man',y:'2008',s:1,
+ b:'Tony\u2019s assistant, then CEO of Stark Industries, then his wife. The only person who ever managed him.',
+ best:'Iron Man \u00b7 Iron Man 3', sp:'Suits up as Rescue in Endgame.'},
+{n:'Happy Hogan',in:['ironman','im2','im3','homecoming','ffh','endgame','nwh'],r:'\u2014',a:'Jon Favreau',g:'Inner circle',d:'Iron Man',y:'2008',s:1,
+ b:'Head of security, driver, and eventually Peter Parker\u2019s exasperated minder. Played by the director of the first two films.',
+ best:'Homecoming \u00b7 Far From Home', sp:'One of the very few who still remembers Peter is unclear \u2014 he does not.'},
+{n:'Phil Coulson',in:['ironman','im2','thor','avengers'],r:'\u2014',a:'Clark Gregg',g:'Inner circle',d:'Iron Man',y:'2008',s:1,
+ b:'The mild-mannered S.H.I.E.L.D. agent who quietly connected the first five films together. Invented for the MCU, later added to the comics.',
+ best:'The Avengers', sp:'Killed by Loki in The Avengers, which is what makes the team assemble. Returns in Agents of S.H.I.E.L.D.'},
+{n:'Maria Hill',in:['avengers','winter','aou','iw','ffh','secretinvasion'],r:'\u2014',a:'Cobie Smulders',g:'Inner circle',d:'The Avengers',y:'2012',s:1,
+ b:'Fury\u2019s deputy and the most competent person in any room. Sticks with him after S.H.I.E.L.D. collapses.',
+ best:'The Winter Soldier', sp:'Killed early in Secret Invasion.'},
+{n:'Erik Selvig',in:['thor','avengers','tdw'],r:'\u2014',a:'Stellan Skarsg\u00e5rd',g:'Inner circle',d:'Thor',y:'2011',s:1,
+ b:'Astrophysicist who keeps getting pulled into cosmic events, usually against his will.',
+ best:'Thor \u00b7 The Avengers', sp:'Mind-controlled by Loki, and never quite recovers.'},
+{n:'Jane Foster',in:['thor','tdw','endgame','lat'],r:'\u2014',a:'Natalie Portman',g:'Inner circle',d:'Thor',y:'2011',s:1,
+ b:'Astrophysicist, Thor\u2019s first love, absent for eight years, then back in a very different role.',
+ best:'Thor \u00b7 Love and Thunder', sp:'Becomes the Mighty Thor while dying of cancer.'},
+{n:'Darcy Lewis',in:['thor','tdw','wandavision'],r:'\u2014',a:'Kat Dennings',g:'Inner circle',d:'Thor',y:'2011',s:1,
+ b:'Jane\u2019s intern, comic relief, and \u2014 a decade later \u2014 an actual doctor investigating WandaVision.',
+ best:'WandaVision', sp:'\u2014'},
+{n:'Ned Leeds',in:['homecoming','ffh','nwh'],r:'\u2014',a:'Jacob Batalon',g:'Inner circle',d:'Homecoming',y:'2017',s:1,
+ b:'Peter\u2019s best friend and self-appointed "guy in the chair". Accidentally competent.',
+ best:'Homecoming \u00b7 No Way Home', sp:'Forgets Peter entirely at the end of No Way Home.'},
+{n:'MJ',in:['homecoming','ffh','nwh'],r:'Michelle Jones-Watson',a:'Zendaya',g:'Inner circle',d:'Homecoming',y:'2017',s:1,
+ b:'Deadpan, observant, and the first person to work out Peter\u2019s secret on her own.',
+ best:'Far From Home \u00b7 No Way Home', sp:'Also forgets him. It is the saddest scene in the trilogy.'},
+{n:'Aunt May',in:['civil','homecoming','ffh','nwh'],r:'May Parker',a:'Marisa Tomei',g:'Inner circle',d:'Civil War',y:'2016',s:1,
+ b:'A much younger May than previous versions. Runs a homeless shelter and pushes Peter toward doing the right thing.',
+ best:'No Way Home', sp:'Dies in No Way Home, and gives Peter his defining line first.'},
+{n:'Hank Pym',in:['antman','amw','endgame','quantumania'],r:'\u2014',a:'Michael Douglas',g:'Inner circle',d:'Ant-Man',y:'2015',s:1,
+ b:'The original Ant-Man, now a bitter retired scientist who hands the suit to Scott rather than use it himself.',
+ best:'Ant-Man \u00b7 Ant-Man and the Wasp', sp:'\u2014'},
+{n:'Janet van Dyne',in:['amw','quantumania'],r:'\u2014',a:'Michelle Pfeiffer',g:'Inner circle',d:'Ant-Man and the Wasp',y:'2018',s:1,
+ b:'The original Wasp, lost in the Quantum Realm for thirty years. Knows far more about what lives down there than she admits.',
+ best:'Quantumania', sp:'Her history with Kang is the whole hook of Quantumania.'},
+{n:'Luis',in:['antman','amw'],r:'\u2014',a:'Michael Pe\u00f1a',g:'Inner circle',d:'Ant-Man',y:'2015',s:1,
+ b:'Scott\u2019s former cellmate and the best storyteller in the MCU. His rambling recap sequences are the highlight of both films.',
+ best:'Ant-Man', sp:'\u2014'},
+{n:'Cassie Lang',in:['antman','amw','endgame','quantumania'],r:'\u2014',a:'Abby Ryder Fortson / Kathryn Newton',g:'Inner circle',d:'Ant-Man',y:'2015',s:1,
+ b:'Scott\u2019s daughter, aged five years by the Blip. Builds her own Quantum Realm tech as a teenager.',
+ best:'Quantumania', sp:'Suits up as Stature.'},
+{n:'Christine Palmer',in:['strange','mom'],r:'\u2014',a:'Rachel McAdams',g:'Inner circle',d:'Doctor Strange',y:'2016',s:1,
+ b:'Surgeon, Strange\u2019s ex, and the one person who calls him on his ego.',
+ best:'Multiverse of Madness', sp:'\u2014'},
+{n:'Sharon Carter',in:['winter','civil','tfatws'],r:'\u2014',a:'Emily VanCamp',g:'Inner circle',d:'The Winter Soldier',y:'2014',s:1,
+ b:'S.H.I.E.L.D. agent, Peggy\u2019s great-niece, and Steve\u2019s neighbour before she was anything else.',
+ best:'Falcon and the Winter Soldier', sp:'Revealed as the Power Broker, and back inside the US government.'},
+{n:'Everett Ross',in:['civil','bp','wakanda2'],r:'\u2014',a:'Martin Freeman',g:'Inner circle',d:'Civil War',y:'2016',s:1,
+ b:'CIA officer and one of the few outsiders Wakanda tolerates. Mostly bewildered, occasionally useful.',
+ best:'Black Panther', sp:'Arrested for leaking to Wakanda in Wakanda Forever.'},
+{n:'Talos',in:['capmarvel','ffh','secretinvasion'],r:'\u2014',a:'Ben Mendelsohn',g:'Inner circle',d:'Captain Marvel',y:'2019',s:1,
+ b:'Skrull leader introduced as a villain and revealed as a refugee. Spends years impersonating Nick Fury.',
+ best:'Captain Marvel', sp:'Killed by Gravik in Secret Invasion.'},
+{n:'Monica Rambeau',in:['capmarvel','wandavision','marvels'],r:'\u2014',a:'Teyonah Parris',g:'Inner circle',d:'Captain Marvel',y:'2019',s:1,
+ b:'Carol\u2019s goddaughter, a child in 1995 and an adult by WandaVision. Gains energy-manipulation powers from the Hex.',
+ best:'WandaVision \u00b7 The Marvels', sp:'Trapped in another universe at the end of The Marvels.'},
+{n:'Jimmy Woo',in:['amw','wandavision'],r:'\u2014',a:'Randall Park',g:'Inner circle',d:'Ant-Man and the Wasp',y:'2018',s:1,
+ b:'FBI agent, card-trick enthusiast, and an unexpectedly beloved recurring presence.',
+ best:'WandaVision', sp:'\u2014'},
+{n:'Isaiah Bradley',in:['tfatws','bnw'],r:'\u2014',a:'Carl Lumbly',g:'Inner circle',d:'Falcon and the Winter Soldier',y:'2021',s:1,
+ b:'A Black super-soldier the US government experimented on and then imprisoned for thirty years. The moral weight of Sam\u2019s whole arc.',
+ best:'Falcon and the Winter Soldier', sp:'Framed in Brave New World.'},
+{n:'Mobius',in:['loki1','loki2'],r:'Mobius M. Mobius',a:'Owen Wilson',g:'Inner circle',d:'Loki S1',y:'2021',s:1,
+ b:'TVA analyst who likes jet skis and pruning timelines. The straight man Loki needed.',
+ best:'Loki S1 & S2', sp:'\u2014'},
+{n:'Sylvie',in:['loki1','loki2'],r:'\u2014',a:'Sophia Di Martino',g:'Inner circle',d:'Loki S1',y:'2021',s:1,
+ b:'A Loki variant hunted by the TVA since childhood. Angrier, more capable, and the reason the multiverse exists.',
+ best:'Loki S1', sp:'Her choice at the end of season one causes everything after it.'},
+{n:'Katy',r:'Katy Chen',a:'Awkwafina',g:'Inner circle',d:'Shang-Chi',y:'2021',s:1,
+ b:'Shang-Chi\u2019s best friend and fellow valet, who learns archery in about a week.',
+ best:'Shang-Chi', sp:'\u2014'},
+{n:'Xialing',in:['shangchi'],r:'\u2014',a:'Meng\u2019er Zhang',g:'Inner circle',d:'Shang-Chi',y:'2021',s:1,
+ b:'Shang-Chi\u2019s sister, trained herself in secret after her father refused to.',
+ best:'Shang-Chi', sp:'Takes over the Ten Rings organisation.'},
+{n:'Layla El-Faouly',r:'Scarlet Scarab',a:'May Calamawy',g:'Inner circle',d:'Moon Knight',y:'2022',s:1,
+ b:'Archaeologist and Marc\u2019s estranged wife. Becomes an avatar herself.',
+ best:'Moon Knight', sp:'\u2014'},
+{n:'Foggy Nelson',in:['dd1','dd2'],r:'Franklin Nelson',a:'Elden Henson',g:'Inner circle',d:'Daredevil (Netflix)',y:'2015',s:1,
+ b:'Matt\u2019s law partner and oldest friend. The conscience of the practice.',
+ best:'Daredevil S1', sp:'Shot in the opening of Born Again.'},
+{n:'Karen Page',in:['dd1','dd2'],r:'\u2014',a:'Deborah Ann Woll',g:'Inner circle',d:'Daredevil (Netflix)',y:'2015',s:1,
+ b:'Investigative journalist who started as a client. Gets closer to the truth than anyone is comfortable with.',
+ best:'Daredevil S2 & S3', sp:'Returns in Born Again.'},
+
+/* ---- ASGARD ---- */
+{n:'Odin',in:['thor','tdw','ragnarok'],r:'Odin Borson',a:'Anthony Hopkins',g:'Asgard',d:'Thor',y:'2011',s:1,
+ b:'All-Father of Asgard. A conqueror who rewrote his own history as benevolence, which Ragnarok finally confronts.',
+ best:'Thor \u00b7 Ragnarok', sp:'Dies in Norway at the start of Ragnarok, releasing Hela.'},
+{n:'Frigga',in:['thor','tdw','endgame'],r:'\u2014',a:'Rene Russo',g:'Asgard',d:'Thor',y:'2011',s:1,
+ b:'Queen of Asgard, and the one who taught Loki magic. The emotional centre of the Thor films.',
+ best:'The Dark World \u00b7 Endgame', sp:'Killed in The Dark World. Thor gets a second conversation with her in Endgame.'},
+{n:'Heimdall',in:['thor','tdw','aou','ragnarok','iw'],r:'\u2014',a:'Idris Elba',g:'Asgard',d:'Thor',y:'2011',s:1,
+ b:'Guardian of the Bifrost, who sees and hears everything in the Nine Realms.',
+ best:'Thor \u00b7 Ragnarok', sp:'Killed by Thanos in the first three minutes of Infinity War.'},
+{n:'Sif',in:['thor','tdw'],r:'Lady Sif',a:'Jaimie Alexander',g:'Asgard',d:'Thor',y:'2011',s:1,
+ b:'Asgardian warrior and Thor\u2019s oldest comrade. Vanishes for years, then turns up in Love and Thunder.',
+ best:'Thor \u00b7 The Dark World', sp:'\u2014'},
+{n:'Valkyrie',in:['ragnarok','endgame','lat'],r:'Brunnhilde',a:'Tessa Thompson',g:'Asgard',d:'Ragnarok',y:'2017',s:1,
+ b:'The last of Asgard\u2019s elite warriors, found drunk on a scrapheap planet. Immediately one of the best characters in the franchise.',
+ best:'Ragnarok', sp:'Becomes King of New Asgard.'},
+{n:'Korg',in:['ragnarok','endgame','lat'],r:'\u2014',a:'Taika Waititi',g:'Asgard',d:'Ragnarok',y:'2017',s:1,
+ b:'A rock gladiator with the gentlest voice imaginable, played by the director. Narrates Love and Thunder.',
+ best:'Ragnarok', sp:'\u2014'},
+
+/* ---- WAKANDA ---- */
+{n:'Okoye',in:['civil','bp','iw','endgame','wakanda2'],r:'\u2014',a:'Danai Gurira',g:'Wakanda',d:'Civil War',y:'2016',s:1,
+ b:'General of the Dora Milaje, Wakanda\u2019s all-female royal guard. Loyal to the throne before any person on it.',
+ best:'Black Panther \u00b7 Wakanda Forever', sp:'Demoted, then rebuilt as the Midnight Angel.'},
+{n:'Nakia',in:['bp','wakanda2'],r:'\u2014',a:'Lupita Nyong\u2019o',g:'Wakanda',d:'Black Panther',y:'2018',s:1,
+ b:'War Dog spy and T\u2019Challa\u2019s former partner, who argued for opening Wakanda long before he did.',
+ best:'Black Panther', sp:'Raising T\u2019Challa\u2019s son in Haiti.'},
+{n:'M\u2019Baku',in:['bp','iw','wakanda2'],r:'\u2014',a:'Winston Duke',g:'Wakanda',d:'Black Panther',y:'2018',s:1,
+ b:'Leader of the mountain Jabari tribe. Introduced as a rival, ends up the most reliable ally in the room.',
+ best:'Black Panther', sp:'Positioned to challenge for the throne.'},
+{n:'Ramonda',in:['bp','wakanda2'],r:'\u2014',a:'Angela Bassett',g:'Wakanda',d:'Black Panther',y:'2018',s:1,
+ b:'Queen Mother of Wakanda. Bassett\u2019s performance in Wakanda Forever earned an Oscar nomination.',
+ best:'Wakanda Forever', sp:'Killed by Namor\u2019s forces.'},
+
+/* ---- COSMIC SUPPORT ---- */
+{n:'Yondu',in:['gotg','gotg2'],r:'Yondu Udonta',a:'Michael Rooker',g:'Cosmic',d:'Guardians of the Galaxy',y:'2014',s:1,
+ b:'Ravager captain who abducted Quill as a boy and raised him badly, for reasons that turn out to matter.',
+ best:'Guardians Vol. 2', sp:'His death is the emotional peak of the cosmic films.'},
+{n:'Kraglin',in:['gotg','gotg2','gotg3','lat'],r:'\u2014',a:'Sean Gunn',g:'Cosmic',d:'Guardians of the Galaxy',y:'2014',s:1,
+ b:'Yondu\u2019s first mate, inheritor of the arrow, and spectacularly bad at using it for two whole films.',
+ best:'Guardians Vol. 3', sp:'\u2014'},
+{n:'The Ancient One',in:['strange','endgame'],r:'\u2014',a:'Tilda Swinton',g:'Mystic',d:'Doctor Strange',y:'2016',s:1,
+ b:'Sorcerer Supreme who trained Strange, and who was quietly breaking her own rules the whole time.',
+ best:'Doctor Strange \u00b7 Endgame', sp:'Dies in Doctor Strange. Reappears in Endgame\u2019s 2012 sequence.'},
+{n:'Mordo',in:['strange','mom'],r:'Karl Mordo',a:'Chiwetel Ejiofor',g:'Mystic',d:'Doctor Strange',y:'2016',s:1,
+ b:'Strange\u2019s fellow student, a zealot for the rules, who breaks with the order over the Ancient One\u2019s hypocrisy.',
+ best:'Doctor Strange', sp:'Turns against sorcerers entirely. A variant appears in Multiverse of Madness.'},
+
+/* ---- MORE BIG BADS ---- */
+{n:'Obadiah Stane',r:'Iron Monger',a:'Jeff Bridges',g:'Big bads',d:'Iron Man',y:'2008',s:1,
+ b:'Stark Industries executive and Howard\u2019s old partner, who sells to both sides and builds a bigger suit.',
+ best:'Iron Man', sp:'\u2014'},
+{n:'Justin Hammer',r:'\u2014',a:'Sam Rockwell',g:'Big bads',d:'Iron Man 2',y:'2010',s:1,
+ b:'A rival arms dealer with all of Tony\u2019s ego and none of the ability. Rockwell plays him as pure flop sweat.',
+ best:'Iron Man 2', sp:'\u2014'},
+{n:'Red Skull',in:['cap1','iw','endgame'],r:'Johann Schmidt',a:'Hugo Weaving / Ross Marquand',g:'Big bads',d:'The First Avenger',y:'2011',s:1,
+ b:'HYDRA\u2019s founder and the super-soldier serum\u2019s first, worst result.',
+ best:'The First Avenger', sp:'Banished to Vormir as the Soul Stone\u2019s keeper. Recast for Infinity War.'},
+{n:'Alexander Pierce',in:['winter','endgame'],r:'\u2014',a:'Robert Redford',g:'Big bads',d:'The Winter Soldier',y:'2014',s:1,
+ b:'S.H.I.E.L.D. secretary and HYDRA\u2019s man at the very top. Casting Redford is the whole thesis of the film.',
+ best:'The Winter Soldier', sp:'\u2014'},
+{n:'Crossbones',in:['winter','civil'],r:'Brock Rumlow',a:'Frank Grillo',g:'Big bads',d:'The Winter Soldier',y:'2014',s:1,
+ b:'STRIKE team leader and HYDRA plant. His return in Civil War kicks off the Sokovia Accords.',
+ best:'The Winter Soldier', sp:'\u2014'},
+{n:'Helmut Zemo',in:['civil','tfatws'],r:'\u2014',a:'Daniel Br\u00fchl',g:'Big bads',d:'Civil War',y:'2016',s:1,
+ b:'A Sokovian widower with no powers and no army who beats the Avengers with a folder of evidence. The best-plotted villain they have.',
+ best:'Civil War \u00b7 Falcon and the Winter Soldier', sp:'Back in a cell, entirely by choice.'},
+{n:'Killmonger',r:'Erik Stevens',a:'Michael B. Jordan',g:'Big bads',d:'Black Panther',y:'2018',s:1,
+ b:'T\u2019Challa\u2019s cousin, abandoned in Oakland, returned to take the throne. The rare villain the film agrees with.',
+ best:'Black Panther', sp:'His final line is the most quoted in the MCU.'},
+{n:'Vulture',in:['homecoming','nwh'],r:'Adrian Toomes',a:'Michael Keaton',g:'Big bads',d:'Homecoming',y:'2017',s:1,
+ b:'A salvage contractor put out of business by Stark, now selling alien weapons. Working class, genuinely sympathetic, terrifying in a car.',
+ best:'Homecoming', sp:'Pulled into the Sony universe by the end of Morbius, confusingly.'},
+{n:'Mysterio',r:'Quentin Beck',a:'Jake Gyllenhaal',g:'Big bads',d:'Far From Home',y:'2019',s:1,
+ b:'A disgruntled Stark engineer running the most elaborate con in the franchise.',
+ best:'Far From Home', sp:'His final broadcast is what sets No Way Home in motion.'},
+{n:'Hela',r:'\u2014',a:'Cate Blanchett',g:'Big bads',d:'Ragnarok',y:'2017',s:1,
+ b:'Odin\u2019s firstborn and Asgard\u2019s erased history. Destroys Mjolnir with one hand in her first scene.',
+ best:'Ragnarok', sp:'\u2014'},
+{n:'Ego',r:'\u2014',a:'Kurt Russell',g:'Big bads',d:'Guardians Vol. 2',y:'2017',s:1,
+ b:'A living planet, and Quill\u2019s father. Charming for exactly as long as it serves him.',
+ best:'Guardians Vol. 2', sp:'\u2014'},
+{n:'Wenwu',r:'Xu Wenwu',a:'Tony Leung',g:'Big bads',d:'Shang-Chi',y:'2021',s:1,
+ b:'Shang-Chi\u2019s father, a thousand-year-old warlord, and the real Mandarin the Iron Man films joked about.',
+ best:'Shang-Chi', sp:'\u2014'},
+{n:'Taskmaster',r:'Antonia Dreykov',a:'Olga Kurylenko',g:'Big bads',d:'Black Widow',y:'2021',s:1,
+ b:'A fighter who instantly copies any technique she observes. Also the film\u2019s central moral debt.',
+ best:'Black Widow', sp:'Freed at the end, whereabouts unknown.'},
+{n:'Ghost',r:'Ava Starr',a:'Hannah John-Kamen',g:'Big bads',d:'Ant-Man and the Wasp',y:'2018',s:1,
+ b:'Phasing out of existence and in constant pain. An antagonist who mostly needs medical help.',
+ best:'Ant-Man and the Wasp', sp:'Recruited by Val for the Thunderbolts in the comics; not yet on screen.'},
+{n:'Arthur Harrow',r:'\u2014',a:'Ethan Hawke',g:'Big bads',d:'Moon Knight',y:'2022',s:1,
+ b:'A cult leader with a glass-in-the-shoe penance habit, judging people for crimes they have not committed yet.',
+ best:'Moon Knight', sp:'\u2014'},
+{n:'Ronan the Accuser',in:['gotg','capmarvel'],r:'\u2014',a:'Lee Pace',g:'Big bads',d:'Guardians of the Galaxy',y:'2014',s:1,
+ b:'Kree fanatic with a hammer and a grudge. Chronologically he turns up earlier, in Captain Marvel.',
+ best:'Guardians of the Galaxy', sp:'\u2014'},
+{n:'Dormammu',r:'\u2014',a:'Benedict Cumberbatch (voice)',g:'Big bads',d:'Doctor Strange',y:'2016',s:1,
+ b:'A being from the Dark Dimension, defeated by being bored into submission rather than beaten.',
+ best:'Doctor Strange', sp:'\u2014'},
+];
+
+const GROUPS = [
+ {k:'Founders',      t:'The originals',   note:'The six who assembled in 2012, plus the film that started it.'},
+ {k:'Second wave',   t:'Reinforcements',  note:'Everyone recruited between Winter Soldier and Endgame.'},
+ {k:'Inner circle',  t:'The support system',note:'Partners, parents, handlers and best friends. Rarely punch anyone, hold the films together.'},
+ {k:'Asgard',        t:'The Nine Realms', note:'Thor\u2019s corner of the universe, and the family that keeps ruining it.'},
+ {k:'Wakanda',       t:'The Golden City', note:'The court, the guard, and the mountain tribe.'},
+ {k:'Cosmic',        t:'Out in space',    note:'The Guardians, the gods, and the Titan who beat everybody.'},
+ {k:'New guard',     t:'The next lot',    note:'Post-Endgame arrivals. Most of the Doomsday roster comes from here.'},
+ {k:'Street level',  t:'Hell\u2019s Kitchen', note:'The grounded corner, largely inherited from the Netflix run.'},
+ {k:'Mystic',        t:'Magic users',     note:'Sorcerers, witches and one very inconvenient teenager.'},
+ {k:'Fantastic Four',t:'The First Family',note:'From Earth-828, a separate universe, and central to Doomsday.'},
+ {k:'Big bads',      t:'The opposition',  note:'The villains who actually mattered.'}
+];
+
+let cq = '', cgroup = 'all', crole = 'all', spoilers = false;
+
+function esc(s){return s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));}
+
+/* every title a character turns up in, in release order */
+const ORDER_IDS = DATA.filter(r=>r.t==='i').map(r=>r.id);
+function runOf(c){
+  let ids = c.in && c.in.length ? c.in.slice() : (debutOf(c) ? [debutOf(c)] : []);
+  ids = [...new Set(ids)].filter(id=>ORDER_IDS.includes(id));
+  ids.sort((a,b)=>ORDER_IDS.indexOf(a)-ORDER_IDS.indexOf(b));
+  return ids;
+}
+function runHTML(c){
+  const ids = runOf(c);
+  if(!ids.length) return '';
+  const seen = ids.filter(id=>watched.has(id)).length;
+  const debut = debutOf(c);
+  return '<details class="run"><summary>'
+    + '<span>Their run \u00b7 ' + ids.length + ' title' + (ids.length===1?'':'s')
+    + (seen ? ' \u00b7 ' + seen + ' seen' : '') + '</span>'
+    + '<span class="pips">' + ids.map(id=>'<span class="pip'+(watched.has(id)?' on':'')+'"></span>').join('') + '</span>'
+    + '</summary><ol class="runlist">'
+    + ids.map((id,i)=>'<li class="'+(watched.has(id)?'seen':'')+'">'
+        + '<span class="rn">'+String(i+1).padStart(2,'0')+'</span>'
+        + '<button data-open="'+id+'">'+titleOf(id)+'</button>'
+        + (id===debut?'<span class="rt">debut</span>':'')
+        + '</li>').join('')
+    + '</ol></details>';
+}
+function chHTML(c){
+  return '<article class="ch'+(c.s?' sup':'')+'"><span class="gtag">' + c.g + '</span>'
+   + '<span class="cn">' + c.n + '</span>'
+   + (c.r && c.r !== '\u2014' ? '<span class="cr">' + c.r + '</span>' : '')
+   + '<p class="cb">' + c.b + '</p>'
+   + '<span class="cmeta"><span class="dcell"><span class="dk">First appears</span>'
+   + '<span class="dv">' + c.d + '<br>' + c.y + '</span></span>'
+   + '<span class="dcell"><span class="dk">Played by</span><span class="dv">' + c.a + '</span></span></span>'
+   + '<span class="cbest">Best in: ' + c.best + '</span>'
+   + (c.s ? '<span class="suptag">Supporting</span>' : '')
+   + runHTML(c)
+   + (c.sp && c.sp !== '\u2014'
+      ? '<div class="csp"' + (spoilers ? '' : ' hidden') + '><span class="spk">Spoiler</span>'
+        + '<span class="spv">' + c.sp + '</span></div>'
+      : '')
+   + '</article>';
+}
+
+function matches(c){
+  if(crole === 'lead' && c.s) return false;
+  if(cgroup !== 'all' && c.g !== cgroup) return false;
+  if(!cq) return true;
+  const hay = (c.n + ' ' + c.r + ' ' + c.a + ' ' + c.d + ' ' + c.b).toLowerCase();
+  return hay.includes(cq);
+}
+
+function renderChars(){
+  const list = CHARS.filter(matches);
+  const roster = document.getElementById('roster');
+  document.getElementById('ccount').textContent =
+    list.length + ' of ' + CHARS.length + ' characters shown';
+  if(!list.length){
+    roster.innerHTML = '<p class="noresults">Nobody by that name. Try an actor, or a first name \u2014 the search covers aliases and debut titles too.</p>';
+    return;
+  }
+  let html = '';
+  GROUPS.forEach(g => {
+    const inG = list.filter(c => c.g === g.k);
+    if(!inG.length) return;
+    html += '<div class="grouphead"><div class="ribbon"><span class="inner">'
+      + '<span class="pn">' + g.k + '</span><span class="pt">' + g.t + '</span></span></div>'
+      + '<p class="phase-note">' + g.note + '</p></div>'
+      + '<div class="roster">' + inG.map(chHTML).join('') + '</div>';
+  });
+  roster.innerHTML = html;
+}
+
+/* group filter buttons */
+(function buildGroups(){
+  const wrap = document.getElementById('groups');
+  const all = [{k:'all', label:'Everyone'}].concat(GROUPS.map(g => ({k:g.k, label:g.k})));
+  wrap.innerHTML = all.map(g =>
+    '<button class="gbtn" data-g="' + g.k + '" aria-pressed="' + (g.k === 'all') + '">' + g.label + '</button>'
+  ).join('');
+  wrap.addEventListener('click', e => {
+    const b = e.target.closest('.gbtn'); if(!b) return;
+    cgroup = b.dataset.g;
+    wrap.querySelectorAll('.gbtn').forEach(x => x.setAttribute('aria-pressed', x === b));
+    renderChars();
+  });
+})();
+
+document.getElementById('roleseg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  crole = b.dataset.role;
+  document.querySelectorAll('#roleseg button').forEach(x =>
+    x.setAttribute('aria-pressed', x === b));
+  renderChars();
+});
+document.getElementById('q').addEventListener('input', e => {
+  cq = e.target.value.trim().toLowerCase();
+  renderChars();
+});
+
+document.getElementById('spoil').addEventListener('click', e => {
+  spoilers = !spoilers;
+  e.currentTarget.setAttribute('aria-pressed', spoilers);
+  document.getElementById('spoillabel').textContent = spoilers ? 'Spoilers showing' : 'Spoilers hidden';
+  renderChars();
+});
+
+/* tabs */
+document.querySelectorAll('.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tabs button').forEach(b => {
+      const on = b === btn;
+      b.setAttribute('aria-selected', on);
+      document.getElementById(b.getAttribute('aria-controls')).hidden = !on;
+    });
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+
+renderChars();
+
+
+
+/* fill the path buttons with real counts and hours */
+(function pathMeta(){
+  const out = DATA.filter(r=>r.t==='i' && r.tier!=='coming');
+  const sets = {
+    essential:    out.filter(r=>r.tier==='essential'),
+    recommended:  out.filter(r=>r.tier==='essential'||r.tier==='recommended'),
+    all:          out
+  };
+  document.querySelectorAll('[data-meta]').forEach(el=>{
+    const s = sets[el.dataset.meta];
+    el.textContent = s.length + ' titles \u00b7 ' + hoursOf(s) + ' hrs';
+  });
+})();
+
+/* ---------- portable progress code ---------- */
+const ALL_IDS = DATA.filter(r => r.t === 'i').map(r => r.id);
+
+function encodeProgress(){
+  let bits = ALL_IDS.map(id => watched.has(id) ? '1' : '0').join('');
+  while(bits.length % 8) bits += '0';
+  let s = '';
+  for(let i = 0; i < bits.length; i += 8) s += String.fromCharCode(parseInt(bits.slice(i, i + 8), 2));
+  return 'MCU1-' + btoa(s).replace(/=+$/, '');
+}
+function decodeProgress(code){
+  const m = String(code).trim().toUpperCase().replace(/\s+/g, '')
+    .match(/^MCU1-([A-Z0-9+/]+)$/i);
+  if(!m) return false;
+  let s;
+  try{ s = atob(m[1]); }catch(err){ return false; }
+  let bits = '';
+  for(let i = 0; i < s.length; i++) bits += s.charCodeAt(i).toString(2).padStart(8, '0');
+  const next = new Set();
+  ALL_IDS.forEach((id, i) => { if(bits[i] === '1') next.add(id); });
+  watched = next;
+  return true;
+}
+function refreshCode(){
+  const el = document.getElementById('code');
+  if(el && document.activeElement !== el) el.value = encodeProgress();
+}
+function status(msg, bad){
+  const el = document.getElementById('codestatus');
+  el.textContent = msg;
+  el.classList.toggle('bad', !!bad);
+  clearTimeout(status._t);
+  status._t = setTimeout(() => { el.textContent = ''; el.classList.remove('bad'); }, 4000);
+}
+document.getElementById('copycode').addEventListener('click', async () => {
+  const el = document.getElementById('code');
+  el.value = encodeProgress();
+  try{
+    await navigator.clipboard.writeText(el.value);
+    status('Code copied');
+  }catch(err){
+    el.select(); el.setSelectionRange(0, 99);
+    status('Selected \u2014 press copy on your keyboard');
+  }
+});
+document.getElementById('applycode').addEventListener('click', () => {
+  const v = document.getElementById('code').value;
+  if(decodeProgress(v)){
+    render(); save();
+    status('Progress restored');
+  }else{
+    status('That code is not valid', true);
+    refreshCode();
+  }
+});
+
+const THREADS = [
+{id:'stones', name:'The Infinity Stones', sub:'Six rocks, eleven years',
+ blurb:'The spine of the whole Infinity Saga. Each stone is introduced casually, years before anyone explains what it is.',
+ steps:[
+  {id:'cap1',  n:'The Tesseract turns up in a Norwegian church. Nobody calls it a stone yet.'},
+  {id:'thor',  n:'The Ether sits in Odin\u2019s vault, unremarked, in a single background shot.'},
+  {id:'avengers', n:'Loki\u2019s sceptre and the Tesseract, both weaponised. Two stones on screen, still unnamed.'},
+  {id:'tdw',   n:'The Aether is finally named as one of six. This is the one plot thread that redeems the film.'},
+  {id:'gotg',  n:'The Orb is opened and the rules get explained out loud for the first time.'},
+  {id:'aou',   n:'The sceptre cracks open. The Mind Stone becomes Vision\u2019s forehead.'},
+  {id:'strange', n:'The Time Stone hangs around Strange\u2019s neck, and he learns to abuse it immediately.'},
+  {id:'iw',    n:'Thanos collects five of them in one film. You have seen every one before.'},
+  {id:'endgame', n:'The heist revisits the exact scenes above. Watching in order is why it lands.'}]},
+
+{id:'shield', name:'Steve and Bucky', sub:'The longest friendship',
+ blurb:'Two boys from Brooklyn, seventy years of interference, and the shield changing hands twice.',
+ steps:[
+  {id:'cap1', n:'Bucky falls from the train. Steve goes into the ice believing he is dead.'},
+  {id:'winter', n:'Bucky is alive, brainwashed, and the reason S.H.I.E.L.D. is a lie.'},
+  {id:'civil', n:'The 1991 footage. Tony finds out who killed his parents, and the team ends.'},
+  {id:'iw',   n:'Wakanda gives Bucky his mind back, just in time to lose him again.'},
+  {id:'endgame', n:'Steve chooses the past. Sam gets the shield, and Bucky watches him take it.'},
+  {id:'tfatws', n:'Sam earns the title publicly. Bucky works through the ledger.'},
+  {id:'thunderbolts', n:'Bucky ends up leading a team of people who used to be the problem.'}]},
+
+{id:'multiverse', name:'The multiverse and the TVA', sub:'How everything got complicated',
+ blurb:'The rulebook for Phases Four to Six. Skip Loki and the next dozen titles stop making sense.',
+ steps:[
+  {id:'endgame', n:'The time heist creates a branch nobody cleans up. This is the inciting incident.'},
+  {id:'loki1', n:'The TVA explains branching timelines, variants, and who has been pruning them.'},
+  {id:'nwh',  n:'Strange\u2019s botched spell pulls in villains from two other film franchises.'},
+  {id:'mom',  n:'Incursions introduced. Universes can now kill each other.'},
+  {id:'quantumania', n:'Kang proper, exiled in the Quantum Realm, warning about his variants.'},
+  {id:'loki2', n:'Loki takes over holding the whole thing together. The single most load-bearing finale.'},
+  {id:'dw',   n:'The Void and the TVA absorb twenty-four years of Fox X-Men films into canon.'},
+  {id:'ff',   n:'Earth-828 is a fully separate universe, presented without apology.'},
+  {id:'doomsday', n:'Where all of the above is supposed to collide.'}]},
+
+{id:'wanda', name:'Wanda and Vision', sub:'A grief that keeps escalating',
+ blurb:'The most emotionally consistent character arc in the MCU, and the one that most needs the TV shows.',
+ steps:[
+  {id:'aou', n:'Wanda and Pietro volunteer for HYDRA experiments. Vision is born and Pietro dies.'},
+  {id:'civil', n:'Wanda and Vision are quietly falling for each other while the team splits.'},
+  {id:'iw',  n:'She has to kill him herself. Then Thanos undoes it and kills him again.'},
+  {id:'wandavision', n:'Three weeks later she takes a town hostage inside her own grief.'},
+  {id:'mom', n:'The Darkhold turns the grief into a body count. Requires WandaVision, absolutely.'},
+  {id:'agatha', n:'The spin-off picks up the leftovers, including her son.'},
+  {id:'visionquest', n:'White Vision, no memories, going looking for them.'}]},
+
+{id:'wakanda', name:'Wakanda', sub:'From background detail to centre stage',
+ blurb:'Seeded for eight years before the film. The earliest reference is a marker on a map.',
+ steps:[
+  {id:'im2', n:'A world map on Tony\u2019s monitor has a flagged location exactly where Wakanda sits. Blink and it is gone.'},
+  {id:'aou', n:'Klaue, the vibranium scar, and the first time the country is named out loud.'},
+  {id:'civil', n:'T\u2019Challa arrives, his father dies, and Bucky ends up in Wakandan custody.'},
+  {id:'bp', n:'The country finally opens up on screen. Killmonger asks the question the franchise avoids.'},
+  {id:'iw', n:'Wakanda becomes the battlefield, having spent centuries avoiding exactly that.'},
+  {id:'wakanda2', n:'Succession, Namor, and a nation grieving in public.'},
+  {id:'ironheart', n:'Wakandan tech leaves the country and lands in Chicago.'},
+  {id:'eyes', n:'Centuries of backstory, told after the fact.'}]},
+
+{id:'peter', name:'Peter Parker', sub:'Three films, one long punishment',
+ blurb:'Borrowed from Sony, folded into the Avengers, then stripped of everything.',
+ steps:[
+  {id:'civil', n:'Tony recruits a fifteen-year-old to a superhero fight. Nobody questions this.'},
+  {id:'homecoming', n:'The mentor relationship, and a villain who is a working father.'},
+  {id:'iw', n:'Peter dies on Titan in front of Tony. It is the reason Endgame happens the way it does.'},
+  {id:'ffh', n:'Grieving Tony in public, then outed to the world in the final seconds.'},
+  {id:'nwh', n:'The multiverse arrives, and he pays for it by erasing himself from everyone.'},
+  {id:'bnd', n:'Starting over with nothing, which is the most comics-accurate Spider-Man has ever been.'}]},
+
+{id:'guardians', name:'The Guardians', sub:'A found family, in order',
+ blurb:'The most self-contained thread. You can almost watch these six on their own.',
+ steps:[
+  {id:'gotg', n:'Five criminals, one orb, one dance-off.'},
+  {id:'gotg2', n:'Quill\u2019s father, Yondu\u2019s funeral, and the point of the whole trilogy.'},
+  {id:'iw', n:'They meet the Avengers, lose Gamora, and Quill costs everyone the fight.'},
+  {id:'endgame', n:'A 2014 Gamora arrives with none of the memories.'},
+  {id:'gotgholiday', n:'A short detour that pays off one gag in Vol. 3.'},
+  {id:'gotg3', n:'Rocket\u2019s origin, and everyone goes their separate ways.'}]},
+
+{id:'street', name:'Street level New York', sub:'The grounded corner',
+ blurb:'Started on Netflix, quietly absorbed, now one of the strongest threads running.',
+ steps:[
+  {id:'shehulk', n:'Daredevil reappears in a comedy, of all places. The official handover.'},
+  {id:'hawkeye', n:'Kingpin returns, and Echo is introduced as his enforcer.'},
+  {id:'echo', n:'Maya breaks from Fisk. Sets the board for Born Again.'},
+  {id:'dd1', n:'Matt versus Mayor Fisk, in court and out of it.'},
+  {id:'dd2', n:'Martial law, Jessica Jones back after seven years, and Frank Castle circling.'},
+  {id:'punisher', n:'Frank\u2019s own special, running parallel.'},
+  {id:'bnd', n:'Which is why the Punisher is standing next to Spider-Man in 2026.'}]},
+
+{id:'fury', name:'Fury and S.H.I.E.L.D.', sub:'The organisation that built the team',
+ blurb:'A slow-burn collapse across fifteen years, from post-credits tease to total irrelevance.',
+ steps:[
+  {id:'ironman', n:'A man in a coat waits in Tony\u2019s living room after the credits.'},
+  {id:'im2', n:'The Avengers Initiative gets a name and a file.'},
+  {id:'avengers', n:'It works exactly once \u2014 and Coulson dying is what makes it work.'},
+  {id:'winter', n:'HYDRA was inside the whole time. S.H.I.E.L.D. is dissolved.'},
+  {id:'capmarvel', n:'A 1995 flashback showing how Fury got the idea, and the eye.'},
+  {id:'secretinvasion', n:'Skrulls he promised to help, twenty years unhoused, coming to collect.'},
+  {id:'marvels', n:'Fury back in orbit, running S.A.B.E.R., mostly alone.'}]}
+];
+
+/* prerequisites: at most three, only where it genuinely matters */
+const PREREQ = {
+  avengers:   [['ironman','Tony, Fury and the Initiative are set up here'],['cap1','Explains the Tesseract and Steve'],['thor','Loki\u2019s whole motivation']],
+  winter:     [['avengers','S.H.I.E.L.D. is only worth betraying once you have seen it work']],
+  civil:      [['winter','The Bucky reveal is the entire plot'],['aou','The Sokovia disaster is why the Accords exist']],
+  iw:         [['avengers','Thanos was teased here'],['ragnarok','Picks up literally seconds later'],['bp','Wakanda is the third act']],
+  endgame:    [['iw','Non-negotiable'],['capmarvel','Explains the pager']],
+  homecoming: [['civil','Peter and Tony meet there']],
+  ffh:        [['endgame','The film is an epilogue to it']],
+  nwh:        [['ffh','Ends on the cliffhanger this opens with'],['strange','You need to know who Strange is'],['loki1','The multiverse rules come from here']],
+  mom:        [['wandavision','Wanda\u2019s arc happens on television, not in film'],['nwh','Strange picks up directly from it']],
+  wandavision:[['iw','Vision dies here'],['endgame','WandaVision starts three weeks after']],
+  agatha:     [['wandavision','Agatha is introduced there']],
+  visionquest:[['wandavision','White Vision comes from its finale'],['agatha','Sets it up directly']],
+  loki2:      [['loki1','Continuous story'],['quantumania','Introduces Kang properly']],
+  dw:         [['loki2','The TVA mechanics only make sense after it']],
+  ff:         [['dw','Establishes that other universes are canon now']],
+  doomsday:   [['ff','The Fantastic Four are the on-ramp'],['thunderbolts','The new team assembles there'],['loki2','Multiverse rules']],
+  marvels:    [['msmarvel','Kamala is a lead'],['secretinvasion','One consequence carries over'],['capmarvel','Carol and Monica']],
+  bnw:        [['tfatws','Sam becomes Captain America there']],
+  thunderbolts:[['bw','Yelena and Alexei'],['tfatws','Walker and Val']],
+  wakanda2:   [['bp','Obviously']],
+  ironheart:  [['wakanda2','Riri is introduced there']],
+  gotg3:      [['gotg2','Rocket and Yondu'],['endgame','Explains which Gamora this is']],
+  quantumania:[['loki1','He Who Remains is the setup']],
+  bnd:        [['nwh','Peter has been erased'],['dd2','The Punisher arrives from there']],
+  dd1:        [['echo','Kingpin\u2019s position comes from it']],
+  dd2:        [['dd1','Direct continuation']],
+  tfatws:     [['endgame','Sam has just been handed the shield']],
+  bp:         [['civil','T\u2019Challa\u2019s father dies there']],
+  ragnarok:   [['tdw','Loki is on the throne because of it']],
+  amw:        [['civil','Scott is under house arrest for it']],
+  echo:       [['hawkeye','Maya and Kingpin are introduced there']],
+  shehulk:    [['endgame','Smart Hulk needs explaining']],
+  hawkeye:    [['endgame','Clint\u2019s grief drives the whole show'],['bw','Yelena\u2019s reason for hunting him']]
+};
+
+/* ---------- detail sheet ---------- */
+let sheetId=null, lastFocus=null;
+function norm(s){return String(s).toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\bthe\b/g,' ').replace(/\s+/g,' ').trim();}
+
+/* Resolve each character's debut label to exactly one title id.
+   Built lazily on first use: renderChars() runs before this point in the file,
+   so a top-level const here would sit in the temporal dead zone. */
+var _debutMap = null;   /* var, not let: hoisted so debutOf() is safe to call from anywhere in the file */
+function debutOf(c){
+  if(!_debutMap){
+    const ALIAS = { 'Loki S1':'loki1', 'Guardians Vol. 2':'gotg2',
+      'Daredevil (Netflix)':null, 'Daredevil S2':null, 'Jessica Jones':null };
+    const items = DATA.filter(r=>r.t==='i');
+    _debutMap = new Map();
+    CHARS.forEach(x=>{
+      if(Object.prototype.hasOwnProperty.call(ALIAS, x.d)){ _debutMap.set(x, ALIAS[x.d]); return; }
+      const nd = norm(x.d);
+      let hit = items.find(it => norm(it.title) === nd);
+      if(!hit) hit = items.find(it => norm(it.title).endsWith(' ' + nd));
+      if(!hit) hit = items.find(it => norm(it.title).startsWith(nd + ' '));
+      _debutMap.set(x, hit ? hit.id : null);
+    });
+  }
+  return _debutMap.get(c);
+}
+
+function castFor(it){
+  const hay = (it.title + ' ' + it.why).toLowerCase(), out = [];
+  CHARS.forEach(c=>{
+    const debut = debutOf(c) === it.id;
+    const named = hay.includes(c.n.toLowerCase())
+      || (c.r && c.r.length > 4 && c.r !== '\u2014' && hay.includes(c.r.toLowerCase()));
+    if(debut || named) out.push({c:c, debut:debut});
+  });
+  out.sort((a,b)=> (b.debut?1:0)-(a.debut?1:0) || (a.c.s?1:0)-(b.c.s?1:0));
+  return out.slice(0,10);
+}
+function openSheet(id){
+  const it=DATA.find(r=>r.t==='i'&&r.id===id); if(!it) return;
+  const reopening = sheetId===id;
+  sheetId=id;
+  if(!reopening) lastFocus=document.activeElement;
+  const done=watched.has(id), cast=castFor(it), g=gapLabel(it);
+  document.getElementById('sheetbody').innerHTML =
+     '<span class="shk">'+it.kind+' \u00b7 '+runtime(it.m)+'</span>'
+   + '<span class="sht" id="shtitle">'+it.title+'</span>'
+   + '<span class="dates" style="margin-top:14px">'
+   +   '<span class="dcell"><span class="dk">Released</span><span class="dv">'+it.rel+'</span></span>'
+   +   '<span class="dcell"><span class="dk">Set in</span><span class="dv">'+it.set+'</span></span></span>'
+   + (g?'<span class="gapnote">'+g+'</span>':'')
+   + '<p class="shwhy">'+it.why+'</p>'
+   + '<span class="shsec">How much it matters</span>'
+   + '<span class="tags"><span class="tag '+it.tier+'">'
+   +   (it.tier==='coming'?'Not out yet':it.tier)+'</span></span>'
+   + (preOf(it).length
+      ? '<span class="shsec">Watch these first</span><ul class="prelist">'
+        + preOf(it).map(x=>'<li><span class="pt2">'+x.item.title+'</span>'
+            +'<span class="pw">'+x.why+'</span>'
+            +(watched.has(x.item.id)?'<span class="ok">\u2714 already watched</span>':'')+'</li>').join('')
+        + '</ul>'
+      : '')
+   + (threadsFor(it).length
+      ? '<span class="shsec">Part of these threads</span><div class="chips">'
+        + threadsFor(it).map(t=>'<button class="chip" data-thread="'+t.id+'">'+t.name+'</button>').join('')
+        + '</div>'
+      : '')
+   + (cast.length
+      ? '<span class="shsec">Who to know here</span><div class="chips">'
+        + cast.map(x=>'<button class="chip" data-char="'+encodeURIComponent(x.c.n)+'">'
+            + x.c.n + (x.debut?' \u00b7 debuts':'') + '</button>').join('') + '</div>'
+      : '')
+   + (it.tier==='coming' ? ''
+      : '<button class="shbtn'+(done?' on':'')+'" data-tick="'+it.id+'">'
+        + (done?'Watched \u2714 \u2014 tap to undo':'Mark as watched')+'</button>');
+  const s=document.getElementById('sheet');
+  s.hidden=false;
+  document.body.style.overflow='hidden';
+  if(!reopening) s.querySelector('.sheetclose').focus();
+}
+function closeSheet(){
+  document.getElementById('sheet').hidden=true;
+  document.body.style.overflow='';
+  sheetId=null;
+  if(lastFocus && lastFocus.focus) lastFocus.focus();
+}
+document.getElementById('sheet').addEventListener('click',e=>{
+  if(e.target.closest('[data-close]')){ closeSheet(); return; }
+  const ch=e.target.closest('[data-char]');
+  if(ch){
+    const name=decodeURIComponent(ch.dataset.char);
+    closeSheet();
+    document.getElementById('tab-chars').click();
+    const q=document.getElementById('q');
+    q.value=name; cq=name.toLowerCase(); cgroup='all';
+    document.querySelectorAll('.gbtn').forEach(x=>x.setAttribute('aria-pressed',x.dataset.g==='all'));
+    renderChars();
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && !document.getElementById('sheet').hidden) closeSheet();
+});
+
+/* ---------- threads ---------- */
+function threadsFor(it){ return THREADS.filter(t=>t.steps.some(s=>s.id===it.id)); }
+function titleOf(id){ const r=DATA.find(x=>x.t==='i'&&x.id===id); return r?r.title:id; }
+
+function renderThreads(){
+  document.getElementById('thlist').innerHTML = THREADS.map(t=>{
+    const done=t.steps.filter(s=>watched.has(s.id)).length;
+    const pct=Math.round(done/t.steps.length*100);
+    return '<article class="th"><div class="thhead"><span>'
+      +'<span class="thname">'+t.name+'</span><span class="thsub">'+t.sub+'</span></span>'
+      +'<span class="thcount'+(done===t.steps.length?' full':'')+'">'+done+'/'+t.steps.length+'</span></div>'
+      +'<p class="thblurb">'+t.blurb+'</p>'
+      +'<div class="thbar"><span style="width:'+pct+'%"></span></div>'
+      +'<ol class="chain">'+t.steps.map(s=>
+        '<li class="'+(watched.has(s.id)?'seen':'')+'"><span class="dot"></span>'
+        +'<button class="cht" data-open="'+s.id+'">'+titleOf(s.id)+'</button>'
+        +'<span class="chn">'+s.n+'</span></li>').join('')+'</ol>'
+      +'<button class="thfollow" data-thread="'+t.id+'">Follow this thread in the chart</button>'
+      +'</article>';
+  }).join('');
+}
+function setThread(id){
+  thread=id;
+  const b=document.getElementById('thbanner');
+  if(!id){ b.hidden=true; }
+  else{
+    const t=THREADS.find(x=>x.id===id);
+    document.getElementById('thbname').textContent=t.name;
+    document.getElementById('thbsub').textContent=t.steps.length+' titles \u00b7 '+t.sub.toLowerCase();
+    b.hidden=false;
+  }
+  render();
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-thread]'); if(!b) return;
+  if(!document.getElementById('sheet').hidden) closeSheet();
+  document.getElementById('tab-watch').click();
+  setThread(b.dataset.thread);
+});
+document.getElementById('thbclear').addEventListener('click',()=>setThread(null));
+
+/* ---------- toast with undo ---------- */
+let undoState=null;
+function toast(msg,undo){
+  const t=document.getElementById('toast');
+  document.getElementById('toastmsg').textContent=msg;
+  undoState=undo||null;
+  document.getElementById('toastundo').hidden=!undo;
+  t.hidden=false;
+  clearTimeout(toast._t);
+  toast._t=setTimeout(()=>{t.hidden=true;undoState=null;},7000);
+}
+document.getElementById('toastundo').addEventListener('click',()=>{
+  if(undoState){ watched=new Set(undoState); render(); save(); }
+  document.getElementById('toast').hidden=true; undoState=null;
+});
+document.getElementById('reset').addEventListener('click',()=>{
+  const prev=[...watched];
+  watched.clear(); render(); save();
+  toast('Cleared '+prev.length+' check mark'+(prev.length===1?'':'s'), prev);
+});
+
+/* ---------- onboarding ---------- */
+function showOnboard(){ document.getElementById('onboard').hidden=false; }
+document.getElementById('onboard').addEventListener('click',e=>{
+  const b=e.target.closest('[data-ob]'); if(!b) return;
+  if(b.dataset.ob!=='skip'){
+    path=b.dataset.ob;
+    document.querySelectorAll('.path').forEach(x=>x.setAttribute('aria-pressed',x.dataset.path===path));
+  }
+  document.getElementById('onboard').hidden=true;
+  render(); save();
+});
+
+/* ---------- theme ---------- */
+function applyTheme(t){
+  if(t === 'auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('#tseg button').forEach(b =>
+    b.setAttribute('aria-pressed', b.dataset.t === t));
+}
+document.getElementById('tseg').addEventListener('click', async e => {
+  const b = e.target.closest('button'); if(!b) return;
+  applyTheme(b.dataset.t);
+  try{ await window.storage.set('mcu:theme', b.dataset.t); }catch(err){}
+});
+(async () => {
+  try{
+    const r = await window.storage.get('mcu:theme');
+    if(r && r.value) applyTheme(r.value);
+  }catch(err){}
+})();
+
+load();
+</script>
+</body>
+</html>
