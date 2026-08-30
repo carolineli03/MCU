@@ -930,6 +930,16 @@ const ERAS = [
 
 let path='recommended', order='release', thread=null;
 let watched=new Set(), storageOK=true;
+
+/* Persistence. Uses the host's storage API when this page runs inside one
+   (Claude artifacts provide window.storage); falls back to localStorage
+   everywhere else, which is what a plain static host gets. */
+const store = (window.storage && typeof window.storage.get === 'function')
+  ? window.storage
+  : {
+      async get(k){ const v = localStorage.getItem(k); return v === null ? null : {value:v}; },
+      async set(k,v){ localStorage.setItem(k,v); }
+    };
 function runtime(m){
   if(!m) return '';
   const hh=Math.floor(m/60), mm=m%60;
@@ -1139,7 +1149,7 @@ document.querySelectorAll('.toggle button').forEach(b=>b.addEventListener('click
 
 async function save(){
   if(!storageOK)return;
-  try{await window.storage.set('mcu:state',JSON.stringify({path:path,order:order,watched:[...watched],
+  try{await store.set('mcu:state',JSON.stringify({path:path,order:order,watched:[...watched],
     evlen:document.getElementById('evlen').value,
     evweek:document.getElementById('evweek').value, seen:true}));}
   catch(e){storageOK=false;}
@@ -1147,7 +1157,7 @@ async function save(){
 async function load(){
   let fresh=true;
   try{
-    const r=await window.storage.get('mcu:state');
+    const r=await store.get('mcu:state');
     if(r&&r.value){
       const s=JSON.parse(r.value);
       if(s.path)path=s.path;
@@ -1713,11 +1723,15 @@ function encodeProgress(){
   return 'MCU1-' + btoa(s).replace(/=+$/, '');
 }
 function decodeProgress(code){
-  const m = String(code).trim().toUpperCase().replace(/\s+/g, '')
-    .match(/^MCU1-([A-Z0-9+/]+)$/i);
+  /* Base64 is case-sensitive, so the payload must survive verbatim --
+     only the MCU1- prefix is matched loosely. */
+  const m = String(code).trim().replace(/\s+/g, '')
+    .match(/^MCU1-([A-Za-z0-9+/]+=*)$/i);
   if(!m) return false;
+  let b64 = m[1];
+  while(b64.length % 4) b64 += '=';
   let s;
-  try{ s = atob(m[1]); }catch(err){ return false; }
+  try{ s = atob(b64); }catch(err){ return false; }
   let bits = '';
   for(let i = 0; i < s.length; i++) bits += s.charCodeAt(i).toString(2).padStart(8, '0');
   const next = new Set();
@@ -2085,11 +2099,11 @@ function applyTheme(t){
 document.getElementById('tseg').addEventListener('click', async e => {
   const b = e.target.closest('button'); if(!b) return;
   applyTheme(b.dataset.t);
-  try{ await window.storage.set('mcu:theme', b.dataset.t); }catch(err){}
+  try{ await store.set('mcu:theme', b.dataset.t); }catch(err){}
 });
 (async () => {
   try{
-    const r = await window.storage.get('mcu:theme');
+    const r = await store.get('mcu:theme');
     if(r && r.value) applyTheme(r.value);
   }catch(err){}
 })();
