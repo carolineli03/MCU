@@ -673,10 +673,11 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
   <summary>Back up or restore progress</summary>
   <section class="progress" id="codebox">
     <span class="plabel">Your progress code</span>
-    <p class="hint" style="margin-top:6px">Ticks save automatically on this device. The code below is generated from them &mdash; copy it, then paste it in on another device to pick up where you left off.</p>
+    <p class="hint" style="margin-top:6px">Ticks save automatically on this device, and the address bar keeps a copy &mdash; bookmark this page and the bookmark restores your progress. To move to another device, send yourself the link, or paste the code in below.</p>
     <div class="coderow">
       <input id="code" readonly spellcheck="false" autocomplete="off" aria-label="Your progress code">
-      <button id="copycode" class="cbtn">Copy</button>
+      <button id="copylink" class="cbtn">Copy link</button>
+      <button id="copycode" class="cbtn alt">Code</button>
     </div>
     <p class="hint codehint" id="codehint" hidden>Tick your first title and a real code appears here.</p>
 
@@ -953,6 +954,15 @@ const store = (window.storage && typeof window.storage.get === 'function')
       async get(k){ const v = localStorage.getItem(k); return v === null ? null : {value:v}; },
       async set(k,v){ localStorage.setItem(k,v); }
     };
+
+/* Browsers evict script storage under pressure, and Safari clears it after
+   about a week without a visit. This asks to be exempt; Chrome and Firefox
+   may grant it, Safari ignores it, hence the ?p= code as the real backstop. */
+if(navigator.storage && navigator.storage.persist){
+  navigator.storage.persisted()
+    .then(ok => { if(!ok) return navigator.storage.persist(); })
+    .catch(() => {});
+}
 function runtime(m){
   if(!m) return '';
   const hh=Math.floor(m/60), mm=m%60;
@@ -1168,7 +1178,7 @@ async function save(){
   catch(e){storageOK=false;}
 }
 async function load(){
-  let fresh=true;
+  let fresh=true, cameFromLink=null;
   try{
     const r=await store.get('mcu:state');
     if(r&&r.value){
@@ -1183,8 +1193,29 @@ async function load(){
       if(s.seen) fresh=false;
     }
   }catch(e){}
+
+  /* A ?p= code beats stored state -- following a link or a bookmark should
+     land you on that progress. But it must not quietly wipe ticks already on
+     this device, so anything overwritten goes on the undo toast. */
+  let urlCode=null;
+  try{ urlCode=new URL(location.href).searchParams.get('p'); }catch(err){}
+  if(urlCode){
+    const fromLink=parseProgress(urlCode);
+    if(fromLink){
+      const prev=[...watched];
+      const same=prev.length===fromLink.size && prev.every(id=>fromLink.has(id));
+      if(!same){
+        watched=fromLink;
+        if(prev.length) cameFromLink=prev;
+        save();
+      }
+      fresh=false;
+    }
+  }
+
   if(fresh) showOnboard();
   render();
+  if(cameFromLink) toast('Loaded the progress in this link', cameFromLink, true);
 }
 const CHARS = [
 /* ---- FOUNDING AVENGERS ---- */
@@ -1736,31 +1767,60 @@ function encodeProgress(){
   return 'MCU1-' + btoa(s).replace(/=+$/, '');
 }
 function decodeProgress(code){
+  const next = parseProgress(code);
+  if(!next) return false;
+  watched = next;
+  return true;
+}
+/* Returns the Set a code describes, or null if it isn't one of ours.
+   Kept separate from decodeProgress so a code can be inspected -- e.g. one
+   arriving in the URL -- without committing it. */
+function parseProgress(code){
   /* Base64 is case-sensitive, so the payload must survive verbatim --
      only the MCU1- prefix is matched loosely. */
   const m = String(code).trim().replace(/\s+/g, '')
     .match(/^MCU1-([A-Za-z0-9+/]+=*)$/i);
-  if(!m) return false;
+  if(!m) return null;
   let b64 = m[1];
   while(b64.length % 4) b64 += '=';
   let s;
-  try{ s = atob(b64); }catch(err){ return false; }
+  try{ s = atob(b64); }catch(err){ return null; }
   let bits = '';
   for(let i = 0; i < s.length; i++) bits += s.charCodeAt(i).toString(2).padStart(8, '0');
   const next = new Set();
   ALL_IDS.forEach((id, i) => { if(bits[i] === '1') next.add(id); });
-  watched = next;
-  return true;
+  return next;
+}
+/* Mirror the code into ?p= so the address bar is itself a backup: a
+   bookmark restores progress, and the link carries it to another device.
+   Survives storage eviction, which localStorage on its own does not. */
+function syncURL(code){
+  try{
+    const u = new URL(location.href);
+    if(watched.size) u.searchParams.set('p', code); else u.searchParams.delete('p');
+    if(u.href !== location.href) history.replaceState(null, '', u.href);
+  }catch(err){ /* file:// and sandboxed hosts refuse replaceState */ }
+}
+function shareURL(){
+  try{
+    const u = new URL(location.href);
+    if(watched.size) u.searchParams.set('p', encodeProgress()); else u.searchParams.delete('p');
+    return u.href;
+  }catch(err){ return location.href; }
 }
 function refreshCode(){
   const el = document.getElementById('code');
-  if(!el || document.activeElement === el) return;
-  el.value = encodeProgress();
+  if(!el) return;
+  const code = encodeProgress();
+  syncURL(code);
+  if(document.activeElement === el) return;
+  el.value = code;
   /* With nothing ticked the code is all padding, which reads as an empty
      box waiting to be filled in. Say what it is instead. */
   const empty = watched.size === 0;
   el.classList.toggle('idle', empty);
   document.getElementById('copycode').disabled = empty;
+  document.getElementById('copylink').disabled = empty;
   const h = document.getElementById('codehint');
   if(h) h.hidden = !empty;
 }
@@ -1771,6 +1831,15 @@ function status(msg, bad){
   clearTimeout(status._t);
   status._t = setTimeout(() => { el.textContent = ''; el.classList.remove('bad'); }, 4000);
 }
+document.getElementById('copylink').addEventListener('click', async () => {
+  const url = shareURL();
+  try{
+    await navigator.clipboard.writeText(url);
+    status('Link copied \u2014 it carries your progress');
+  }catch(err){
+    status('Copy the page address from the bar above', true);
+  }
+});
 document.getElementById('copycode').addEventListener('click', async () => {
   const el = document.getElementById('code');
   el.value = encodeProgress();
@@ -2083,14 +2152,17 @@ document.getElementById('thbclear').addEventListener('click',()=>setThread(null)
 
 /* ---------- toast with undo ---------- */
 let undoState=null;
-function toast(msg,undo){
+function toast(msg,undo,sticky){
   const t=document.getElementById('toast');
   document.getElementById('toastmsg').textContent=msg;
   undoState=undo||null;
   document.getElementById('toastundo').hidden=!undo;
   t.hidden=false;
   clearTimeout(toast._t);
-  toast._t=setTimeout(()=>{t.hidden=true;undoState=null;},7000);
+  /* Seven seconds suits a toast answering a button the reader just pressed.
+     One that greets them on page load has to outlast them noticing it, so
+     the undo stays put until it is used or dismissed. */
+  if(!sticky) toast._t=setTimeout(()=>{t.hidden=true;undoState=null;},7000);
 }
 document.getElementById('toastundo').addEventListener('click',()=>{
   if(undoState){ watched=new Set(undoState); render(); save(); }
