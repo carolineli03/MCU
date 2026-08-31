@@ -419,9 +419,27 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 .planner .prow{margin-top:11px}
 .planner .prow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;
   font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:12.5px}
-.planner select{font:inherit;font-family:"Barlow Condensed";font-weight:700;font-size:12.5px;
-  padding:5px 7px;border:2.5px solid var(--line);background:var(--bg);color:var(--text)}
+/* The native macOS control renders a small grey arrow that disappears
+   against the cream fill, so the caret is drawn from two gradients in
+   var(--text) -- which means it follows the theme, unlike a data-URI SVG.
+   Sized to a 38px target and given the same hard shadow as the buttons so
+   it reads as something you press. */
+.planner select{font:inherit;font-family:"Barlow Condensed";font-weight:700;font-size:14px;
+  appearance:none;-webkit-appearance:none;cursor:pointer;min-height:38px;
+  padding:7px 26px 6px 10px;border:2.5px solid var(--line);
+  background-color:var(--bg);color:var(--text);
+  box-shadow:3px 3px 0 var(--shadow);
+  background-image:linear-gradient(45deg,transparent 50%,var(--text) 50%),
+                   linear-gradient(135deg,var(--text) 50%,transparent 50%);
+  background-position:calc(100% - 15px) calc(50% - 1px),calc(100% - 10px) calc(50% - 1px);
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+  transition:transform .1s ease,box-shadow .1s ease}
+@media (hover:hover){
+  .planner select:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--shadow)}
+}
+.planner select:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--shadow)}
 .planner select:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.planner .prow>span{font-size:13.5px}
 .planout{font-family:"Archivo Black";font-size:15px;margin-top:10px;line-height:1.3;color:var(--red-ink)}
 .planout small{display:block;font-family:"Barlow";font-weight:400;font-size:13px;
   color:var(--text);opacity:.68;margin-top:3px}
