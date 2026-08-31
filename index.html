@@ -172,7 +172,6 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
 .chart::before{content:"";position:absolute;left:var(--spine);top:6px;bottom:6px;width:5px;background:var(--line)}
 .node{position:relative;margin-bottom:14px}
 .node::before{content:"";position:absolute;left:-22px;top:26px;width:22px;height:4px;background:var(--line)}
-.node:has(.adslot)::before{display:none}
 .card{border:3px solid var(--line);background:var(--surface);color:var(--text);
   box-shadow:5px 5px 0 var(--shadow);padding:11px 13px 12px;width:100%;text-align:left;font:inherit;
   cursor:pointer;display:block;transition:transform .1s ease,box-shadow .1s ease}
@@ -548,31 +547,6 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
 .legal p:last-child{margin-bottom:0}
 @media (min-width:1000px){.legal{columns:2;column-gap:40px}.legal .lhead{column-span:all}}
 
-/* ---------- AD SLOTS ----------
-   Reserved space so ads do not shift the layout when they load (protects
-   Core Web Vitals, which both Google ranking and ad RPM care about).
-   Paste your network's code inside each .adslot and delete the .adnote. */
-.adslot{border:2.5px dashed var(--line);background:var(--tint-branch);
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  margin:26px 0;overflow:hidden;contain:layout}
-.adslot .adnote{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
-  letter-spacing:.14em;font-size:11px;opacity:.5;padding:10px;line-height:1.5}
-.adslot ins{display:block;width:100%}
-.ad-leader{min-height:110px}
-.ad-feed{min-height:270px}
-.ad-rail{min-height:260px;margin:22px 0 0}
-.ad-end{min-height:270px}
-.adlabel{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
-  letter-spacing:.16em;font-size:10px;opacity:.42;display:block;margin:20px 0 -18px;text-align:center}
-@media (min-width:1000px){
-  .ad-leader{min-height:100px}
-  .ad-feed{min-height:290px}
-}
-@media (max-width:520px){
-  .adslot{margin:20px 0}
-  .ad-leader{min-height:110px}
-  .ad-feed,.ad-end{min-height:260px}
-}
 
 /* ---------- PROGRESS CODE ---------- */
 .coderow{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
@@ -662,11 +636,6 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
   </nav>
 
 
-  <span class="adlabel">Advertisement</span>
-  <div class="adslot ad-leader">
-    <!-- PASTE AD CODE HERE -->
-    <span class="adnote">Leaderboard slot &middot; 728&times;90 desktop, 320&times;100 mobile</span>
-  </div>
 
   <div class="pane" id="pane-watch" role="tabpanel" aria-labelledby="tab-watch">
 
@@ -764,11 +733,6 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
 
 
 
-  <span class="adlabel">Advertisement</span>
-  <div class="adslot ad-rail">
-    <!-- PASTE AD CODE HERE -->
-    <span class="adnote">Sidebar slot &middot; 300&times;250 &middot; desktop only</span>
-  </div>
 
   </aside>
 
@@ -780,11 +744,6 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
   </div>
   <main class="chart" id="chart"></main>
 
-  <span class="adlabel">Advertisement</span>
-  <div class="adslot ad-end">
-    <!-- PASTE AD CODE HERE -->
-    <span class="adnote">End-of-content slot &middot; 336&times;280 or responsive</span>
-  </div>
 
   <div class="finale">
     <span class="ft">Then: Doomsday.</span>
@@ -854,13 +813,6 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
 
 <script>
 
-const AD_EVERY = 16;   /* an in-feed unit after every N titles */
-function adFeedHTML(){
-  return '<div class="node" style="--x:0"><span class="adlabel" style="margin:0 0 6px">Advertisement</span>'
-   + '<div class="adslot ad-feed" style="margin:0">'
-   + '<!-- PASTE IN-FEED AD CODE HERE -->'
-   + '<span class="adnote">In-feed slot &middot; responsive</span></div></div>';
-}
 
 /* set = in-universe. rel = release. s = chronological sort key. */
 const DATA = [
@@ -1069,7 +1021,6 @@ function render(){
       if(pend){html+=ribbon(pend.n,pend.ttl,pend.note);pend=null;}
       seen.push(row.id);
       html+='<div class="node">'+cardHTML(row,++num)+'</div>';
-      if(num%AD_EVERY===0) html+=adFeedHTML();
     });
     flush();
   }else{
@@ -1079,7 +1030,6 @@ function render(){
       const ei=ERAS.findIndex(e=>it.s>=e.min&&it.s<=e.max);
       if(ei!==cur){cur=ei;const e=ERAS[ei];html+=ribbon(e.n,e.ttl,e.note);}
       html+='<div class="node">'+cardHTML(it,++num)+'</div>';
-      if(num%AD_EVERY===0) html+=adFeedHTML();
     });
     DATA.filter(r=>r.t==='branch').forEach(b=>{html+=branchHTML(b);});
   }
