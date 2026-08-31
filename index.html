@@ -134,20 +134,18 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 .path[aria-pressed="true"] .pmeta{opacity:.9}
 
 /* ---------- ORDER TOGGLE ---------- */
-.orderbar{margin:22px 0 0;border:3px solid var(--line);background:var(--surface);
-  box-shadow:5px 5px 0 var(--shadow);padding:12px 13px}
-.orderbar .olabel{font-family:"Archivo Black";font-size:13px;letter-spacing:.04em;
-  text-transform:uppercase;display:block;margin-bottom:9px}
-.toggle{display:flex;border:3px solid var(--line);overflow:hidden}
-.toggle button{flex:1;font:inherit;color:var(--text);background:var(--surface);border:none;
-  cursor:pointer;padding:10px 8px;font-family:"Barlow Condensed";font-weight:700;
-  text-transform:uppercase;letter-spacing:.09em;font-size:14px;line-height:1.1}
-.toggle button+button{border-left:3px solid var(--line)}
-.toggle button[aria-pressed="true"]{background:var(--blue);color:var(--on-accent)}
-.toggle button:disabled{opacity:.4;cursor:not-allowed}
-.toggle button:disabled[aria-pressed="true"]{background:var(--bg);color:var(--text)}
-.toggle button:focus-visible{outline:3px solid var(--red);outline-offset:-6px}
-.ordernote{font-size:13.5px;margin-top:10px;line-height:1.35;font-style:italic;opacity:.75}
+/* Sits directly above the chart it controls rather than in the sidebar,
+   and reads as a light row instead of a bordered card -- findable when
+   looked for, not competing with the timeline for attention. */
+.sortbar{margin:0 0 14px}
+.sortrow{display:flex;align-items:center;gap:10px}
+.slabel{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+  letter-spacing:.16em;font-size:11px;opacity:.55;flex:none}
+.sortbar .toggle{border-width:2px;flex:0 1 auto}
+.sortbar .toggle button{padding:5px 12px 4px;font-size:12px;letter-spacing:.08em}
+.sortbar .toggle button+button{border-left-width:2px}
+.sortbar .toggle button[aria-pressed="true"]{background:var(--invert-bg);color:var(--invert-text)}
+.ordernote{font-size:12.5px;margin-top:7px;line-height:1.35;font-style:italic;opacity:.6}
 
 /* ---------- PROGRESS ---------- */
 .progress{margin:22px 0 6px;border:3px solid var(--line);background:var(--surface);
@@ -409,6 +407,16 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 
 /* ---------- PLANNER ---------- */
 .planner{border-top:2.5px dashed var(--line);margin-top:12px;padding-top:11px}
+/* The answer stays on the summary line so collapsing hides the controls,
+   not the payoff. */
+.plansum{font-family:"Archivo Black";font-size:15px;line-height:1.3;color:var(--red-ink);
+  cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:8px}
+.plansum::-webkit-details-marker{display:none}
+.plansum::after{content:'\25BE';font-family:inherit;font-size:11px;opacity:.55;
+  margin-left:auto;flex:none;transition:transform .15s ease}
+.planner[open] .plansum::after{transform:rotate(180deg)}
+.plansum:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.planner .prow{margin-top:11px}
 .planner .prow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;
   font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:12.5px}
 .planner select{font:inherit;font-family:"Barlow Condensed";font-weight:700;font-size:12.5px;
@@ -602,7 +610,7 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   .phase::before{left:-15px;width:15px}
   .branch{margin-left:10px}
   .branch::before{left:-25px;width:25px}
-  .card,.path,.progress,.searchbar,.orderbar,.caption-box,.ch,.tabs{box-shadow:4px 4px 0 var(--shadow)}
+  .card,.path,.progress,.searchbar,.caption-box,.ch,.tabs{box-shadow:4px 4px 0 var(--shadow)}
   .card:hover{transform:none;box-shadow:4px 4px 0 var(--shadow)}
   .path:hover{transform:none;box-shadow:4px 4px 0 var(--shadow)}
   .ttl{font-size:15.5px}
@@ -695,15 +703,6 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
     </div>
   </section>
 
-  <section class="orderbar">
-    <span class="olabel">Sort the chart by</span>
-    <div class="toggle">
-      <button data-order="release" aria-pressed="true">Release order</button>
-      <button data-order="story" aria-pressed="false">Story order</button>
-    </div>
-    <p class="ordernote" id="ordernote"></p>
-  </section>
-
   <section class="progress">
     <div class="ptop">
       <span class="plabel">Watched on this path</span>
@@ -712,7 +711,8 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
     <div class="bar"><span id="pbar"></span></div>
     <div class="hourline" id="phours"></div>
     <div class="hint" id="phint">Tap a panel to mark it watched.</div>
-    <div class="planner">
+    <details class="planner">
+      <summary class="plansum" id="plansum">How long will this take?</summary>
       <div class="prow">
         <span>An evening is</span>
         <select id="evlen" aria-label="Length of one viewing session">
@@ -726,7 +726,7 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
         </select>
       </div>
       <div class="planout" id="planout"></div>
-    </div>
+    </details>
     <button class="reset" id="reset">Clear all check marks</button>
   </section>
 
@@ -740,6 +740,16 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   <div class="thbanner" id="thbanner" hidden>
     <span><b id="thbname"></b><small id="thbsub"></small></span>
     <button id="thbclear">Show everything</button>
+  </div>
+  <div class="sortbar">
+    <div class="sortrow">
+      <span class="slabel">Sort</span>
+      <div class="toggle">
+        <button data-order="release" aria-pressed="true">Release order</button>
+        <button data-order="story" aria-pressed="false">Story order</button>
+      </div>
+    </div>
+    <p class="ordernote" id="ordernote"></p>
   </div>
   <main class="chart" id="chart"></main>
 
@@ -1058,13 +1068,15 @@ function paintPlan(list){
   const out=document.getElementById('planout'); if(!out) return;
   const evl=parseFloat(document.getElementById('evlen').value);
   const evw=parseFloat(document.getElementById('evweek').value);
+  const sum=document.getElementById('plansum');
   const hrs=hoursOf(list.filter(r=>!watched.has(r.id)));
-  if(!hrs){out.innerHTML='Nothing left on this path.';return;}
+  if(!hrs){ if(sum) sum.textContent='Nothing left on this path.'; out.innerHTML=''; return; }
   const evenings=Math.ceil(hrs/evl), weeks=Math.ceil(evenings/evw);
   const done=new Date(Date.now()+weeks*7*864e5);
   const dd=new Date(2026,11,18), days=Math.ceil((dd-Date.now())/864e5);
-  out.innerHTML='About '+evenings+' evening'+(evenings===1?'':'s')+', or '+weeks+' week'+(weeks===1?'':'s')
-   +' at that pace.<small>Finishing around '+done.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})
+  if(sum) sum.textContent='About '+evenings+' evening'+(evenings===1?'':'s')+', or '+weeks
+   +' week'+(weeks===1?'':'s')+' at that pace.';
+  out.innerHTML='<small>Finishing around '+done.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})
    +'. Doomsday is in '+days+' days'
    +(days>0 ? (weeks*7<=days ? ' \u2014 you are on track.' : ' \u2014 you would need '+Math.ceil(hrs/(days/7))+' hrs a week to make it.') : '.')
    +'</small>';
