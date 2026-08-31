@@ -6,20 +6,20 @@
 <meta name="color-scheme" content="light dark">
 <title>The MCU, In Order</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%2314100D'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='40' font-weight='bold' text-anchor='middle' fill='%23D92B1C'%3EM%3C/text%3E%3C/svg%3E">
-<meta name="description" content="Every Marvel film and series in the order that actually works. Release order against story order, runtimes, what to skip, and ticks that remember where you are.">
+<meta name="description" content="Where to start with Marvel, and what to watch next. Release order against story order, runtimes, what to skip, and ticks that remember where you left off.">
 <link rel="canonical" href="https://mcu-breakdown.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The MCU, In Order">
 <meta property="og:url" content="https://mcu-breakdown.vercel.app/">
 <meta property="og:title" content="The MCU, In Order">
-<meta property="og:description" content="Every Marvel film and series in the order that actually works. Release order against story order, runtimes, what to skip, and ticks that remember where you are.">
+<meta property="og:description" content="Where to start with Marvel, and what to watch next. Release order against story order, runtimes, what to skip, and ticks that remember where you left off.">
 <meta property="og:image" content="https://mcu-breakdown.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The MCU, in the order that works -- 63 titles, released vs. set in">
+<meta property="og:image:alt" content="The MCU -- where to start, and what’s next">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The MCU, In Order">
-<meta name="twitter:description" content="Every Marvel film and series in the order that actually works. Release order against story order, runtimes, what to skip, and ticks that remember where you are.">
+<meta name="twitter:description" content="Where to start with Marvel, and what to watch next. Release order against story order, runtimes, what to skip, and ticks that remember where you left off.">
 <meta name="twitter:image" content="https://mcu-breakdown.vercel.app/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,12 +88,15 @@ body{
 .tseg button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 
 /* ---------- COVER ---------- */
-.cover{padding:22px 0 18px;text-align:center}
+.cover{padding:22px 12px 18px;text-align:center}
 h1{font-family:"Bangers";font-weight:400;margin:0;
   font-size:clamp(52px,15vw,104px);line-height:.86;letter-spacing:.02em;color:var(--red-ink);
   text-shadow:3px 3px 0 var(--line),-1px -1px 0 var(--line),1px -1px 0 var(--line),
    -1px 1px 0 var(--line),6px 6px 0 var(--h1-drop)}
-h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var(--yellow);margin-top:6px}
+/* Clamped rather than a plain fraction of the h1: at desktop widths .42em
+   still wins, but on a phone the longer tagline would otherwise run the
+   full screen width with no gutter. */
+h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-shadow:2px 2px 0 var(--yellow);margin-top:6px}
 .caption-box{background:var(--yellow);color:var(--on-warm);border:3px solid var(--line);
   box-shadow:5px 5px 0 var(--shadow);padding:11px 14px;margin:22px auto 0;max-width:520px;
   text-align:left;font-size:15px}
@@ -622,7 +625,7 @@ h1 .sm{display:block;font-size:.42em;color:var(--text);text-shadow:2px 2px 0 var
   </div>
 
   <header class="cover">
-    <h1>The MCU<span class="sm">in the order that works</span></h1>
+    <h1>The MCU<span class="sm">where to start, and what’s next</span></h1>
   </header>
 
   <nav class="tabs" role="tablist">
