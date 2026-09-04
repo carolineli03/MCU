@@ -245,16 +245,12 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   background:var(--bg);color:var(--text);font-family:"Barlow"}
 #q::placeholder{color:var(--text);opacity:.45;font-style:italic}
 #q:focus{outline:3px solid var(--blue);outline-offset:2px}
-.groups{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
-.gbtn{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.09em;
-  font-size:12px;padding:6px 10px 5px;border:2.5px solid var(--line);background:var(--bg);
-  color:var(--text);cursor:pointer;transition:background .1s ease,color .1s ease}
-.gbtn[aria-pressed="true"]{background:var(--invert-bg);color:var(--invert-text)}
-.gbtn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-.rolerow{display:flex;align-items:center;gap:9px;margin-top:12px;
+.rolerow,.grouprow{display:flex;align-items:center;gap:9px;margin-top:12px;
   border-top:2.5px dashed var(--line);padding-top:11px}
-.rolerow>span{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
+.rolerow>span,.grouprow>span{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
   letter-spacing:.14em;font-size:11px;opacity:.55}
+/* Fills the row on a phone instead of wrapping to twelve pills. */
+.grouprow .selctl{flex:1 1 auto;max-width:260px}
 .ch.sup .cn{font-size:22px}
 .suptag{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
   letter-spacing:.1em;font-size:10px;border:2px solid var(--line);padding:2px 6px 1px;
@@ -424,7 +420,7 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
    var(--text) -- which means it follows the theme, unlike a data-URI SVG.
    Sized to a 38px target and given the same hard shadow as the buttons so
    it reads as something you press. */
-.planner select{font:inherit;font-family:"Barlow Condensed";font-weight:700;font-size:14px;
+.selctl{font:inherit;font-family:"Barlow Condensed";font-weight:700;font-size:14px;
   appearance:none;-webkit-appearance:none;cursor:pointer;min-height:38px;
   padding:7px 26px 6px 10px;border:2.5px solid var(--line);
   background-color:var(--bg);color:var(--text);
@@ -435,10 +431,10 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   background-size:5px 5px,5px 5px;background-repeat:no-repeat;
   transition:transform .1s ease,box-shadow .1s ease}
 @media (hover:hover){
-  .planner select:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--shadow)}
+  .selctl:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--shadow)}
 }
-.planner select:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--shadow)}
-.planner select:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.selctl:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--shadow)}
+.selctl:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .planner .prow>span{font-size:13.5px}
 .planout{font-family:"Archivo Black";font-size:15px;margin-top:10px;line-height:1.3;color:var(--red-ink)}
 .planout small{display:block;font-family:"Barlow";font-weight:400;font-size:13px;
@@ -733,12 +729,12 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
       <summary class="plansum" id="plansum">How long will this take?</summary>
       <div class="prow">
         <span>An evening is</span>
-        <select id="evlen" aria-label="Length of one viewing session">
+        <select class="selctl" id="evlen" aria-label="Length of one viewing session">
           <option value="1">1 hour</option><option value="1.5">1.5 hours</option>
           <option value="2" selected>2 hours</option><option value="3">3 hours</option>
         </select>
         <span>and I watch</span>
-        <select id="evweek" aria-label="Sessions per week">
+        <select class="selctl" id="evweek" aria-label="Sessions per week">
           <option value="1">1 a week</option><option value="2" selected>2 a week</option>
           <option value="3">3 a week</option><option value="5">5 a week</option><option value="7">every night</option>
         </select>
@@ -790,7 +786,10 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
     <section class="searchbar">
       <label for="q">Find a character</label>
       <input id="q" type="search" placeholder="Try a name, an alias, or an actor…" autocomplete="off">
-      <div class="groups" id="groups"></div>
+      <div class="grouprow">
+        <span>Group</span>
+        <select class="selctl" id="groupsel" aria-label="Filter characters by group"></select>
+      </div>
       <div class="rolerow">
         <span>Show</span>
         <div class="tseg" id="roleseg">
@@ -1689,17 +1688,12 @@ function renderChars(){
 
 /* group filter buttons */
 (function buildGroups(){
-  const wrap = document.getElementById('groups');
+  const sel = document.getElementById('groupsel');
   const all = [{k:'all', label:'Everyone'}].concat(GROUPS.map(g => ({k:g.k, label:g.k})));
-  wrap.innerHTML = all.map(g =>
-    '<button class="gbtn" data-g="' + g.k + '" aria-pressed="' + (g.k === 'all') + '">' + g.label + '</button>'
+  sel.innerHTML = all.map(g =>
+    '<option value="' + g.k + '">' + esc(g.label) + '</option>'
   ).join('');
-  wrap.addEventListener('click', e => {
-    const b = e.target.closest('.gbtn'); if(!b) return;
-    cgroup = b.dataset.g;
-    wrap.querySelectorAll('.gbtn').forEach(x => x.setAttribute('aria-pressed', x === b));
-    renderChars();
-  });
+  sel.addEventListener('change', () => { cgroup = sel.value; renderChars(); });
 })();
 
 document.getElementById('roleseg').addEventListener('click', e => {
@@ -2096,7 +2090,7 @@ document.getElementById('sheet').addEventListener('click',e=>{
     document.getElementById('tab-chars').click();
     const q=document.getElementById('q');
     q.value=name; cq=name.toLowerCase(); cgroup='all';
-    document.querySelectorAll('.gbtn').forEach(x=>x.setAttribute('aria-pressed',x.dataset.g==='all'));
+    const gs=document.getElementById('groupsel'); if(gs) gs.value='all';
     renderChars();
   }
 });
