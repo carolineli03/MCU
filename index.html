@@ -392,12 +392,25 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 .planner{border-top:2.5px dashed var(--line);margin-top:12px;padding-top:11px}
 /* The answer stays on the summary line so collapsing hides the controls,
    not the payoff. */
-.plansum{font-family:"Archivo Black";font-size:15px;line-height:1.3;color:var(--red-ink);
-  cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:8px}
+.plansum{cursor:pointer;list-style:none;display:block}
 .plansum::-webkit-details-marker{display:none}
-.plansum::after{content:'\25BE';font-family:inherit;font-size:11px;opacity:.55;
-  margin-left:auto;flex:none;transition:transform .15s ease}
-.planner[open] .plansum::after{transform:rotate(180deg)}
+.psumfig{font-family:"Archivo Black";font-size:15px;line-height:1.3;color:var(--red-ink);display:block}
+/* The old affordance was an 11px glyph at 55% opacity, in a display face
+   that may not even carry it -- nobody could tell the row opened. This is
+   a control shaped like the site's other buttons. */
+.psumcta{display:inline-flex;align-items:center;gap:7px;margin-top:8px;
+  font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.12em;
+  font-size:11.5px;color:var(--text);border:2.5px solid var(--line);background:var(--bg);
+  padding:5px 10px 4px;box-shadow:2px 2px 0 var(--shadow);
+  transition:transform .1s ease,box-shadow .1s ease}
+/* Drawn with borders rather than a character, so it cannot fail to render. */
+.psumcta i{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;
+  border-top:6px solid currentColor;display:inline-block;transition:transform .15s ease}
+.planner[open] .psumcta i{transform:rotate(180deg)}
+@media (hover:hover){
+  .plansum:hover .psumcta{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--shadow)}
+}
+.plansum:active .psumcta{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--shadow)}
 .plansum:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 .planner .prow{margin-top:11px}
 .planner .prow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;
@@ -707,7 +720,10 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
     <div class="hourline" id="phours"></div>
     <div class="hint" id="phint">Tap a panel to mark it watched.</div>
     <details class="planner">
-      <summary class="plansum" id="plansum">How long will this take?</summary>
+      <summary class="plansum">
+        <span class="psumfig" id="plansum">How long will this take?</span>
+        <span class="psumcta">Adjust my pace<i></i></span>
+      </summary>
       <div class="prow">
         <span>An evening is</span>
         <select class="selctl" id="evlen" aria-label="Length of one viewing session">
