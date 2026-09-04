@@ -180,7 +180,7 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
    watched, then clears itself -- the persistent done state is the struck
    title and faded panel, not this. Suppressed under prefers-reduced-motion
    by the global rule further down. */
-.card.juststamped::after{
+.juststamped::after{
   content:'\2714';position:absolute;inset:0;z-index:3;pointer-events:none;
   display:flex;align-items:center;justify-content:center;
   font-family:"Bangers";font-size:88px;line-height:1;color:var(--red);
@@ -192,6 +192,9 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   48%{transform:scale(.98) rotate(-8deg)}
   62%{opacity:1;transform:scale(1) rotate(-8deg)}
   100%{opacity:0;transform:scale(1.04) rotate(-8deg)}}
+/* The panel is showing frozen content while it stamps, so its buttons
+   must not be clickable -- they still carry the old title's id. */
+#nextup.juststamped{pointer-events:none}
 
 /* ---------- RIBBON ---------- */
 .phase{position:relative;margin:34px 0 18px}
@@ -1129,7 +1132,22 @@ function toggleWatched(id){
 }
 document.addEventListener('click',e=>{
   const t=e.target.closest('[data-tick]');
-  if(t){ toggleWatched(t.dataset.tick); return; }
+  if(t){
+    const id=t.dataset.tick, box=t.closest('#nextup');
+    /* Marking from Next up: the panel repaints to the following title the
+       instant state changes, so hold it on the one just ticked until the
+       stamp has played -- otherwise the tick lands on the wrong film. */
+    if(box && !watched.has(id)){
+      const frozen=box.innerHTML;
+      toggleWatched(id);
+      box.innerHTML=frozen;
+      box.classList.add('juststamped');
+      setTimeout(()=>{ box.classList.remove('juststamped'); paintNextUp(); },700);
+    } else {
+      toggleWatched(id);
+    }
+    return;
+  }
   const o=e.target.closest('[data-open]');
   if(o){
     if(!document.getElementById('pane-watch') || document.getElementById('pane-watch').hidden){
