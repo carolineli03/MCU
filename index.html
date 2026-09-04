@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light">
 <title>The MCU, In Order</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%2314100D'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='40' font-weight='bold' text-anchor='middle' fill='%23D92B1C'%3EM%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Where to start with Marvel, and what to watch next. Release order against story order, runtimes, what to skip, and ticks that remember where you left off.">
@@ -26,7 +26,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Archivo+Black&family=Barlow+Condensed:wght@600;700&family=Barlow:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  color-scheme:light dark;
+  color-scheme:light;
   --bg:#EFE4CD; --surface:#FBF6EA; --line:#14100D; --text:#14100D;
   --shadow:#14100D;
   --invert-bg:#14100D; --invert-text:#EFE4CD;
@@ -40,31 +40,6 @@
   --h1-drop:rgba(20,16,13,.18);
   --spine:26px;
 }
-@media (prefers-color-scheme:dark){ html:not([data-theme="light"]){
-    --bg:#1A1610; --surface:#252017; --line:#E9DFC6; --text:#EFE6D2;
-    --shadow:#0A0806;
-    --invert-bg:#E9DFC6; --invert-text:#1A1610;
-    --tab-on-bg:#E9DFC6; --tab-on-text:#1A1610;
-    --ribbon-bg:#E9DFC6; --ribbon-text:#1A1610; --ribbon-eyebrow:#AE2E17;
-    --red:#CE3220; --red-ink:#FF5B45; --blue:#3B5EDB; --blue-ink:#8AA5FF;
-    --yellow:#F0BE38; --on-accent:#FBF6EA; --on-warm:#17130E;
-    --tint-blue:rgba(138,165,255,.13); --tint-red:rgba(255,91,69,.13);
-    --tint-branch:rgba(138,165,255,.09);
-    --done-bg:rgba(233,223,198,.06); --done-shadow:rgba(233,223,198,.26);
-    --h1-drop:rgba(0,0,0,.55); } }
-html[data-theme="dark"]{
-    --bg:#1A1610; --surface:#252017; --line:#E9DFC6; --text:#EFE6D2;
-    --shadow:#0A0806;
-    --invert-bg:#E9DFC6; --invert-text:#1A1610;
-    --tab-on-bg:#E9DFC6; --tab-on-text:#1A1610;
-    --ribbon-bg:#E9DFC6; --ribbon-text:#1A1610; --ribbon-eyebrow:#AE2E17;
-    --red:#CE3220; --red-ink:#FF5B45; --blue:#3B5EDB; --blue-ink:#8AA5FF;
-    --yellow:#F0BE38; --on-accent:#FBF6EA; --on-warm:#17130E;
-    --tint-blue:rgba(138,165,255,.13); --tint-red:rgba(255,91,69,.13);
-    --tint-branch:rgba(138,165,255,.09);
-    --done-bg:rgba(233,223,198,.06); --done-shadow:rgba(233,223,198,.26);
-    --h1-drop:rgba(0,0,0,.55); }
-
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 html{background:var(--bg);-webkit-text-size-adjust:100%}
@@ -75,10 +50,7 @@ body{
 }
 .wrap{max-width:760px;margin:0 auto;padding:0 16px}
 
-/* ---------- THEME SWITCH ---------- */
-.themebar{display:flex;align-items:center;justify-content:flex-end;gap:9px;padding:14px 0 0}
-.themebar>span{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
-  letter-spacing:.14em;font-size:11px;opacity:.55}
+/* .tseg is still used by the character-list role switch. */
 .tseg{display:flex;border:2.5px solid var(--line)}
 .tseg button{font:inherit;color:var(--text);background:var(--surface);border:none;cursor:pointer;
   padding:5px 10px 4px;font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;
@@ -204,10 +176,22 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 .card.done{background:var(--done-bg);box-shadow:2px 2px 0 var(--done-shadow);transform:translate(3px,3px)}
 .card.done .ttl,.card.done .why{opacity:.42;text-decoration:line-through;text-decoration-thickness:2px}
 .card.done .tags,.card.done .dates,.card.done .gapnote{opacity:.42}
-.check{position:absolute;right:-8px;top:-10px;width:34px;height:34px;background:var(--yellow);
-  color:var(--on-warm);border:3px solid var(--line);border-radius:50%;display:none;align-items:center;
-  justify-content:center;font-family:"Bangers";font-size:20px;line-height:1;transform:rotate(-8deg)}
-.card.done .check{display:flex}
+/* Confirmation that a tap registered. Runs once on the card just marked
+   watched, then clears itself -- the persistent done state is the struck
+   title and faded panel, not this. Suppressed under prefers-reduced-motion
+   by the global rule further down. */
+.card.juststamped::after{
+  content:'\2714';position:absolute;inset:0;z-index:3;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Bangers";font-size:88px;line-height:1;color:var(--red);
+  background:rgba(255,196,46,.42);
+  animation:stamp .68s cubic-bezier(.2,.9,.3,1) forwards}
+@keyframes stamp{
+  0%{opacity:0;transform:scale(.35) rotate(-16deg)}
+  30%{opacity:1;transform:scale(1.14) rotate(-5deg)}
+  48%{transform:scale(.98) rotate(-8deg)}
+  62%{opacity:1;transform:scale(1) rotate(-8deg)}
+  100%{opacity:0;transform:scale(1.04) rotate(-8deg)}}
 
 /* ---------- RIBBON ---------- */
 .phase{position:relative;margin:34px 0 18px}
@@ -631,20 +615,14 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   .why{font-size:14px}
   .ribbon .pt{font-size:26px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* Pseudo-elements need naming explicitly -- * does not match them, which
+   would have let the watched stamp animate through this. */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{
+  transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-
-  <div class="themebar">
-    <span>Theme</span>
-    <div class="tseg" id="tseg">
-      <button data-t="auto" aria-pressed="true">Auto</button>
-      <button data-t="light" aria-pressed="false">Light</button>
-      <button data-t="dark" aria-pressed="false">Dark</button>
-    </div>
-  </div>
 
   <header class="cover">
     <h1>The MCU<span class="sm">where to start, and what’s next</span></h1>
@@ -1136,8 +1114,17 @@ function updateProgress(){
   refreshCode();
 }
 function toggleWatched(id){
+  const marking = !watched.has(id);
   if(watched.has(id)) watched.delete(id); else watched.add(id);
   render(); save();
+  /* render() rebuilds the chart, so the element to animate is the fresh
+     one -- look it up after, not before. Only on the way to watched;
+     un-ticking should not celebrate. */
+  if(marking){
+    const el=document.querySelector('.card[data-id="'+id+'"]');
+    if(el){ el.classList.add('juststamped');
+      setTimeout(()=>el.classList.remove('juststamped'),700); }
+  }
   if(sheetId===id) openSheet(id);
 }
 document.addEventListener('click',e=>{
@@ -2174,25 +2161,6 @@ document.getElementById('onboard').addEventListener('click',e=>{
   document.getElementById('onboard').hidden=true;
   render(); save();
 });
-
-/* ---------- theme ---------- */
-function applyTheme(t){
-  if(t === 'auto') document.documentElement.removeAttribute('data-theme');
-  else document.documentElement.setAttribute('data-theme', t);
-  document.querySelectorAll('#tseg button').forEach(b =>
-    b.setAttribute('aria-pressed', b.dataset.t === t));
-}
-document.getElementById('tseg').addEventListener('click', async e => {
-  const b = e.target.closest('button'); if(!b) return;
-  applyTheme(b.dataset.t);
-  try{ await store.set('mcu:theme', b.dataset.t); }catch(err){}
-});
-(async () => {
-  try{
-    const r = await store.get('mcu:theme');
-    if(r && r.value) applyTheme(r.value);
-  }catch(err){}
-})();
 
 load();
 </script>
