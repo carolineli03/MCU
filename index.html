@@ -839,35 +839,49 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 
 /* set = in-universe. rel = release. s = chronological sort key. */
 const DATA = [
-{t:'phase',n:'Phase One',ttl:'Assemble',note:'Six films, one post-credits promise. The tone is still figuring itself out.'},
+{t:'phase',n:'Before Phase One',ttl:'The Fox Years',note:'Fox\u2019s mutant films, a separate universe until Deadpool & Wolverine folds it into canon. They came first, so they lead.'},
+{t:'i',id:'xmen',m:104,title:'X-Men',rel:'14 Jul 2000',set:'The not-too-distant future',s:8060,kind:'Fox film',tier:'recommended',why:'Where Fox\u2019s run starts, with the Xavier, Magneto, Cyclops and Mystique Doomsday is bringing back.'},
+{t:'i',id:'x2',m:134,title:'X2',rel:'2 May 2003',set:'Months after X-Men',s:8070,kind:'Fox film',tier:'recommended',why:'Still the best of the originals. Nightcrawler arrives, and Jean Grey\u2019s arc is set up.'},
+{t:'i',id:'xmen3',m:104,title:'X-Men: The Last Stand',rel:'26 May 2006',set:'Years after X2',s:8080,kind:'Fox film',tier:'optional',why:'Closes the original trilogy badly. Days of Future Past exists partly to undo it.'},
+{t:'phase',n:'Phase One',ttl:'Assemble',note:'Six Marvel Studios films, one post-credits promise. The tone is still figuring itself out.'},
 {t:'i',id:'ironman',m:126,title:'Iron Man',rel:'2 May 2008',set:'2010',s:2010.1,kind:'Film',tier:'essential',why:'The one that started everything. Still holds up better than it has any right to.'},
 {t:'i',id:'hulk',m:112,title:'The Incredible Hulk',rel:'13 Jun 2008',set:'2011',s:2011.1,kind:'Film',tier:'optional',why:'The odd one out — different Banner, barely referenced again. Skip until you get curious.'},
+{t:'i',id:'origins',m:107,title:'X-Men Origins: Wolverine',rel:'1 May 2009',set:'1979, with flashbacks to 1845',s:8030,kind:'Fox film',tier:'optional',why:'Logan\u2019s backstory, and a version of Deadpool the later films never stop mocking.'},
 {t:'i',id:'im2',m:124,title:'Iron Man 2',rel:'7 May 2010',set:'2011',s:2011.2,kind:'Film',tier:'recommended',why:'Weakest of the trilogy, but introduces Black Widow and Rhodey in the suit.'},
 {t:'i',id:'thor',m:115,title:'Thor',rel:'6 May 2011',set:'2011',s:2011.3,kind:'Film',tier:'recommended',why:'Shakespeare in space. Sets up Loki, who is about to become very important.'},
+{t:'i',id:'firstclass',m:131,title:'X-Men: First Class',rel:'3 Jun 2011',set:'1962',s:8010,kind:'Fox film',tier:'optional',why:'Young Charles and Erik during the Cuban Missile Crisis. The younger cast Days of Future Past needs.'},
 {t:'i',id:'cap1',m:124,title:'Captain America: The First Avenger',rel:'22 Jul 2011',set:'1943–1945',s:1943,kind:'Film',tier:'essential',why:'A WWII adventure that pays off for the next fifteen years. Steve\u2019s whole deal starts here.'},
 {t:'i',id:'avengers',m:143,title:'The Avengers',rel:'4 May 2012',set:'2012',s:2012.1,kind:'Film',tier:'essential',why:'The payoff nobody thought was possible. Everything before this was setup.'},
 
 {t:'phase',n:'Phase Two',ttl:'Expand',note:'Marvel starts taking swings — a heist comedy, a space opera, a paranoid thriller.'},
 {t:'i',id:'im3',m:130,title:'Iron Man 3',rel:'3 May 2013',set:'Christmas 2012',s:2012.9,kind:'Film',tier:'recommended',why:'Tony with PTSD and no suit. Divisive twist, genuinely great character work.'},
+{t:'i',id:'thewolverine',m:126,title:'The Wolverine',rel:'26 Jul 2013',set:'After The Last Stand',s:8090,kind:'Fox film',tier:'optional',why:'A standalone Logan story in Japan. Skippable, but its credits lead straight into Days of Future Past.'},
 {t:'i',id:'tdw',m:112,title:'Thor: The Dark World',rel:'8 Nov 2013',set:'2013',s:2013.1,kind:'Film',tier:'optional',why:'Widely agreed low point. One plot thread matters later; the rest you can miss.'},
 {t:'i',id:'winter',m:136,title:'Captain America: The Winter Soldier',rel:'4 Apr 2014',set:'2014',s:2014.1,kind:'Film',tier:'essential',why:'A 70s conspiracy thriller in a cape. Blows up the status quo permanently.'},
+{t:'i',id:'dofp',m:132,title:'X-Men: Days of Future Past',rel:'23 May 2014',set:'1973 and a ruined future',s:8020,kind:'Fox film',tier:'recommended',why:'Both casts in one film. If you watch one pre-Deadpool X-Men film, make it this.'},
 {t:'i',id:'gotg',m:121,title:'Guardians of the Galaxy',rel:'1 Aug 2014',set:'2014',s:2014.2,kind:'Film',tier:'essential',why:'A talking raccoon, a great soundtrack, and the cosmic half of the universe opens up.'},
 {t:'i',id:'aou',m:141,title:'Avengers: Age of Ultron',rel:'1 May 2015',set:'2015',s:2015.1,kind:'Film',tier:'essential',why:'Overstuffed, but it introduces Wanda and Vision — both load-bearing later.'},
 {t:'i',id:'antman',m:117,title:'Ant-Man',rel:'17 Jul 2015',set:'2015',s:2015.2,kind:'Film',tier:'recommended',why:'Small, funny, low-stakes palate cleanser. Quietly plants the Quantum Realm.'},
 
-{t:'phase',n:'Phase Three',ttl:'The Snap',note:'The best sustained run in the franchise. Eleven films, one enormous landing.'},
+{t:'phase',n:'Phase Three',ttl:'The Snap',note:'The best sustained run in the franchise. Eleven Marvel Studios films, one enormous landing.'},
+{t:'i',id:'deadpool',m:108,title:'Deadpool',rel:'12 Feb 2016',set:'2016',s:8100,kind:'Fox film',tier:'recommended',why:'Wade\u2019s origin. Deadpool & Wolverine assumes you already know him.'},
 {t:'i',id:'civil',m:147,title:'Captain America: Civil War',rel:'6 May 2016',set:'2016',s:2016.1,kind:'Film',tier:'essential',why:'The Avengers break up. Also the best Spider-Man and Black Panther introductions you could ask for.'},
+{t:'i',id:'apocalypse',m:144,title:'X-Men: Apocalypse',rel:'27 May 2016',set:'1983',s:8040,kind:'Fox film',tier:'optional',why:'The prequel cast in the 1980s, mostly setting up Dark Phoenix. Completists only.'},
 {t:'i',id:'strange',m:115,title:'Doctor Strange',rel:'4 Nov 2016',set:'2016–2017',s:2016.5,kind:'Film',tier:'essential',why:'Magic enters the chat. Visually the most inventive film of this stretch.'},
+{t:'i',id:'logan',m:137,title:'Logan',rel:'3 Mar 2017',set:'2029',s:8120,kind:'Fox film',tier:'recommended',why:'Wolverine\u2019s ending and Laura\u2019s start. Deadpool & Wolverine spends its whole runtime answering it.'},
 {t:'i',id:'gotg2',m:136,title:'Guardians of the Galaxy Vol. 2',rel:'5 May 2017',set:'2014',s:2014.3,kind:'Film',tier:'recommended',why:'Set only months after Vol. 1 despite the three-year gap. Less plot, more feelings.'},
 {t:'i',id:'homecoming',m:133,title:'Spider-Man: Homecoming',rel:'7 Jul 2017',set:'2016',s:2016.4,kind:'Film',tier:'essential',why:'A high school movie with a superb villain. Peter and Tony\u2019s relationship starts here.'},
 {t:'i',id:'ragnarok',m:130,title:'Thor: Ragnarok',rel:'3 Nov 2017',set:'2017',s:2017.1,kind:'Film',tier:'essential',why:'Thor gets a comedy transplant and it works perfectly. Ends on a gut punch.'},
 {t:'i',id:'bp',m:134,title:'Black Panther',rel:'16 Feb 2018',set:'2016',s:2016.3,kind:'Film',tier:'essential',why:'Picks up a week after Civil War. Killmonger is the best villain in the catalogue.'},
 {t:'i',id:'amw',m:118,title:'Ant-Man and the Wasp',rel:'6 Jul 2018',set:'2018',s:2018.05,kind:'Film',tier:'recommended',why:'Runs right up to the snap — its post-credits scene is the whole reason to watch.'},
 {t:'i',id:'iw',m:149,title:'Avengers: Infinity War',rel:'27 Apr 2018',set:'2018',s:2018.1,kind:'Film',tier:'essential',why:'Thanos wins. Watch this and Endgame close together if you can.'},
+{t:'i',id:'deadpool2',m:119,title:'Deadpool 2',rel:'18 May 2018',set:'2018',s:8110,kind:'Fox film',tier:'recommended',why:'Vanessa, Peter and a makeshift X-Force. Deadpool & Wolverine picks his life up from here.'},
 {t:'i',id:'capmarvel',m:123,title:'Captain Marvel',rel:'8 Mar 2019',set:'1995',s:1995,kind:'Film',tier:'recommended',why:'A 90s flashback that explains Fury\u2019s pager. In release order, watch before Endgame.'},
 {t:'i',id:'endgame',m:181,title:'Avengers: Endgame',rel:'26 Apr 2019',set:'2018, then 2023',s:2018.2,kind:'Film',tier:'essential',why:'Three hours, a five-year time skip, eleven years of payoff. Clear your evening.'},
+{t:'i',id:'darkphoenix',m:113,title:'Dark Phoenix',rel:'7 Jun 2019',set:'1992',s:8050,kind:'Fox film',tier:'optional',why:'The prequel cast\u2019s last film and a second go at the Phoenix story. Completists only.'},
 {t:'i',id:'ffh',m:129,title:'Spider-Man: Far From Home',rel:'2 Jul 2019',set:'2024',s:2024.1,kind:'Film',tier:'recommended',why:'The epilogue to Endgame, disguised as a Euro trip. Big cliffhanger.'},
 
+{t:'i',id:'newmutants',m:94,title:'The New Mutants',rel:'28 Aug 2020',set:'Present day',s:8095,kind:'Fox film',tier:'optional',why:'A horror-tinged side story, shelved for years and connected to nothing.'},
 {t:'phase',n:'Phase Four',ttl:'Grief & the Multiverse',note:'The sprawl begins. TV becomes required reading, and the optional pile gets tall.'},
 {t:'i',id:'wandavision',m:350,title:'WandaVision',rel:'15 Jan 2021',set:'2023',s:2023.1,kind:'Series',tier:'essential',why:'A sitcom pastiche about grief, set three weeks after Endgame. Strange and excellent.'},
 {t:'i',id:'tfatws',m:330,title:'The Falcon and the Winter Soldier',rel:'19 Mar 2021',set:'2024',s:2024.05,kind:'Series',tier:'recommended',why:'How Sam becomes Captain America. Necessary before Brave New World.'},
@@ -882,6 +896,7 @@ const DATA = [
 {t:'i',id:'mom',m:126,title:'Doctor Strange in the Multiverse of Madness',rel:'6 May 2022',set:'2025',s:2025.2,kind:'Film',tier:'essential',why:'Requires WandaVision. Genuinely does not work without it.'},
 {t:'i',id:'msmarvel',m:280,title:'Ms. Marvel',rel:'8 Jun 2022',set:'2025',s:2025.3,kind:'Series',tier:'recommended',why:'The most charming thing Marvel has made in years. Leads straight into The Marvels.'},
 {t:'i',id:'lat',m:118,title:'Thor: Love and Thunder',rel:'8 Jul 2022',set:'2025',s:2025.4,kind:'Film',tier:'optional',why:'Ragnarok\u2019s tone dialled past the point of return. Christian Bale is great in it.'},
+{t:'i',id:'iamgroot',m:46,title:'I Am Groot \u2014 Seasons 1\u20132',rel:'10 Aug 2022 · 6 Sep 2023',set:'Between Vol. 1 and Vol. 2',s:2014.25,kind:'Animated',tier:'optional',why:'Wordless shorts of Baby Groot causing trouble. Five minutes each, no consequences.'},
 {t:'i',id:'shehulk',m:300,title:'She-Hulk: Attorney at Law',rel:'18 Aug 2022',set:'2025',s:2025.5,kind:'Series',tier:'optional',why:'A legal sitcom that breaks the fourth wall. Also where Daredevil reappears.'},
 {t:'i',id:'werewolf',m:52,title:'Werewolf by Night',rel:'7 Oct 2022',set:'2025',s:2025.6,kind:'Special',tier:'optional',why:'52 minutes of black-and-white monster movie. Delightful and totally standalone.'},
 {t:'i',id:'wakanda2',m:161,title:'Black Panther: Wakanda Forever',rel:'11 Nov 2022',set:'2025',s:2025.7,kind:'Film',tier:'recommended',why:'A real tribute to Chadwick Boseman, plus Namor as an excellent antagonist.'},
@@ -901,9 +916,9 @@ const DATA = [
 {t:'i',id:'dd1',m:480,title:'Daredevil: Born Again — S1',rel:'4 Mar 2025',set:'2026',s:2026.6,kind:'Series',tier:'recommended',why:'Picks up the Netflix Daredevil thread. Matt versus Mayor Fisk.'},
 {t:'i',id:'thunderbolts',m:127,title:'Thunderbolts*',rel:'2 May 2025',set:'2027',s:2027.2,kind:'Film',tier:'essential',why:'A misfit team-up that turns out to be about depression. Best-reviewed film in years, and the asterisk matters.'},
 {t:'i',id:'ironheart',m:300,title:'Ironheart',rel:'24 Jun 2025',set:'2026',s:2025.95,kind:'Series',tier:'optional',why:'Riri Williams shortly after Wakanda Forever. Tech meets magic.'},
-{t:'i',id:'eyes',m:90,title:'Eyes of Wakanda',rel:'1 Aug 2025',set:'Ancient Wakanda',s:-1000,kind:'Animated',tier:'optional',why:'Anthology shorts spanning centuries of Wakandan history. Gorgeous, entirely optional.'},
-{t:'i',id:'zombies',m:90,title:'Marvel Zombies',rel:'2025',set:'Alternate universe',s:9002,kind:'Animated',tier:'optional',why:'Adult-animated horror spin-off from What If…?. Its own thing entirely.'},
 {t:'i',id:'ff',m:115,title:'The Fantastic Four: First Steps',rel:'25 Jul 2025',set:'Earth-828, a 1960s that never ended',s:9005,kind:'Film',tier:'essential',why:'A separate retro-futurist universe — and the direct on-ramp to Doomsday.'},
+{t:'i',id:'eyes',m:90,title:'Eyes of Wakanda',rel:'1 Aug 2025',set:'Ancient Wakanda',s:-1000,kind:'Animated',tier:'optional',why:'Anthology shorts spanning centuries of Wakandan history. Gorgeous, entirely optional.'},
+{t:'i',id:'zombies',m:90,title:'Marvel Zombies',rel:'24 Sep 2025',set:'Alternate universe',s:9002,kind:'Animated',tier:'optional',why:'Adult-animated horror spin-off from What If…?. Its own thing entirely.'},
 
 {t:'phase',n:'Phase Six',ttl:'Doomsday',note:'You are here. Everything below is either out now or lands in the next few months.'},
 {t:'i',id:'wonderman',m:240,title:'Wonder Man',rel:'27 Jan 2026',set:'2027',s:2027.05,kind:'Series',tier:'optional',why:'A Hollywood satire about superhero fatigue, which is a bold thing for Marvel to make.'},
@@ -920,7 +935,7 @@ const DATA = [
 
 {t:'branch',id:'adjacent',label:'Marvel-adjacent',q:'Not required',
  text:'Same brand, separate continuity. None of it is homework for Doomsday.',
- items:['<b>X-Men \u201997</b> S1–S2 <em>Released 2024 & 2026 · its own animated continuity</em>','<b>Agents of S.H.I.E.L.D.</b> S1–S7 <em>Released 2013–20 · nods to the films, not acknowledged by them</em>','<b>Runaways</b> · <b>Cloak & Dagger</b> · <b>Helstrom</b> <em>Released 2017–20 · the forgotten shelf</em>']}
+ items:['<b>X-Men \u201997</b> S1–S2 <em>Released 2024 & 2026 · its own animated continuity</em>','<b>Agents of S.H.I.E.L.D.</b> S1–S7 <em>Released 2013–20 · nods to the films, not acknowledged by them</em>','<b>Legion</b> S1–S3 <em>Released 2017–19 · FX, loosely tied to the X-Men films</em>','<b>The Gifted</b> S1–S2 <em>Released 2017–19 · Fox TV, its own continuity</em>','<b>Runaways</b> · <b>Cloak & Dagger</b> · <b>Helstrom</b> <em>Released 2017–20 · the forgotten shelf</em>']}
 ];
 
 const ERAS = [
@@ -930,6 +945,7 @@ const ERAS = [
  {min:2016, max:2022.99, n:'2016 – 2018',   ttl:'Fracture',          note:'Civil War to Endgame. Black Widow and Black Panther slot in here despite arriving years later.'},
  {min:2023, max:2026.99, n:'2023 – 2026',   ttl:'After the Blip',    note:'The post-Endgame sprawl. Dates here are reconstructed, not confirmed.'},
  {min:2027, max:2999, n:'2027',             ttl:'Right now',         note:'The present day of the MCU, and where Doomsday picks up.'},
+ {min:8000, max:8999, n:'Earth-10005',       ttl:'The Fox X-Men',     note:'A separate universe until Deadpool & Wolverine, in its own internal order: 1962 to 2029.'},
  {min:9000, max:99999, n:'No fixed date',   ttl:'Other universes',   note:'Alternate realities with no place on the main timeline — including, crucially, the Fantastic Four.'}
 ];
 
@@ -1351,10 +1367,10 @@ const CHARS = [
 {n:'She-Hulk',r:'Jennifer Walters',a:'Tatiana Maslany',g:'New guard',d:'She-Hulk',y:'2022',
  b:'Bruce Banner\u2019s cousin, a lawyer who gets Hulk powers via a blood transfusion and keeps her personality intact.',
  best:'She-Hulk', sp:'Breaks the fourth wall harder than anyone in the MCU.'},
-{n:'Deadpool',r:'Wade Wilson',a:'Ryan Reynolds',g:'New guard',d:'Deadpool & Wolverine',y:'2024',
- b:'Immortal, foul-mouthed, aware he is in a film. Two Fox-era films precede his MCU debut and are worth watching first.',
+{n:'Deadpool',in:['deadpool','deadpool2','dw'],r:'Wade Wilson',a:'Ryan Reynolds',g:'New guard',d:'Deadpool',y:'2016',
+ b:'Immortal, foul-mouthed, aware he is in a film. Both Fox-era films are in the chart and worth watching first.',
  best:'Deadpool & Wolverine', sp:'Now officially inside the sacred timeline.'},
-{n:'Wolverine',r:'Logan',a:'Hugh Jackman',g:'New guard',d:'Deadpool & Wolverine',y:'2024',
+{n:'Wolverine',in:['xmen','x2','xmen3','origins','thewolverine','dofp','logan','dw'],r:'Logan',a:'Hugh Jackman',g:'New guard',d:'X-Men',y:'2000',
  b:'Twenty-four years of Fox X-Men films, then a return nobody expected. A variant, not the one from Logan.',
  best:'Deadpool & Wolverine', sp:'Expected back for Doomsday.'},
 {n:'Valentina Allegra de Fontaine',in:['bw','tfatws','wakanda2','thunderbolts'],r:'\u2014',a:'Julia Louis-Dreyfus',g:'New guard',d:'Falcon and the Winter Soldier',y:'2021',
@@ -1767,7 +1783,24 @@ renderChars();
 })();
 
 /* ---------- portable progress code ---------- */
-const ALL_IDS = DATA.filter(r => r.t === 'i').map(r => r.id);
+/* Bit order for progress codes. A code is one bit per title in this order,
+   so it must never be reshuffled: inserting a title anywhere but the end
+   shifts every later bit and restores the wrong titles from every code
+   already shared. Release order lives in DATA and can change freely --
+   this cannot. Add new titles to the END. */
+const CODE_ORDER = [
+  'ironman','hulk','im2','thor','cap1','avengers','im3','tdw','winter','gotg','aou','antman',
+  'civil','strange','gotg2','homecoming','ragnarok','bp','amw','iw','capmarvel','endgame','ffh',
+  'wandavision','tfatws','loki1','bw','whatif1','shangchi','eternals','hawkeye','nwh',
+  'moonknight','mom','msmarvel','lat','shehulk','werewolf','wakanda2','gotgholiday',
+  'quantumania','gotg3','secretinvasion','loki2','marvels','echo','dw','agatha','yfnsm','bnw',
+  'dd1','thunderbolts','ironheart','eyes','zombies','ff','wonderman','dd2','punisher','bnd',
+  'visionquest','yfnsm2','doomsday','xmen','x2','xmen3','origins','firstclass','thewolverine',
+  'dofp','deadpool','apocalypse','logan','deadpool2','darkphoenix','newmutants','iamgroot'
+];
+const _unlisted = DATA.filter(r => r.t === 'i' && !CODE_ORDER.includes(r.id)).map(r => r.id);
+if(_unlisted.length) console.warn('Add to the end of CODE_ORDER:', _unlisted);
+const ALL_IDS = CODE_ORDER.concat(_unlisted);
 
 function encodeProgress(){
   let bits = ALL_IDS.map(id => watched.has(id) ? '1' : '0').join('');
@@ -1995,9 +2028,11 @@ const PREREQ = {
   agatha:     [['wandavision','Agatha is introduced there']],
   visionquest:[['wandavision','White Vision comes from its finale'],['agatha','Sets it up directly']],
   loki2:      [['loki1','Continuous story'],['quantumania','Introduces Kang properly']],
-  dw:         [['loki2','The TVA mechanics only make sense after it']],
+  dw:         [['loki2','The TVA mechanics only make sense after it'],['deadpool','Wade\u2019s origin'],['deadpool2','His life before the TVA'],['logan','The Wolverine it keeps answering']],
+  x2:         [['xmen','Direct sequel']],
+  deadpool2:  [['deadpool','Direct sequel']],
   ff:         [['dw','Establishes that other universes are canon now']],
-  doomsday:   [['ff','The Fantastic Four are the on-ramp'],['thunderbolts','The new team assembles there'],['loki2','Multiverse rules']],
+  doomsday:   [['xmen','The original X-Men cast returns'],['ff','The Fantastic Four are the on-ramp'],['thunderbolts','The new team assembles there'],['loki2','Multiverse rules']],
   marvels:    [['msmarvel','Kamala is a lead'],['secretinvasion','One consequence carries over'],['capmarvel','Carol and Monica']],
   bnw:        [['tfatws','Sam becomes Captain America there']],
   thunderbolts:[['bw','Yelena and Alexei'],['tfatws','Walker and Val']],
