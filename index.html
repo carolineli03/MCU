@@ -266,6 +266,15 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 .ch .cr{font-family:"Archivo Black";font-size:12.5px;letter-spacing:.02em;display:block;
   margin-top:4px;opacity:.62}
 .ch .cb{font-size:14.5px;line-height:1.34;margin-top:9px}
+.chead{display:flex;align-items:center;gap:13px;padding-right:62px}
+.chid{min-width:0;flex:1}
+/* Diagonal two-tone frame in the character's suit colours. */
+.av{flex:none;width:80px;height:80px;padding:7px;border:2.5px solid var(--line);
+  background:linear-gradient(135deg,var(--c1) 0 50%,var(--c2) 50% 100%);box-shadow:3px 3px 0 var(--shadow)}
+.av img,.avmono{display:block;width:100%;height:100%;border:2px solid var(--line)}
+.av img{object-fit:cover;object-position:50% 22%;background:var(--bg)}
+.avmono{display:flex;align-items:center;justify-content:center;background:var(--invert-bg);
+  color:var(--yellow);font-family:"Bangers";font-size:26px;letter-spacing:.03em;line-height:1}
 .ch .cmeta{display:flex;margin-top:11px;border:2.5px solid var(--line);background:var(--bg)}
 .ch .cmeta .dcell+.dcell{background:var(--tint-red)}
 .ch .cmeta .dcell+.dcell .dv{color:var(--red-ink)}
@@ -568,6 +577,11 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 .legal p{margin:0 0 9px}
 .legal p:last-child{margin-bottom:0}
 @media (min-width:1000px){.legal{columns:2;column-gap:40px}.legal .lhead{column-span:all}}
+.credits{column-span:all;margin-top:12px}
+.credits summary{cursor:pointer;font-family:"Archivo Black";font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.credits ul{margin:8px 0 0;padding:0;list-style:none;columns:2 260px;column-gap:28px;font-size:11.5px}
+.credits li{break-inside:avoid;margin-bottom:3px}
+.credits a{color:inherit}
 
 
 /* ---------- PROGRESS CODE ---------- */
@@ -817,9 +831,10 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   <footer class="legal">
     <span class="lhead">Unofficial fan guide</span>
     <p>Marvel, MCU, Avengers, and all related characters, titles, logos and imagery are trademarks and/or the property of Marvel Characters, Inc. and The Walt Disney Company. This is an independent fan-made reference. It is not affiliated with, endorsed by, sponsored by, or connected to Marvel, Marvel Studios, Disney, Sony Pictures, or any of their subsidiaries.</p>
-    <p>All films, series and specials referenced remain the property of their respective rights holders. No copyrighted footage, artwork or promotional material is reproduced here &mdash; every description is original writing.</p>
+    <p>All films, series and specials referenced remain the property of their respective rights holders. No copyrighted footage, artwork or promotional material is reproduced here &mdash; every description is original writing. Cast photos show the performers, not their characters, and are freely licensed from Wikimedia Commons; credits below.</p>
     <p>Release dates, runtimes and cast credits are compiled from public sources and are approximate. In-universe placements are officially confirmed only up to roughly <i>Avengers: Endgame</i>; later dates are the fan community&rsquo;s best reconstruction from on-screen evidence and may be wrong. Corrections welcome.</p>
     <p>Watch progress is stored on your own device. Nothing is transmitted to a server, and no account is required. Your progress code is generated locally in your browser.</p>
+    <details class="credits"><summary>Photo credits</summary><div id="photocredits"></div></details>
   </footer>
 
   <div class="sheet" id="sheet" hidden>
@@ -1676,10 +1691,289 @@ function runHTML(c){
         + '</li>').join('')
     + '</ol></details>';
 }
+/* ---------- cast photos ----------
+   Photos are of the performers, freely licensed from Wikimedia Commons via
+   each actor's Wikidata image (which can only point at Commons), stored as
+   Wikimedia's own unmodified thumbnails. Credits render into the footer.
+   Studio stills are deliberately not used -- see the footer disclaimer. */
+const PHOTOS = {
+ "Angela Bassett":{"f":"cast/angela-bassett.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Angela_Bassett_by_Gage_Skidmoe.jpg"},
+ "Anthony Hopkins":{"f":"cast/anthony-hopkins.jpg","by":"Omar David Sandoval Sida","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Anthony_Hopkins_Red_Sea_Festival_2025_Portrait.jpg"},
+ "Anthony Mackie":{"f":"cast/anthony-mackie.jpg","by":"Quejaytee","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:2025_Anthony_Mackie_(cropped).jpg"},
+ "Awkwafina":{"f":"cast/awkwafina.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Awkwafina_by_Gage_Skidmore.jpg"},
+ "Ben Mendelsohn":{"f":"cast/ben-mendelsohn.jpg","by":"Eva Rinaldi","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Ben_Mendelsohn_2012.jpg"},
+ "Benedict Cumberbatch":{"f":"cast/benedict-cumberbatch.jpg","by":"Gage Skidmore from Peoria, AZ, United States of America","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:BCumberbatch_Comic-Con_2019.jpg"},
+ "Benedict Wong":{"f":"cast/benedict-wong.jpg","by":"Gage Skidmore from Peoria, AZ, United States of America","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Benedict_Wong_(28352087500)_(cropped).jpg"},
+ "Brie Larson":{"f":"cast/brie-larson.jpg","by":"2d Lt Jessica Cicchetto","lic":"Public domain","lu":"","src":"https://commons.wikimedia.org/wiki/File:Captain_Marvel_trailer_at_the_National_Air_and_Space_Museum_4_(cropped).jpg"},
+ "Carl Lumbly":{"f":"cast/carl-lumbly.jpg","by":"Super Festivals","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Carl_Lumbly_Photo_Op_GalaxyCon_Richmond_2025.jpg"},
+ "Cate Blanchett":{"f":"cast/cate-blanchett.jpg","by":"Harald Krichel","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Cate_Blanchett-63298_(cropped_2).jpg"},
+ "Chadwick Boseman":{"f":"cast/chadwick-boseman.jpg","by":"Gage Skidmore","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Chadwick_Boseman_by_Gage_Skidmore_July_2017_(cropped).jpg"},
+ "Charlie Cox":{"f":"cast/charlie-cox.jpg","by":"GabboT","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Charlie_Cox_02_(29327255635)_(cropped).jpg"},
+ "Chiwetel Ejiofor":{"f":"cast/chiwetel-ejiofor.jpg","by":"Kevin Payravi","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Chiwetel_Ejiofor_at_the_2024_Toronto_International_Film_Festival_(cropped).jpg"},
+ "Chris Evans":{"f":"cast/chris-evans.jpg","by":"Amy Martin Photography","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Chris_Evans_Red_2024.jpg"},
+ "Chris Hemsworth":{"f":"cast/chris-hemsworth.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Chris_Hemsworth_-_Crime_101.jpg"},
+ "Chris Pratt":{"f":"cast/chris-pratt.jpg","by":"Dick Thomas Johnson from Tokyo, Japan","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Chris_Pratt_2018.jpg"},
+ "Clark Gregg":{"f":"cast/clark-gregg.jpg","by":"gdcgraphics","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:ClarkGreggTIFFSept2012.jpg"},
+ "Cobie Smulders":{"f":"cast/cobie-smulders.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Cobie_Smulders_by_Gage_Skidmore_2.jpg"},
+ "Danai Gurira":{"f":"cast/danai-gurira.jpg","by":"Gage Skidmore","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Danai_Gurira_2024_(cropped).jpg"},
+ "Daniel Brühl":{"f":"cast/daniel-bruhl.jpg","by":"Martin Kraft","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:MJK_68238_Daniel_Br%C3%BChl_(Berlinale_2020).jpg"},
+ "Dave Bautista":{"f":"cast/dave-bautista.jpg","by":"Daniel Benavides from Austin, TX","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Batista_in_March_2019.jpg"},
+ "David Harbour":{"f":"cast/david-harbour.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:David_Harbour_by_Gage_Skidmore_2.jpg"},
+ "Deborah Ann Woll":{"f":"cast/deborah-ann-woll.jpg","by":"John Manard for Super Festivals from Ft. Lauderdale, USA","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Deborah_Ann_Woll_(53981726502).jpg"},
+ "Dominique Thorne":{"f":"cast/dominique-thorne.jpg","by":"PhilipRomanoPhoto","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:DominiqueThorn-byPhilipRomano.jpg"},
+ "Don Cheadle":{"f":"cast/don-cheadle.jpg","by":"PhilipRomanoPhoto","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:DonCheadle-byPhilipRomano.jpg"},
+ "Ebon Moss-Bachrach":{"f":"cast/ebon-moss-bachrach.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Ebon_Moss-Bachrach_by_Gage_Skidmore.jpg"},
+ "Elden Henson":{"f":"cast/elden-henson.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Elden_Henson_-_Los_Angeles_Comic_Con_2025.jpg"},
+ "Elizabeth Olsen":{"f":"cast/elizabeth-olsen.png","by":"JoshPopov","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:ElizabethOlsen-TIFF2025-02.png"},
+ "Emily VanCamp":{"f":"cast/emily-vancamp.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Emily_VanCamp_at_Televerse_2026.jpg"},
+ "Ethan Hawke":{"f":"cast/ethan-hawke.jpg","by":"Harald Krichel","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Ethan_Hawke_at_the_2025_Berlin_International_Film_Festival-67055.jpg"},
+ "Evangeline Lilly":{"f":"cast/evangeline-lilly.jpg","by":"Gage Skidmore","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Evangeline_Lilly_2014_Comic_Con_(cropped).jpg"},
+ "Florence Pugh":{"f":"cast/florence-pugh.jpg","by":"Frank Sun","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Florence_Pugh_at_the_2024_Toronto_International_Film_Festival_13_(cropped_2_%E2%80%93_color_adjusted).jpg"},
+ "Frank Grillo":{"f":"cast/frank-grillo.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Frank_Grillo_by_Gage_Skidmore_2.jpg"},
+ "Gwyneth Paltrow":{"f":"cast/gwyneth-paltrow.jpg","by":"Georges Biard","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Gwyneth_Paltrow_avp_Iron_Man_3_Paris.jpg"},
+ "Hailee Steinfeld":{"f":"cast/hailee-steinfeld.jpg","by":"Original: Gage Skidmore from Peoria, AZ, United States of America / Derivative work: Danyele","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Hailee_Steinfeld_(28787553517)_(cropped).jpg"},
+ "Hannah John-Kamen":{"f":"cast/hannah-john-kamen.jpg","by":"MTV UK on YouTube","lic":"CC BY 3.0","lu":"https://creativecommons.org/licenses/by/3.0","src":"https://commons.wikimedia.org/wiki/File:Hannah_John-Kamen_MTV_International_2018_(cropped).jpg"},
+ "Harrison Ford":{"f":"cast/harrison-ford.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Harrison_Ford_-_Televerse_2025-03.jpg"},
+ "Hayley Atwell":{"f":"cast/hayley-atwell.jpg","by":"Harald Krichel","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Hayley_Atwell_2025_(crop).jpg"},
+ "Hugh Jackman":{"f":"cast/hugh-jackman.jpg","by":"Bryan Berlin","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Hugh_Jackman_Is_This_Thing_On-68_(cropped).jpg"},
+ "Hugo Weaving":{"f":"cast/hugo-weaving.jpg","by":"modtang","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Hugo_Weaving.jpg"},
+ "Idris Elba":{"f":"cast/idris-elba.jpg","by":"Simon Dawson / No 10 Downing Street","lic":"OGL 3","lu":"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3","src":"https://commons.wikimedia.org/wiki/File:Idris_Elba_in_2024_(cropped).jpg"},
+ "Jacob Batalon":{"f":"cast/jacob-batalon.jpg","by":"Gage Skidmore from Peoria, AZ, United States of America","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Jacob_Batalon_(28035642754)_(cropped).jpg"},
+ "Jaimie Alexander":{"f":"cast/jaimie-alexander.jpg","by":"Richard Goldschmidt, www.piqtured.com Derivative by Keraunoscopia","lic":"CC BY 3.0","lu":"https://creativecommons.org/licenses/by/3.0","src":"https://commons.wikimedia.org/wiki/File:Jaimie_Alexander,_London,_2013_(tone).jpg"},
+ "Jake Gyllenhaal":{"f":"cast/jake-gyllenhaal.jpg","by":"Toglenn","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Jake_Gyllenhaal_2019_by_Glenn_Francis.jpg"},
+ "James Spader":{"f":"cast/james-spader.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:James_Spader_by_Gage_Skidmore.jpg"},
+ "Jeff Bridges":{"f":"cast/jeff-bridges.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Jeff_Bridges_by_Gage_Skidmore_3.jpg"},
+ "Jeremy Renner":{"f":"cast/jeremy-renner.jpg","by":"Max Surprenant","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Jeremy_Renner_at_TIFF_2025_(cropped).jpg"},
+ "John Slattery":{"f":"cast/john-slattery.jpg","by":"Romina Espinosa at http://www.rominaespinosa.com","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:JohnSlattery08.jpg"},
+ "Jon Bernthal":{"f":"cast/jon-bernthal.jpg","by":"PhilipRomano","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:JonBernthal-byPhilipRomano2.jpg"},
+ "Jon Favreau":{"f":"cast/jon-favreau.jpg","by":"Eva Rinaldi(Uploader: Musa Raza)","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Jon_Favreau_2016.jpeg"},
+ "Jonathan Majors":{"f":"cast/jonathan-majors.jpg","by":"Mohamed Finando","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Jonathan_Majors_(cropped).jpg"},
+ "Joseph Quinn":{"f":"cast/joseph-quinn.jpg","by":"France RC - Roster Con","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Joseph_Quinn_en_2022.jpg"},
+ "Josh Brolin":{"f":"cast/josh-brolin.jpg","by":"Max Surprenant","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Josh_Brolin_TIFF_2025_(cropped).jpg"},
+ "Julia Louis-Dreyfus":{"f":"cast/julia-louis-dreyfus.jpg","by":"Neil Grabowsky, for the Montclair Film Festival","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Julia_Louis-Dreyfus_2019_(2).jpg"},
+ "Karen Gillan":{"f":"cast/karen-gillan.jpg","by":"Pedro Heshike for Galaxy Con","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Karen_Gillan_(53197567618).jpg"},
+ "Kat Dennings":{"f":"cast/kat-dennings.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Kat_Dennings_-_The_40-Year-Old-Virgin.jpg"},
+ "Kathryn Hahn":{"f":"cast/kathryn-hahn.png","by":"Our Movie Guide","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Kathryn_Hahn_Agatha_All_Along_Premiere_01.png"},
+ "Kathryn Newton":{"f":"cast/kathryn-newton.jpg","by":"LA LATA","lic":"CC BY 3.0","lu":"https://creativecommons.org/licenses/by/3.0","src":"https://commons.wikimedia.org/wiki/File:Kathryn_Newton_during_an_interview,_February_2023_(cropped).jpg"},
+ "Krysten Ritter":{"f":"cast/krysten-ritter.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Krysten_Ritter_-_LA_Times_Festival_of_Books_2025.jpg"},
+ "Kurt Russell":{"f":"cast/kurt-russell.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Kurt_Russell_by_Gage_Skidmore_2.jpg"},
+ "Lee Pace":{"f":"cast/lee-pace.jpg","by":"Myles Kalus Anak Jihem","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Lee_Pace_Paris_Fashion_Week_Spring_Summer_2020.jpg"},
+ "Letitia Wright":{"f":"cast/letitia-wright.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Letitia_Wright_by_Gage_Skidmore.jpg"},
+ "Lewis Pullman":{"f":"cast/lewis-pullman.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Lewis_Pullman_at_San_Diego_Comic_Con_2026-2.jpg"},
+ "Lupita Nyong’o":{"f":"cast/lupita-nyongo.jpg","by":"PhilipRomano","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:LupitaNyongo-byPhilipRomano3.jpg"},
+ "Marisa Tomei":{"f":"cast/marisa-tomei.jpg","by":"Super Festivals from Ft. Lauderdale, USA","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Marisa_Tomei_Photo_Op_GalaxyCon_Raleigh_2024_(cropped).jpg"},
+ "Mark Ruffalo":{"f":"cast/mark-ruffalo.jpg","by":"Gage Skidmore from Peoria, AZ, United States of America","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Mark_Ruffalo_(36201774756)_(cropped).jpg"},
+ "Martin Freeman":{"f":"cast/martin-freeman.jpg","by":"Harald Krichel","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Martin_Freeman-5341.jpg"},
+ "May Calamawy":{"f":"cast/may-calamawy.jpg","by":"Z","lic":"CC BY 3.0","lu":"https://creativecommons.org/licenses/by/3.0","src":"https://commons.wikimedia.org/wiki/File:May_Calamawy_Stoli_Original.jpg"},
+ "Meng’er Zhang":{"f":"cast/menger-zhang.jpg","by":"Infograder","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Menger_Zhang_2023.jpg"},
+ "Michael B. Jordan":{"f":"cast/michael-b-jordan.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Michael_B_Jordan_-_Sinners_(cropped).jpg"},
+ "Michael Douglas":{"f":"cast/michael-douglas.jpg","by":"Jan Beránek","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:59th_Karlovy_Vary_International_Film_Festival,_Michael_Douglas_07_(cropped).jpg"},
+ "Michael Keaton":{"f":"cast/michael-keaton.jpg","by":"Harald Krichel","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Michael_Keaton-63916.jpg"},
+ "Michael Peña":{"f":"cast/michael-pena.jpg","by":"Richard Sandoval","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Actor_Michael_Pena.jpg"},
+ "Michael Rooker":{"f":"cast/michael-rooker.jpg","by":"GabboT","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Michael_Rooker_2013_02_(cropped).jpg"},
+ "Michelle Pfeiffer":{"f":"cast/michelle-pfeiffer.jpg","by":"joyparris","lic":"CC BY 3.0","lu":"https://creativecommons.org/licenses/by/3.0","src":"https://commons.wikimedia.org/wiki/File:Michelle_Pfeiffer_Ant-Man_%26_The_Wasp_premiere_(cropped).jpg"},
+ "Natalie Portman":{"f":"cast/natalie-portman.jpg","by":"Colleen Sturtevant","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:NataliePortman.jpg"},
+ "Olga Kurylenko":{"f":"cast/olga-kurylenko.jpg","by":"Original: Moritz Barcelona from Barcelona, Catalunya / Derivative work: Benezius","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Festival_de_Cinema_de_Sitges_2019_(49500414408)_(cropped).jpg"},
+ "Oscar Isaac":{"f":"cast/oscar-isaac.jpg","by":"LucaFazPhoto","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Oscar_Isaac_at_82nd_Venice_International_Film_Festival-1_(cropped).jpg"},
+ "Owen Wilson":{"f":"cast/owen-wilson.jpg","by":"Owen_Wilson_Cannes_2011.jpg: Georges Biard derivative work: César (talk)","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Owen_Wilson_Cannes_2011_(cropped).jpg"},
+ "Paul Bettany":{"f":"cast/paul-bettany.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Paul_Bettany_-_Los_Angeles_Comic_Con_2025.jpg"},
+ "Paul Rudd":{"f":"cast/paul-rudd.jpg","by":"Adam Chitayat","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Paul_Rudd_and_Kate_Mara_at_the_2024_Toronto_International_Film_Festival_8_(cropped).jpg"},
+ "Pedro Pascal":{"f":"cast/pedro-pascal.jpg","by":"Gabriel Hutchinson","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Pedro_Pascal_at_the_2025_Cannes_Film_Festival_06_(cropped).jpg"},
+ "Pom Klementieff":{"f":"cast/pom-klementieff.jpg","by":"© Ra Boe / Wikipedia","lic":"CC BY-SA 3.0 de","lu":"https://creativecommons.org/licenses/by-sa/3.0/de/deed.en","src":"https://commons.wikimedia.org/wiki/File:Stuttgart_-Comic_Con_Germany_2019-_7d_by-RaBoe_037_(cropped).jpg"},
+ "Rachel McAdams":{"f":"cast/rachel-mcadams.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Rachel_McAdams_-_Walk_of_Fame.jpg"},
+ "Randall Park":{"f":"cast/randall-park.jpg","by":"Sarran Hamilton","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Randall_Park_-_Girl_Group_-_TIFF_2026.jpg"},
+ "Rene Russo":{"f":"cast/rene-russo.jpg","by":"John Mathew Smith & www.celebrity-photos.com from Laurel Maryland, USA","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Rene_Russo_1996.jpg"},
+ "Robert Downey Jr.":{"f":"cast/robert-downey-jr.jpg","by":"Gage Skidmore","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Robert_Downey_Jr_2014_Comic_Con_(cropped).jpg"},
+ "Robert Redford":{"f":"cast/robert-redford.jpg","by":"U.S. Embassy photographer JP Evans","lic":"Public domain","lu":"","src":"https://commons.wikimedia.org/wiki/File:Robert_Redford_(cropped).jpg"},
+ "Ryan Reynolds":{"f":"cast/ryan-reynolds.jpg","by":"Dick Thomas Johnson from Tokyo, Japan","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Deadpool_2_Japan_Premiere_Red_Carpet_Ryan_Reynolds_(cropped).jpg"},
+ "Sam Rockwell":{"f":"cast/sam-rockwell.jpg","by":"Bryan Berlin","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Sam_Rockwell_Talk_Easy_(cropped).jpg"},
+ "Samuel L. Jackson":{"f":"cast/samuel-l-jackson.jpg","by":"Philip Romano","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:SamuelLJackson.jpg"},
+ "Scarlett Johansson":{"f":"cast/scarlett-johansson.jpg","by":"Harald Krichel","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Scarlett_Johansson-8588.jpg"},
+ "Sean Gunn":{"f":"cast/sean-gunn.jpg","by":"steve cranston","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Sean_Gunn_January_2015.jpg"},
+ "Sebastian Stan":{"f":"cast/sebastian-stan.jpg","by":"Gabriel Hutchinson","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Sebastian_Stan_at_the_2026_Cannes_Film_Festival_05_(cropped).jpg"},
+ "Simu Liu":{"f":"cast/simu-liu.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Simu_Liu_by_Gage_Skidmore.jpg"},
+ "Sophia Di Martino":{"f":"cast/sophia-di-martino.jpg","by":"Raph_PH","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:ARealPainBFILFF131024_(43_of_138)_(54063996577)_(cropped).jpg"},
+ "Stellan Skarsgård":{"f":"cast/stellan-skarsgard.jpg","by":"Harald Krichel","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Stellan_Skarsg%C3%A5rd-9707_(cropped).jpg"},
+ "Taika Waititi":{"f":"cast/taika-waititi.jpg","by":"Pixoos","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Taika_Waititi_photo_by_pouria_afkhami_(cropped).jpg"},
+ "Tatiana Maslany":{"f":"cast/tatiana-maslany.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Tatiana_Maslany_at_IGN_Live_2026.jpg"},
+ "Tenoch Huerta Mejía":{"f":"cast/tenoch-huerta-mejia.jpg","by":"Kevin Payravi","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Tenoch_Huerta_2024.jpg"},
+ "Tessa Thompson":{"f":"cast/tessa-thompson.jpg","by":"Sara Komatsu","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Tessa_Thompson_at_the_2025_Toronto_International_Film_Festival._03_(cropped).jpg"},
+ "Teyonah Parris":{"f":"cast/teyonah-parris.jpg","by":"PhilipRomano","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:TeyonahParris-byPhilipRomano_(cropped).jpg"},
+ "Tilda Swinton":{"f":"cast/tilda-swinton.jpg","by":"Harald Krichel","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Tilda_Swinton_at_the_2025_Berlin_International_Film_Festival-3234.jpg"},
+ "Tom Hiddleston":{"f":"cast/tom-hiddleston.jpg","by":"Kevin Payravi","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Tom_Hiddleston_at_the_2024_Toronto_International_Film_Festival_(cropped).jpg"},
+ "Tom Holland":{"f":"cast/tom-holland.jpg","by":"PhilipRomano","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:TomHolland-byPhilipRomano.jpg"},
+ "Tony Leung":{"f":"cast/tony-leung.jpg","by":"Dick Thomas Johnson from Tokyo, Japan","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Tony_Leung_as_the_President_of_the_International_Competition_Jury_at_Opening_Ceremony_of_the_Tokyo_International_Film_Festival_2024_(54578353950).jpg"},
+ "Vanessa Kirby":{"f":"cast/vanessa-kirby.jpg","by":"Jay Dixit","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Vanessa_Kirby_at_the_2024_Toronto_International_Film_Festival_08_(Cropped).jpg"},
+ "Vincent D’Onofrio":{"f":"cast/vincent-donofrio.jpg","by":"John Manard","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Vincent_D%27Onofrio_GalaxyCon_Nashville_052026-4.jpg"},
+ "Winston Duke":{"f":"cast/winston-duke.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Winston_Duke_by_Gage_Skidmore.jpg"},
+ "Wyatt Russell":{"f":"cast/wyatt-russell.jpg","by":"Video by W!ZARD Radio Media; cropped, rotated, lightened by User:GRuban","lic":"CC BY 3.0","lu":"https://creativecommons.org/licenses/by/3.0","src":"https://commons.wikimedia.org/wiki/File:Wyatt_Russell_on_Wizard_Radio_Media.jpg"},
+ "Xochitl Gomez":{"f":"cast/xochitl-gomez.jpg","by":"The White House","lic":"Public domain","lu":"","src":"https://commons.wikimedia.org/wiki/File:Xochitl_Gomez_-_2024_(cropped).jpg"},
+ "Zendaya":{"f":"cast/zendaya.jpg","by":"PhilipRomano","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Zendaya-byPhilipRomano.jpg"},
+ "Zoe Saldaña":{"f":"cast/zoe-saldana.jpg","by":"Kevin Payravi","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Zoe_Salda%C3%B1a_at_the_2024_Toronto_International_Film_Festival_(cropped).jpg"}
+};
+
+/* Two signature suit colours per character, framing the photo so the
+   character still reads at a glance. Colours are not copyrightable; the suit
+   designs are. Ink and cream means no costume. */
+const SUIT = {
+ "Iron Man":["#A81C1C", "#E0B43C"],
+ "Captain America":["#1F3A93", "#C0272D"],
+ "Thor":["#6E7B85", "#A3161A"],
+ "Hulk":["#4E8A2F", "#5B3A7A"],
+ "Black Widow":["#1B1B1F", "#B3121D"],
+ "Hawkeye":["#5B2E7A", "#1B1B1F"],
+ "Falcon / Captain America":["#E6E9ED", "#1F3A93"],
+ "Winter Soldier":["#1F2226", "#9AA4AE"],
+ "War Machine":["#4A4F55", "#A9B0B7"],
+ "Scarlet Witch":["#8E1B2C", "#1B1B1F"],
+ "Vision":["#A3243A", "#D9A82E"],
+ "Ant-Man":["#B3261E", "#9AA4AE"],
+ "Wasp":["#D9A21B", "#1E1E22"],
+ "Spider-Man":["#C8102E", "#1E3F8F"],
+ "Black Panther":["#16161A", "#7B5EA7"],
+ "Shuri":["#16161A", "#C9A227"],
+ "Doctor Strange":["#1F3A6B", "#A3161A"],
+ "Captain Marvel":["#1C3F94", "#E3B23C"],
+ "Nick Fury":["#16161A", "#5A5F66"],
+ "Star-Lord":["#8A3B22", "#9AA4AE"],
+ "Gamora":["#3F7D3A", "#1B1B1F"],
+ "Rocket":["#D7722C", "#6B4A2E"],
+ "Groot":["#6B4A2E", "#5E7F3A"],
+ "Drax":["#7C8487", "#9A2323"],
+ "Nebula":["#3C6FA8", "#1B1B1F"],
+ "Mantis":["#7FA64B", "#1B1B1F"],
+ "Loki":["#2F6B3A", "#C9A227"],
+ "Thanos":["#6A4C93", "#C9A227"],
+ "Yondu":["#3C6FA8", "#8E2A22"],
+ "Kraglin":["#8E2A22", "#5A3E2B"],
+ "Shang-Chi":["#A3161A", "#1B1B1F"],
+ "Ms. Marvel":["#2A55A5", "#C8243A"],
+ "Yelena Belova":["#5B6B3A", "#1B1B1F"],
+ "Kate Bishop":["#6A3F8E", "#1B1B1F"],
+ "Ironheart":["#A81C1C", "#A9B0B7"],
+ "US Agent":["#1C2B5A", "#C0272D"],
+ "Red Guardian":["#B31B2C", "#EFE4CD"],
+ "Moon Knight":["#E8E6DE", "#1B1B1F"],
+ "She-Hulk":["#4E8A2F", "#E6E9ED"],
+ "Deadpool":["#A3161A", "#1B1B1F"],
+ "Wolverine":["#E3B23C", "#1F3A93"],
+ "Valentina Allegra de Fontaine":["#14100D", "#EFE4CD"],
+ "Sentry / The Void":["#D9A82E", "#1B1B1F"],
+ "Daredevil":["#8E1B1B", "#1B1B1F"],
+ "Kingpin":["#E6E9ED", "#1B1B1F"],
+ "The Punisher":["#1B1B1F", "#E6E9ED"],
+ "Jessica Jones":["#1B1B1F", "#3C5A7A"],
+ "Echo":["#1B1B1F", "#A3161A"],
+ "Agatha Harkness":["#5B2E7A", "#1B1B1F"],
+ "Wong":["#C77E2A", "#6B2A2A"],
+ "America Chavez":["#1F3A93", "#C0272D"],
+ "The Ancient One":["#C9A227", "#E6DCC3"],
+ "Mordo":["#4A5A3A", "#1B1B1F"],
+ "Mister Fantastic":["#1F4FA0", "#E6E9ED"],
+ "Invisible Woman":["#1F4FA0", "#E6E9ED"],
+ "Human Torch":["#E0662A", "#1F4FA0"],
+ "The Thing":["#B8652A", "#1F4FA0"],
+ "Doctor Doom":["#2E5A36", "#8A949C"],
+ "Kang / He Who Remains":["#5B2E7A", "#3E6B4A"],
+ "Namor":["#2F6B5A", "#C9A227"],
+ "Red Hulk":["#B31B1B", "#1B1B1F"],
+ "Ultron":["#9AA4AE", "#B31B1B"],
+ "Obadiah Stane":["#5A5F66", "#9AA4AE"],
+ "Justin Hammer":["#14100D", "#EFE4CD"],
+ "Red Skull":["#B31B1B", "#1B1B1F"],
+ "Alexander Pierce":["#14100D", "#EFE4CD"],
+ "Crossbones":["#1B1B1F", "#A3161A"],
+ "Helmut Zemo":["#5B2E7A", "#1B1B1F"],
+ "Killmonger":["#C9A227", "#1B1B1F"],
+ "Vulture":["#4A5A3A", "#1B1B1F"],
+ "Mysterio":["#3E7D4C", "#9A2323"],
+ "Hela":["#1B1B1F", "#2F6B3A"],
+ "Ego":["#6FA8DC", "#E6E9ED"],
+ "Wenwu":["#1B1B1F", "#3C6FA8"],
+ "Taskmaster":["#1B1B1F", "#E6E9ED"],
+ "Ghost":["#8A949C", "#1B1B1F"],
+ "Arthur Harrow":["#5A6B7A", "#E6DCC3"],
+ "Ronan the Accuser":["#1B1B1F", "#3C6FA8"],
+ "Dormammu":["#E0662A", "#5B2E7A"],
+ "Howard Stark":["#14100D", "#EFE4CD"],
+ "Peggy Carter":["#B31B1B", "#1C2B5A"],
+ "Pepper Potts":["#4E5FA8", "#A9B0B7"],
+ "Happy Hogan":["#14100D", "#EFE4CD"],
+ "Phil Coulson":["#14100D", "#EFE4CD"],
+ "Maria Hill":["#1C2B5A", "#1B1B1F"],
+ "Erik Selvig":["#14100D", "#EFE4CD"],
+ "Jane Foster":["#A9B0B7", "#A3161A"],
+ "Darcy Lewis":["#14100D", "#EFE4CD"],
+ "Ned Leeds":["#14100D", "#EFE4CD"],
+ "MJ":["#14100D", "#EFE4CD"],
+ "Aunt May":["#14100D", "#EFE4CD"],
+ "Hank Pym":["#B3261E", "#9AA4AE"],
+ "Janet van Dyne":["#D9A21B", "#1E1E22"],
+ "Luis":["#14100D", "#EFE4CD"],
+ "Cassie Lang":["#B3261E", "#A9B0B7"],
+ "Christine Palmer":["#14100D", "#EFE4CD"],
+ "Sharon Carter":["#14100D", "#EFE4CD"],
+ "Everett Ross":["#14100D", "#EFE4CD"],
+ "Talos":["#4E7A3A", "#5B2E7A"],
+ "Monica Rambeau":["#1F3A93", "#E6E9ED"],
+ "Jimmy Woo":["#14100D", "#EFE4CD"],
+ "Isaiah Bradley":["#14100D", "#EFE4CD"],
+ "Mobius":["#7A5A3A", "#E6DCC3"],
+ "Sylvie":["#2F6B3A", "#C9A227"],
+ "Katy":["#14100D", "#EFE4CD"],
+ "Xialing":["#A3161A", "#1B1B1F"],
+ "Layla El-Faouly":["#C9A227", "#9A2323"],
+ "Foggy Nelson":["#14100D", "#EFE4CD"],
+ "Karen Page":["#14100D", "#EFE4CD"],
+ "Odin":["#C9A227", "#9AA4AE"],
+ "Frigga":["#C9A227", "#E6DCC3"],
+ "Heimdall":["#C9A227", "#8A5A2B"],
+ "Sif":["#9AA4AE", "#1B1B1F"],
+ "Valkyrie":["#A9B0B7", "#1C2B5A"],
+ "Korg":["#7C8487", "#3C6FA8"],
+ "Okoye":["#A3161A", "#C9A227"],
+ "Nakia":["#2F6B3A", "#C9A227"],
+ "M’Baku":["#6B4A2E", "#1B1B1F"],
+ "Ramonda":["#E6DCC3", "#C9A227"]
+};
+
+/* Voice roles get a badge -- Vin Diesel's face does not read as Groot.
+   Recast roles use the current actor; these three name two actors with no
+   clear current one, so the pick is explicit. */
+const PHOTO_ACTOR = {'Howard Stark':'John Slattery','Red Skull':'Hugo Weaving','Cassie Lang':'Kathryn Newton'};
+function photoActor(c){
+  if(/\(voice\)/.test(c.a)) return null;
+  if(PHOTO_ACTOR[c.n]) return PHOTO_ACTOR[c.n];
+  const parts=c.a.split(', then ');
+  return parts[parts.length-1].trim();
+}
+function monogram(n){
+  const w=n.split(' / ')[0].replace(/^The /,'').split(/\s+/).filter(Boolean);
+  return (w.length>1 ? w[0][0]+w[1][0] : w[0][0]).toUpperCase();
+}
+function avatarHTML(c){
+  const suit=SUIT[c.n]||['#14100D','#EFE4CD'], who=photoActor(c), ph=who&&PHOTOS[who];
+  const inner = ph
+    ? '<img src="'+ph.f+'" alt="'+esc(who)+'" loading="lazy" decoding="async" width="64" height="64">'
+    : '<span class="avmono" aria-hidden="true">'+monogram(c.n)+'</span>';
+  return '<span class="av" style="--c1:'+suit[0]+';--c2:'+suit[1]+'">'+inner+'</span>';
+}
+function renderPhotoCredits(){
+  const el=document.getElementById('photocredits'); if(!el) return;
+  el.innerHTML='<ul>'+Object.keys(PHOTOS).sort().map(a=>{
+    const p=PHOTOS[a];
+    const lic=p.lu ? '<a href="'+p.lu+'" rel="license noopener">'+esc(p.lic)+'</a>' : esc(p.lic);
+    return '<li><a href="'+p.src+'" rel="noopener">'+esc(a)+'</a> — '+esc(p.by)+', '+lic+'</li>';
+  }).join('')+'</ul>';
+}
+renderPhotoCredits();
+
 function chHTML(c){
   return '<article class="ch'+(c.s?' sup':'')+'"><span class="gtag">' + c.g + '</span>'
+   + '<div class="chead">' + avatarHTML(c) + '<div class="chid">'
    + '<span class="cn">' + c.n + '</span>'
    + (c.r && c.r !== '\u2014' ? '<span class="cr">' + c.r + '</span>' : '')
+   + '</div></div>'
    + '<p class="cb">' + c.b + '</p>'
    + '<span class="cmeta"><span class="dcell"><span class="dk">First appears</span>'
    + '<span class="dv">' + c.d + '<br>' + c.y + '</span></span>'
