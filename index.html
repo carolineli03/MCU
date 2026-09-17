@@ -509,6 +509,121 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 /* ---------- THREADS TAB ---------- */
 .thintro{margin:26px 0 0}
 .thlist{display:grid;gap:16px;margin-top:22px}
+/* ---------- how it connects: shared ---------- */
+.cxsec{margin:26px 0 0}
+.cxlede{margin:-4px 0 12px;font-size:14px;line-height:1.4;opacity:.78}
+.cxthreads{margin:34px 0 0}
+.cxthreads + .thlist{margin-top:8px}
+
+/* ---------- multiverse map ----------
+   Universes are columns and time runs down, so it reads on a phone. Rails
+   only draw from the year a universe exists; a bridge spans the lanes a
+   title connects. Identity is the column and its header, never colour. */
+.mvmap{border:3px solid var(--line);background:var(--surface);box-shadow:5px 5px 0 var(--shadow);padding:12px 10px 4px}
+.mvhead,.mvgrid,.mvrails{display:grid;grid-template-columns:repeat(5,1fr)}
+.mvtop{border-bottom:2.5px solid var(--line);padding-bottom:9px !important;margin-bottom:4px}
+.mvtexthead{display:none !important}
+.mvlane.home b{color:var(--red-ink)}
+.mvcell.under::before{border-left-color:transparent !important;
+  background:linear-gradient(var(--line) 0 30%,transparent 30% 70%,var(--line) 70%);width:2.5px;border:none}
+.mvlane{text-align:center;padding:0 2px;line-height:1.05}
+.mvlane b{display:block;font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:11.5px}
+.mvlane small{display:block;font-size:10px;opacity:.6;margin-top:2px}
+.mvrow{position:relative;padding-bottom:10px}
+.mvrails{position:absolute;inset:0;opacity:.22;pointer-events:none}
+.mvgrid{position:relative;height:32px}
+.mvcell{position:relative;display:flex;align-items:center;justify-content:center}
+.mvcell::before{content:"";position:absolute;top:0;bottom:0;left:50%;border-left:2.5px solid transparent;transform:translateX(-50%)}
+.mvcell.live::before{border-left-color:var(--line)}
+.mvdot{position:relative;z-index:2;box-sizing:border-box;width:16px;height:16px;border:2.5px solid var(--line);border-radius:50%;background:var(--surface)}
+.mvdot.cross{background:var(--yellow)}
+.mvdot.burst{background:var(--red);width:18px;height:18px}
+.mvdot.era{background:var(--line);width:11px;height:11px}
+.mvdot.seen{background:var(--line)}
+.mvdot.seen::after{content:"✔";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--yellow);font-size:9px;line-height:1}
+.mvbridge{position:absolute;top:50%;z-index:1;height:0;border-top:4px solid var(--line);transform:translateY(-50%);
+  left:calc((var(--lo) + .5) * 20%);width:calc((var(--hi) - var(--lo)) * 20%)}
+.mvbridge.nod{border-top:3px dashed var(--line)}
+.mvrow.key .mvbridge{border-top:7px solid var(--red)}
+.mvtext{position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 8px;padding:1px 4px 9px;border-bottom:1.5px solid rgba(20,16,13,.12)}
+.mvrow:last-child .mvtext{border-bottom:none}
+.mvy,.mvt{position:relative;z-index:1}
+.mvy{font-family:"Barlow Condensed";font-weight:700;font-size:12px;letter-spacing:.06em;background:var(--invert-bg);color:var(--invert-text);padding:2px 6px 1px}
+.mvt{font:inherit;font-family:"Archivo Black";font-size:13.5px;background:none;border:none;padding:0;color:var(--red-ink);text-align:left;cursor:pointer;
+  text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px}
+span.mvt{color:var(--text);text-decoration:none;cursor:default}
+.mvt{background:var(--surface);padding:0 3px}
+.mvt:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.mvnote{flex-basis:100%;font-size:13.5px;line-height:1.35;background:var(--surface)}
+@media (min-width:700px){
+  .mvrow{display:grid;grid-template-columns:44% 1fr;align-items:center;column-gap:16px;padding-bottom:0}
+  .mvrails{right:auto;width:44%}
+  .mvgrid{height:auto;min-height:58px;align-self:stretch}
+  .mvtext{border-bottom:none;padding:8px 4px}
+  .mvrow:not(.mvtop){border-bottom:1.5px solid rgba(20,16,13,.12)}
+  .mvrow:last-child{border-bottom:none}
+  .mvtexthead{display:block !important;font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:11.5px;opacity:.6;align-self:end}
+  .mvtop .mvhead{grid-column:1}
+}
+.mvkey{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:12.5px}
+.mvkey span{display:inline-flex;align-items:center;gap:7px}
+.mvkey i{display:inline-block;width:28px;height:0;border-top:4px solid var(--line)}
+.mvkey i.nod{border-top:3px dashed var(--line)}
+.mvkey i.key{border-top:7px solid var(--red)}
+
+/* ---------- character web ---------- */
+.webbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+.webbar .selctl{flex:1 1 200px;max-width:320px}
+.webbar .cbtn{min-height:38px}
+.webkey{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;margin:0 0 10px}
+.webkey span{display:inline-flex;align-items:center;gap:7px}
+.webwrap{position:relative;border:3px solid var(--line);background:var(--surface);box-shadow:5px 5px 0 var(--shadow)}
+/* One finger still scrolls the page; drag with a mouse, pinch with two fingers. */
+#websvg{display:block;width:100%;height:580px;touch-action:pan-x pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+@media (max-width:640px){#websvg{height:460px}}
+#websvg.dragging{cursor:grabbing}
+#websvg{--ts:1}
+.we{stroke-width:2px;vector-effect:non-scaling-stroke;stroke-linecap:round;opacity:.5;transition:opacity .15s ease}
+.wn{cursor:pointer;transition:opacity .15s ease}
+.wn .whit{fill:transparent}
+.wn .wring{fill:none;stroke:var(--line);stroke-width:1.6px;vector-effect:non-scaling-stroke}
+.wl{font-family:"Barlow Condensed";font-weight:700;font-size:calc(var(--ts) * 12.5px);text-anchor:middle;fill:var(--text);
+  paint-order:stroke;stroke:var(--surface);stroke-width:calc(var(--ts) * 3.5px);stroke-linejoin:round;display:none;pointer-events:none}
+.wl.lblon{display:block}
+.wg{font-family:"Bangers";font-size:calc(var(--ts) * 19px);letter-spacing:.03em;text-anchor:middle;fill:var(--red-ink);
+  paint-order:stroke;stroke:var(--surface);stroke-width:calc(var(--ts) * 5px);stroke-linejoin:round;pointer-events:none;transition:opacity .15s ease}
+#websvg.has-sel .we{opacity:.05}
+#websvg.has-sel .we.on{opacity:1;stroke-width:3.2px}
+#websvg.has-sel .wn{opacity:.16}
+#websvg.has-sel .wn.on{opacity:1}
+#websvg.has-sel .wg{opacity:.2}
+.wn.sel .wring{stroke-width:4px}
+.webzoom{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px}
+.webzoom button{width:38px;height:38px;font-family:"Archivo Black";font-size:17px;line-height:1;border:2.5px solid var(--line);
+  background:var(--bg);color:var(--text);box-shadow:2px 2px 0 var(--shadow);cursor:pointer}
+#webzfit{font-family:"Barlow Condensed";font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.webzoom button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.webhint{margin:8px 0 0;font-size:12px;opacity:.6}
+.webpanel{margin-top:14px;border:3px solid var(--line);background:var(--surface);box-shadow:5px 5px 0 var(--shadow);padding:13px 14px 14px}
+.wphint{margin:0;font-size:14px;opacity:.75}
+.wphead{display:flex;align-items:center;gap:13px}
+.wphead .av{width:66px;height:66px;padding:5px}
+.wpname{display:block;font-family:"Bangers";font-size:27px;line-height:.98;letter-spacing:.02em;color:var(--red-ink)}
+.wpgroup{display:block;font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:11px;opacity:.6;margin-top:4px}
+.wptypes{display:grid;gap:12px;margin-top:12px}
+@media (min-width:640px){.wptypes{grid-template-columns:1fr 1fr}}
+.wpkey{display:flex;align-items:center;gap:8px;font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:11.5px}
+.wptype ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:5px}
+.wptype li{font-size:14px;line-height:1.3}
+.wpgo{font:inherit;font-family:"Archivo Black";font-size:13.5px;background:none;border:none;padding:0;color:var(--text);cursor:pointer;
+  text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px}
+.wpgo:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wpspoil{margin:12px 0 0;font-size:12.5px;font-style:italic;opacity:.65}
+.weblist{margin-top:12px}
+.weblist summary{cursor:pointer;font-family:"Archivo Black";font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+.weblist table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+.weblist th{text-align:left;font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:11px;padding:4px 6px}
+.weblist td{padding:5px 6px;border-top:1px solid rgba(20,16,13,.14);vertical-align:top}
 @media(min-width:1000px){.thlist{grid-template-columns:1fr 1fr}}
 .th{border:3px solid var(--line);background:var(--surface);box-shadow:5px 5px 0 var(--shadow);
   padding:15px 15px 16px}
@@ -825,6 +940,35 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   </div><!-- /pane-chars -->
 
   <div class="pane" id="pane-threads" role="tabpanel" aria-labelledby="tab-threads" hidden>
+    <section class="cxsec">
+      <div class="gate-head"><span class="bolt">▶</span><h2>The multiverse, mapped</h2></div>
+      <p class="cxlede">Five universes, and every title where they touch. Tap a title for the details.</p>
+      <div class="mvmap" id="mvmap"></div>
+      <div class="mvkey"><span><i class="k cross"></i>Characters cross over</span><span><i class="k nod"></i>A nod or a setup</span><span><i class="k key"></i>The big crossovers</span></div>
+    </section>
+
+    <section class="cxsec">
+      <div class="gate-head"><span class="bolt">▶</span><h2>Who’s connected to who</h2></div>
+      <p class="cxlede">All 119 characters and how they’re tied together. Tap anyone, or pick a name.</p>
+      <div class="webbar">
+        <select class="selctl" id="webpick" aria-label="Focus on a character"></select>
+        <button class="cbtn alt" id="webspoil" aria-pressed="false">Spoilers hidden</button>
+      </div>
+      <div class="webkey" id="webkey"></div>
+      <div class="webwrap">
+        <svg id="websvg" role="img" aria-label="Map of how the characters are connected. The full list is below."></svg>
+        <div class="webzoom">
+          <button id="webzin" aria-label="Zoom in">+</button>
+          <button id="webzout" aria-label="Zoom out">−</button>
+          <button id="webzfit" aria-label="Show everyone">Fit</button>
+        </div>
+      </div>
+      <p class="webhint">Drag to move around. Pinch, or use + and −, to zoom.</p>
+      <div class="webpanel" id="webpanel" aria-live="polite"></div>
+      <details class="weblist"><summary>Every connection as a list</summary><div id="weblist"></div></details>
+    </section>
+
+    <div class="gate-head cxthreads"><span class="bolt">▶</span><h2>Nine storylines</h2></div>
     <div class="thlist" id="thlist"></div>
   </div>
 
@@ -2044,6 +2188,7 @@ document.getElementById('spoil').addEventListener('click', e => {
   e.currentTarget.setAttribute('aria-pressed', spoilers);
   document.getElementById('spoillabel').textContent = spoilers ? 'Spoilers showing' : 'Spoilers hidden';
   renderChars();
+  if(typeof renderWeb==='function'){ syncWebSpoil(); renderWeb(); }
 });
 
 /* tabs */
@@ -2452,7 +2597,461 @@ document.addEventListener('keydown',e=>{
 function threadsFor(it){ return THREADS.filter(t=>t.steps.some(s=>s.id===it.id)); }
 function titleOf(id){ const r=DATA.find(x=>x.t==='i'&&x.id===id); return r?r.title:id; }
 
+/* ---------- how it connects: the multiverse map ---------- */
+/* The MCU sits in the middle because every bridge touches it; the lanes it
+   crosses to most often (Fox, then the Fantastic Four) sit beside it. */
+const MV_LANES = [
+  {k:'e838',  n:'Earth-838',      sub:'The Illuminati',from:2022},
+  {k:'spidey',n:'Earlier Spider-Men', sub:'Raimi & Webb', from:2002},
+  {k:'mcu',   n:'MCU',            sub:'Earth-616',     from:2008},
+  {k:'fox',   n:'Fox X-Men',      sub:'Earth-10005',   from:2000},
+  {k:'e828',  n:'Fantastic Four', sub:'Earth-828',     from:2025}
+];
+const MV_EVENTS = [
+  {y:'2000–20', l:['fox'], k:'era', id:'xmen', h:'Fox’s X-Men run', note:'Thirteen films in their own universe, from X-Men to The New Mutants.'},
+  {y:'2002–14', l:['spidey'], k:'era', h:'Two earlier Spider-Man series', note:'Tobey Maguire, then Andrew Garfield. Outside this guide, but they come back.'},
+  {y:'2008', l:['mcu'], k:'era', id:'ironman', h:'The MCU begins', note:'Iron Man starts the main timeline.'},
+  {y:'2021', l:['mcu'], k:'burst', id:'loki1', note:'The Sacred Timeline breaks, and the multiverse opens up.'},
+  {y:'2021', l:['mcu','spidey'], k:'cross', id:'nwh', note:'Tobey’s and Andrew’s Spider-Men cross into the MCU.'},
+  {y:'2022', l:['mcu','e838'], k:'cross', id:'mom', note:'Strange meets the Illuminati, including Patrick Stewart’s Professor X.'},
+  {y:'2022', l:['mcu','fox'], k:'nod', id:'msmarvel', note:'Kamala is called a mutant, to the X-Men ’97 theme.'},
+  {y:'2022', l:['mcu','fox'], k:'nod', id:'wakanda2', note:'Namor calls himself a mutant.'},
+  {y:'2023', l:['mcu','fox'], k:'nod', id:'marvels', note:'Monica wakes up in a world with Kelsey Grammer’s Beast.'},
+  {y:'2023', l:['mcu'], k:'burst', id:'loki2', note:'Loki finds a way to hold every timeline together.'},
+  {y:'2024', l:['mcu','fox'], k:'cross', key:1, id:'dw', note:'The TVA pulls Deadpool and Wolverine out of the Fox universe and into the MCU. This is where the X-Men and Marvel meet.'},
+  {y:'2025', l:['mcu','e828'], k:'nod', id:'ff', note:'A separate universe, and the on-ramp to Doomsday.'},
+  {y:'2026', l:['mcu','fox','e828'], k:'cross', key:1, id:'doomsday', note:'The Avengers, the Fantastic Four and Fox’s original X-Men cast collide.'}
+];
+function renderMultiverse(){
+  const el=document.getElementById('mvmap'); if(!el) return;
+  const idx={}; MV_LANES.forEach((l,i)=>idx[l.k]=i);
+  const head='<div class="mvrow mvtop"><div class="mvhead">'+MV_LANES.map(l=>'<span class="mvlane'+(l.k==='mcu'?' home':'')+'"><b>'+esc(l.n)+'</b><small>'+esc(l.sub)+'</small></span>').join('')
+    +'</div><div class="mvtext mvtexthead">What happens</div></div>';
+  el.innerHTML=head+MV_EVENTS.map(ev=>{
+    const yr=parseInt(ev.y,10), on=ev.l.map(k=>idx[k]), lo=Math.min.apply(null,on), hi=Math.max.apply(null,on);
+    const seen=!!(ev.id&&watched.has(ev.id));
+    const rails=MV_LANES.map(l=>'<span class="mvcell'+(yr>=l.from?' live':'')+'"></span>').join('');
+    const cells=MV_LANES.map((l,i)=>'<span class="mvcell'+(yr>=l.from?' live':'')+(i>lo&&i<hi&&!on.includes(i)?' under':'')+'">'
+      +(on.includes(i)?'<i class="mvdot '+ev.k+(seen?' seen':'')+'"></i>':'')+'</span>').join('');
+    const bridge=hi>lo?'<span class="mvbridge '+ev.k+'" style="--lo:'+lo+';--hi:'+hi+'"></span>':'';
+    const title=ev.id
+      ? '<button class="mvt" data-open="'+ev.id+'">'+esc(ev.h||titleOf(ev.id))+'</button>'
+      : '<span class="mvt">'+esc(ev.h)+'</span>';
+    return '<div class="mvrow'+(ev.key?' key':'')+'"><div class="mvrails">'+rails+'</div>'
+      +'<div class="mvgrid">'+cells+bridge+'</div>'
+      +'<div class="mvtext"><span class="mvy">'+esc(ev.y)+'</span>'+title+'<span class="mvnote">'+esc(ev.note)+'</span></div></div>';
+  }).join('');
+}
+
+/* ---------- how it connects: the character web ----------
+   Four relationship types. The palette passed the all-pairs colour-blind
+   check against the card surface, but Allies and Romance sit in the 6–8 ΔE
+   floor band, so each type also has its own line pattern; the panel and the
+   list below carry every label in text, so colour is never the only cue. */
+const REL_TYPES = [
+  {k:'family',  label:'Family',  c:'#1B45C4', dash:''},
+  {k:'enemy',   label:'Enemies', c:'#D92B1C', dash:''},
+  {k:'ally',    label:'Allies',  c:'#1BAF7A', dash:'7 5'},
+  {k:'romance', label:'Romance', c:'#E87BA4', dash:'1.5 5'}
+];
+/* [a, b, type, what b is to a, what a is to b, spoiler] */
+const RELS = [
+ ["Iron Man", "Pepper Potts", "romance", "married", "married", 0],
+ ["Iron Man", "Happy Hogan", "ally", "bodyguard and best friend", "boss and best friend", 0],
+ ["Iron Man", "War Machine", "ally", "best friend", "best friend", 0],
+ ["Iron Man", "Howard Stark", "family", "father", "son", 0],
+ ["Iron Man", "Spider-Man", "ally", "protégé", "mentor", 0],
+ ["Iron Man", "Captain America", "ally", "teammate he split with", "teammate he split with", 0],
+ ["Iron Man", "Obadiah Stane", "enemy", "betrayed him", "the partner he betrayed", 0],
+ ["Iron Man", "Justin Hammer", "enemy", "rival arms dealer", "the rival he envied", 0],
+ ["Iron Man", "Ultron", "enemy", "his creation gone wrong", "his creator", 0],
+ ["Iron Man", "Thanos", "enemy", "the Titan he dies stopping", "the hero who stops him", 1],
+ ["Iron Man", "Doctor Strange", "ally", "Infinity War team-up", "Infinity War team-up", 0],
+ ["Iron Man", "Vision", "ally", "grew out of his J.A.R.V.I.S.", "built the J.A.R.V.I.S. he grew from", 0],
+ ["Iron Man", "Hulk", "ally", "science bro", "science bro", 0],
+ ["Captain America", "Winter Soldier", "ally", "best friend since Brooklyn", "best friend since Brooklyn", 0],
+ ["Captain America", "Peggy Carter", "romance", "love of his life", "love of her life", 0],
+ ["Captain America", "Sharon Carter", "romance", "brief romance", "brief romance", 0],
+ ["Captain America", "Falcon / Captain America", "ally", "his successor", "hands him the shield", 1],
+ ["Captain America", "Red Skull", "enemy", "Hydra nemesis", "nemesis", 0],
+ ["Captain America", "Nick Fury", "ally", "recruited him", "his recruit", 0],
+ ["Captain America", "Black Widow", "ally", "partner on the run", "partner on the run", 0],
+ ["Captain America", "Alexander Pierce", "enemy", "Hydra inside S.H.I.E.L.D.", "the soldier who exposed him", 0],
+ ["Captain America", "Crossbones", "enemy", "turned on his team", "the captain he betrayed", 0],
+ ["Captain America", "Helmut Zemo", "enemy", "broke the Avengers apart", "the Avenger he turned against Tony", 0],
+ ["Captain America", "Howard Stark", "ally", "built his shield", "wore his shield", 0],
+ ["Thor", "Loki", "family", "adoptive brother", "adoptive brother", 0],
+ ["Thor", "Odin", "family", "father", "son", 0],
+ ["Thor", "Frigga", "family", "mother", "son", 0],
+ ["Thor", "Hela", "family", "sister", "brother", 0],
+ ["Thor", "Jane Foster", "romance", "on-and-off love", "on-and-off love", 0],
+ ["Thor", "Valkyrie", "ally", "he hands her New Asgard", "hands her New Asgard", 1],
+ ["Thor", "Heimdall", "ally", "gatekeeper and friend", "his king and friend", 0],
+ ["Thor", "Sif", "ally", "childhood comrade", "childhood comrade", 0],
+ ["Thor", "Korg", "ally", "Sakaar teammate", "Sakaar teammate", 0],
+ ["Thor", "Hulk", "ally", "friend from work", "friend from work", 0],
+ ["Thor", "Thanos", "enemy", "the Titan he kills", "kills him", 1],
+ ["Thor", "Rocket", "ally", "the rabbit", "the captain", 0],
+ ["Thor", "Star-Lord", "ally", "rival for the Guardians", "rival for the Guardians", 0],
+ ["Thor", "Erik Selvig", "ally", "scientist friend", "Asgardian friend", 0],
+ ["Hulk", "Black Widow", "romance", "the romance that didn’t happen", "the romance that didn’t happen", 0],
+ ["Hulk", "She-Hulk", "family", "cousin", "cousin", 0],
+ ["Hulk", "Red Hulk", "enemy", "hunted him for years", "the monster he hunted", 0],
+ ["Black Widow", "Hawkeye", "ally", "best friend", "best friend", 0],
+ ["Black Widow", "Yelena Belova", "family", "sister", "sister", 0],
+ ["Black Widow", "Red Guardian", "family", "surrogate father", "surrogate daughter", 0],
+ ["Black Widow", "Taskmaster", "enemy", "Red Room hunter", "her target", 0],
+ ["Black Widow", "Nick Fury", "ally", "her boss at S.H.I.E.L.D.", "his agent", 0],
+ ["Hawkeye", "Kate Bishop", "ally", "protégée", "mentor", 0],
+ ["Hawkeye", "Echo", "enemy", "the woman whose father he killed", "killed her father as Ronin", 1],
+ ["Hawkeye", "Yelena Belova", "enemy", "blamed him for Natasha", "the one she blamed for Natasha", 1],
+ ["Hawkeye", "Phil Coulson", "ally", "S.H.I.E.L.D. handler", "S.H.I.E.L.D. agent", 0],
+ ["Hawkeye", "Loki", "enemy", "mind-controlled him", "his mind-controlled soldier", 0],
+ ["Falcon / Captain America", "Winter Soldier", "ally", "reluctant partner", "reluctant partner", 0],
+ ["Falcon / Captain America", "US Agent", "enemy", "fought him for the shield", "fought him for the shield", 0],
+ ["Falcon / Captain America", "Isaiah Bradley", "ally", "the hidden super-soldier", "the Captain America who listened", 0],
+ ["Falcon / Captain America", "Red Hulk", "enemy", "Brave New World showdown", "Brave New World showdown", 1],
+ ["Falcon / Captain America", "Sharon Carter", "enemy", "secretly the Power Broker", "the Falcon she played", 1],
+ ["Winter Soldier", "Helmut Zemo", "enemy", "used his trigger words", "the asset he used", 0],
+ ["Winter Soldier", "Yelena Belova", "ally", "Thunderbolts teammate", "Thunderbolts teammate", 0],
+ ["Winter Soldier", "Black Panther", "ally", "gave him a home in Wakanda", "the White Wolf he sheltered", 0],
+ ["Scarlet Witch", "Vision", "romance", "love story", "love story", 0],
+ ["Scarlet Witch", "Agatha Harkness", "enemy", "the neighbour who wasn’t", "the power she wanted", 0],
+ ["Scarlet Witch", "Doctor Strange", "enemy", "the sorcerer she turns on", "turns on him", 1],
+ ["Scarlet Witch", "America Chavez", "enemy", "the girl she hunts", "hunts her powers", 1],
+ ["Scarlet Witch", "Monica Rambeau", "ally", "broke into Westview", "trapped her in Westview", 0],
+ ["Scarlet Witch", "Thanos", "enemy", "took Vision from her", "the Avenger he robbed", 1],
+ ["Scarlet Witch", "Ultron", "enemy", "the machine she sided with, then fought", "his short-lived ally", 0],
+ ["Vision", "Ultron", "enemy", "whose body he was built from", "built from his stolen body", 0],
+ ["Ant-Man", "Wasp", "romance", "partner", "partner", 0],
+ ["Ant-Man", "Hank Pym", "ally", "mentor", "his successor", 0],
+ ["Ant-Man", "Cassie Lang", "family", "daughter", "father", 0],
+ ["Ant-Man", "Luis", "ally", "best friend", "best friend", 0],
+ ["Ant-Man", "Janet van Dyne", "ally", "the woman he helped bring back", "helped bring her back", 0],
+ ["Ant-Man", "Kang / He Who Remains", "enemy", "the conqueror he fights", "Quantumania enemy", 0],
+ ["Ant-Man", "Ghost", "enemy", "stole the lab from him", "chased her", 0],
+ ["Ant-Man", "Jimmy Woo", "ally", "his FBI minder", "the parolee he watched", 0],
+ ["Wasp", "Hank Pym", "family", "father", "daughter", 0],
+ ["Wasp", "Janet van Dyne", "family", "mother", "daughter", 0],
+ ["Hank Pym", "Janet van Dyne", "romance", "married", "married", 0],
+ ["Janet van Dyne", "Kang / He Who Remains", "enemy", "the exile she stranded", "stranded him", 1],
+ ["Hank Pym", "Ghost", "enemy", "the girl his work harmed", "wronged her father", 0],
+ ["Spider-Man", "MJ", "romance", "first love", "first love", 0],
+ ["Spider-Man", "Ned Leeds", "ally", "best friend", "best friend", 0],
+ ["Spider-Man", "Aunt May", "family", "aunt", "nephew", 0],
+ ["Spider-Man", "Happy Hogan", "ally", "handler", "the kid he looked after", 0],
+ ["Spider-Man", "Vulture", "enemy", "first villain", "the kid who stopped him", 0],
+ ["Spider-Man", "Mysterio", "enemy", "unmasked him to the world", "the hero he framed", 1],
+ ["Spider-Man", "Doctor Strange", "ally", "cast the spell that erased him", "the kid he erased", 1],
+ ["Spider-Man", "Daredevil", "ally", "his lawyer", "his client", 0],
+ ["Black Panther", "Shuri", "family", "sister", "brother", 0],
+ ["Black Panther", "Ramonda", "family", "mother", "son", 0],
+ ["Black Panther", "Nakia", "romance", "love", "love", 0],
+ ["Black Panther", "Okoye", "ally", "his general", "her king", 0],
+ ["Black Panther", "Killmonger", "enemy", "cousin and challenger", "cousin and rival for the throne", 0],
+ ["Black Panther", "M’Baku", "ally", "rival turned ally", "rival turned ally", 0],
+ ["Black Panther", "Everett Ross", "ally", "CIA ally", "the king who saved him", 0],
+ ["Black Panther", "Helmut Zemo", "enemy", "killed his father", "whose father he killed", 0],
+ ["Shuri", "Ramonda", "family", "mother", "daughter", 0],
+ ["Shuri", "Namor", "enemy", "war with Talokan", "war with Wakanda", 0],
+ ["Ramonda", "Namor", "enemy", "the war that kills her", "the queen who dies in his war", 1],
+ ["Shuri", "Ironheart", "ally", "the student she protects", "protected her from Talokan", 0],
+ ["Doctor Strange", "Wong", "ally", "friend and Sorcerer Supreme", "friend", 0],
+ ["Doctor Strange", "Christine Palmer", "romance", "the one who got away", "the one who got away", 0],
+ ["Doctor Strange", "The Ancient One", "ally", "mentor", "her student", 0],
+ ["Doctor Strange", "Mordo", "enemy", "ally turned enemy", "ally turned enemy", 0],
+ ["Doctor Strange", "Dormammu", "enemy", "the demon he bargained with", "bargained with him", 0],
+ ["Doctor Strange", "America Chavez", "ally", "the girl he protects", "protected her", 0],
+ ["Doctor Strange", "Thanos", "enemy", "the Titan he gave the Time Stone", "gave him the Time Stone", 1],
+ ["Captain Marvel", "Monica Rambeau", "ally", "the girl she watched grow up", "the aunt figure she grew up with", 0],
+ ["Captain Marvel", "Nick Fury", "ally", "partner in 1995", "partner in 1995", 0],
+ ["Captain Marvel", "Ms. Marvel", "ally", "her biggest fan, then teammate", "her hero, then teammate", 0],
+ ["Captain Marvel", "Talos", "ally", "Skrull ally", "the soldier who switched sides", 0],
+ ["Captain Marvel", "Ronan the Accuser", "enemy", "Kree enemy", "Kree enemy", 0],
+ ["Monica Rambeau", "Ms. Marvel", "ally", "The Marvels teammate", "The Marvels teammate", 0],
+ ["Monica Rambeau", "Jimmy Woo", "ally", "fellow Westview investigator", "fellow Westview investigator", 0],
+ ["Nick Fury", "Phil Coulson", "ally", "right-hand man", "boss", 0],
+ ["Nick Fury", "Maria Hill", "ally", "deputy director", "boss", 0],
+ ["Nick Fury", "Talos", "ally", "Skrull partner", "partner", 0],
+ ["Nick Fury", "Alexander Pierce", "enemy", "the Hydra traitor", "the director he betrayed", 0],
+ ["Star-Lord", "Gamora", "romance", "love", "love", 0],
+ ["Star-Lord", "Ego", "family", "father", "son", 0],
+ ["Star-Lord", "Yondu", "family", "the man who raised him", "the boy he raised", 0],
+ ["Star-Lord", "Rocket", "ally", "fellow Guardian", "fellow Guardian", 0],
+ ["Star-Lord", "Drax", "ally", "fellow Guardian", "fellow Guardian", 0],
+ ["Star-Lord", "Mantis", "family", "half-sister", "half-brother", 1],
+ ["Gamora", "Thanos", "family", "adoptive father", "adoptive daughter", 0],
+ ["Gamora", "Nebula", "family", "sister", "sister", 0],
+ ["Gamora", "Ronan the Accuser", "enemy", "the warlord she betrayed", "betrayed him", 0],
+ ["Nebula", "Thanos", "family", "adoptive father", "adoptive daughter", 0],
+ ["Rocket", "Groot", "ally", "best friend", "best friend", 0],
+ ["Drax", "Mantis", "ally", "odd-couple friend", "odd-couple friend", 0],
+ ["Drax", "Ronan the Accuser", "enemy", "killed his family", "the man whose family he killed", 0],
+ ["Mantis", "Ego", "ally", "the god who raised her as a servant", "his servant", 0],
+ ["Yondu", "Kraglin", "ally", "first mate", "captain", 0],
+ ["Ronan the Accuser", "Thanos", "ally", "the Titan he served", "served him", 0],
+ ["Loki", "Sylvie", "romance", "a variant of himself", "a variant of herself", 0],
+ ["Loki", "Mobius", "ally", "TVA friend", "TVA friend", 0],
+ ["Loki", "Frigga", "family", "mother", "son", 0],
+ ["Loki", "Odin", "family", "adoptive father", "adopted son", 0],
+ ["Loki", "Thanos", "enemy", "kills him", "the god he kills", 1],
+ ["Sylvie", "Kang / He Who Remains", "enemy", "the man she kills", "kills him", 1],
+ ["Hela", "Odin", "family", "father", "daughter", 0],
+ ["Hela", "Valkyrie", "enemy", "the last Valkyrie", "killed her sisters in arms", 0],
+ ["Odin", "Frigga", "romance", "married", "married", 0],
+ ["Shang-Chi", "Wenwu", "family", "father", "son", 0],
+ ["Shang-Chi", "Xialing", "family", "sister", "brother", 0],
+ ["Shang-Chi", "Katy", "ally", "best friend", "best friend", 0],
+ ["Shang-Chi", "Wong", "ally", "recruited him", "his recruit", 0],
+ ["Xialing", "Wenwu", "family", "father", "daughter", 0],
+ ["Yelena Belova", "Red Guardian", "family", "surrogate father", "surrogate daughter", 0],
+ ["Yelena Belova", "Valentina Allegra de Fontaine", "enemy", "employer turned enemy", "her ex-assassin", 0],
+ ["Yelena Belova", "US Agent", "ally", "Thunderbolts teammate", "Thunderbolts teammate", 0],
+ ["Yelena Belova", "Sentry / The Void", "ally", "the man she saves", "saves him", 1],
+ ["US Agent", "Valentina Allegra de Fontaine", "ally", "recruited him", "her recruit", 0],
+ ["Sentry / The Void", "Valentina Allegra de Fontaine", "enemy", "made him her experiment", "her experiment", 0],
+ ["Kate Bishop", "Kingpin", "enemy", "the boss she takes on", "takes him on", 0],
+ ["Moon Knight", "Layla El-Faouly", "romance", "married", "married", 0],
+ ["Moon Knight", "Arthur Harrow", "enemy", "rival avatar", "rival avatar", 0],
+ ["She-Hulk", "Daredevil", "romance", "a fling", "a fling", 0],
+ ["She-Hulk", "Wong", "ally", "her client", "his lawyer", 0],
+ ["Deadpool", "Wolverine", "ally", "unwilling partner", "unwilling partner", 0],
+ ["Daredevil", "Kingpin", "enemy", "nemesis", "nemesis", 0],
+ ["Daredevil", "Foggy Nelson", "ally", "best friend and law partner", "best friend and law partner", 0],
+ ["Daredevil", "Karen Page", "romance", "partner and love interest", "partner and love interest", 0],
+ ["Daredevil", "The Punisher", "ally", "uneasy ally", "uneasy ally", 0],
+ ["Daredevil", "Jessica Jones", "ally", "fellow Defender", "fellow Defender", 0],
+ ["Kingpin", "Echo", "family", "the girl he raised", "the uncle who raised her", 0],
+ ["Foggy Nelson", "Karen Page", "ally", "Nelson and Murdock", "Nelson and Murdock", 0],
+ ["Wong", "The Ancient One", "ally", "teacher", "student", 0],
+ ["Mordo", "The Ancient One", "ally", "teacher", "student", 0],
+ ["Mister Fantastic", "Invisible Woman", "romance", "married", "married", 0],
+ ["Invisible Woman", "Human Torch", "family", "brother", "sister", 0],
+ ["Mister Fantastic", "The Thing", "ally", "best friend", "best friend", 0],
+ ["Human Torch", "The Thing", "ally", "teammate", "teammate", 0],
+ ["Doctor Doom", "Mister Fantastic", "enemy", "rival", "the threat Doomsday brings", 0],
+ ["Peggy Carter", "Howard Stark", "ally", "S.H.I.E.L.D. co-founder", "S.H.I.E.L.D. co-founder", 0],
+ ["Peggy Carter", "Sharon Carter", "family", "great-niece", "great-aunt", 0],
+ ["Pepper Potts", "Happy Hogan", "ally", "friend", "friend", 0],
+ ["Erik Selvig", "Jane Foster", "ally", "protégée", "mentor", 0],
+ ["Jane Foster", "Darcy Lewis", "ally", "intern turned friend", "boss turned friend", 0],
+ ["Ned Leeds", "MJ", "ally", "friend", "friend", 0],
+ ["Aunt May", "Happy Hogan", "romance", "brief romance", "brief romance", 0]
+];
+
+/* Laid out once at load with a small deterministic force simulation --
+   characters pulled toward their group's anchor, pushed apart from each
+   other, and sprung together along their relationships. Seeded, so the map
+   is identical on every visit. */
+const WEB = (function(){
+  let seed=20240726;
+  const rnd=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};
+  const nodes=CHARS.map((c,i)=>({i,c,n:c.n,g:c.g,deg:0,rels:[]}));
+  const by=new Map(nodes.map(x=>[x.n,x]));
+  const edges=[];
+  RELS.forEach(r=>{const a=by.get(r[0]), b=by.get(r[1]); if(!a||!b) return;
+    const e={i:edges.length,a,b,t:r[2],la:r[3],lb:r[4],s:!!r[5]}; edges.push(e); a.deg++; b.deg++; a.rels.push(e); b.rels.push(e);});
+  const RING=['Second wave','Wakanda','Big bads','Fantastic Four','Cosmic','Asgard','Inner circle','Street level','New guard','Mystic'];
+  const anchor={'Founders':{x:0,y:0}};
+  RING.forEach((g,k)=>{const a=-Math.PI/2+k*2*Math.PI/RING.length; anchor[g]={x:Math.cos(a)*900,y:Math.sin(a)*680};});
+  nodes.forEach(n=>{const a=anchor[n.g]||{x:0,y:0}; n.x=a.x+(rnd()-.5)*140; n.y=a.y+(rnd()-.5)*140; n.r=7+Math.min(n.deg,12)*.75;});
+  const IT=500, L=nodes.length;
+  for(let it=0;it<IT;it++){
+    const heat=1-it/IT;
+    for(const n of nodes){n.fx=0;n.fy=0;}
+    for(let i=0;i<L;i++){const p=nodes[i]; for(let j=i+1;j<L;j++){const q=nodes[j];
+      let dx=p.x-q.x, dy=p.y-q.y, d2=dx*dx+dy*dy; if(d2<.01){dx=rnd()-.5;dy=rnd()-.5;d2=.5;}
+      const d=Math.sqrt(d2); dx/=d; dy/=d;
+      let f=Math.min((p.g===q.g?14000:9000)/d2,40); const min=p.r+q.r+58; if(d<min) f+=(min-d)*.8;
+      p.fx+=dx*f; p.fy+=dy*f; q.fx-=dx*f; q.fy-=dy*f;}}
+    for(const e of edges){let dx=e.b.x-e.a.x, dy=e.b.y-e.a.y; const d=Math.sqrt(dx*dx+dy*dy)||1;
+      const same=e.a.g===e.b.g, f=same?(d-120)*.03:(d-300)*.003;
+      dx/=d; dy/=d; e.a.fx+=dx*f; e.a.fy+=dy*f; e.b.fx-=dx*f; e.b.fy-=dy*f;}
+    for(const n of nodes){const a=anchor[n.g]; n.fx+=(a.x-n.x)*.045; n.fy+=(a.y-n.y)*.045;
+      const cap=Math.max(1.5,30*heat), m=Math.hypot(n.fx,n.fy); if(m>cap){n.fx*=cap/m;n.fy*=cap/m;}
+      n.x+=n.fx; n.y+=n.fy;}
+  }
+  /* Scale so the whole map is ~960 units wide: at fit it draws close to 1:1
+     on a laptop, and labels and strokes counter-scale for everything else. */
+  const cx=nodes.reduce((t,n)=>t+n.x,0)/L, cy=nodes.reduce((t,n)=>t+n.y,0)/L;
+  const span=Math.max(...nodes.map(n=>n.x))-Math.min(...nodes.map(n=>n.x)), sc=960/span;
+  for(const n of nodes){n.x=(n.x-cx)*sc; n.y=(n.y-cy)*sc;}
+  const groups={};
+  for(const n of nodes){const g=groups[n.g]||(groups[n.g]={x:0,k:0,top:1e9}); g.x+=n.x; g.k++; g.top=Math.min(g.top,n.y-n.r);}
+  for(const g of Object.values(groups)) g.x/=g.k;
+  const xs=nodes.map(n=>n.x), ys=nodes.map(n=>n.y), pad=60;
+  const box={x:Math.min(...xs)-pad, y:Math.min(...ys)-pad-30, w:0, h:0};
+  box.w=Math.max(...xs)+pad-box.x; box.h=Math.max(...ys)+pad-box.y;
+  return {nodes,edges,groups,box,by};
+})();
+
+let webSel=null, webVB=null;
+const relType=k=>REL_TYPES.find(t=>t.k===k);
+const lineKey=t=>'<svg width="30" height="10" aria-hidden="true"><line x1="2" y1="5" x2="28" y2="5" stroke="'+t.c+'" stroke-width="3.2" stroke-linecap="round"'+(t.dash?' stroke-dasharray="'+t.dash+'"':'')+'/></svg>';
+
+function webApplyVB(){
+  const svg=document.getElementById('websvg'); if(!svg||!webVB) return;
+  svg.setAttribute('viewBox',webVB.x+' '+webVB.y+' '+webVB.w+' '+webVB.h);
+  /* Units per screen pixel. Hidden tabs measure 0, so keep the last value. */
+  if(svg.clientWidth) svg.style.setProperty('--ts', Math.max(webVB.w/svg.clientWidth, webVB.h/svg.clientHeight));
+  svg.classList.toggle('zoomed', WEB.box.w/webVB.w>1.7);
+  /* Panning never changes which labels collide; only zoom does. */
+  if(webVB.w!==webApplyVB.lastW){ webApplyVB.lastW=webVB.w; webLabels(); }
+}
+/* Label selectively: the selection and its neighbours first, then the most
+   connected characters, skipping any name that would overlap one already
+   placed. Zooming in frees space, so more names appear. */
+function webLabels(){
+  const svg=document.getElementById('websvg'); if(!svg||!svg.clientWidth) return;
+  const zoomed=svg.classList.contains('zoomed'), sel=svg.classList.contains('has-sel');
+  const texts=[...svg.querySelectorAll('.wl')], on=webApplySel.on||new Set();
+  texts.forEach(t=>t.classList.remove('lblon'));
+  const want=texts.filter(t=>{const n=WEB.nodes[+t.dataset.n]; return sel ? on.has(n.i) : (zoomed || n.deg>=6);})
+    .sort((a,b)=>((+b.dataset.n===webSel)-(+a.dataset.n===webSel)) || (WEB.nodes[+b.dataset.n].deg-WEB.nodes[+a.dataset.n].deg));
+  const placed=[];
+  for(const t of want){
+    t.classList.add('lblon');
+    const r=t.getBoundingClientRect();
+    if(placed.some(p=>r.left<p.right+3&&p.left<r.right+3&&r.top<p.bottom+1&&p.top<r.bottom+1)) t.classList.remove('lblon');
+    else placed.push(r);
+  }
+}
+function renderWeb(){
+  const svg=document.getElementById('websvg'); if(!svg) return;
+  if(!webVB) webVB=Object.assign({},WEB.box);
+  const f=v=>v.toFixed(1);
+  const lines=WEB.edges.map(e=>{
+    if(e.s&&!spoilers) return '';
+    const t=relType(e.t);
+    return '<line class="we" data-e="'+e.i+'" x1="'+f(e.a.x)+'" y1="'+f(e.a.y)+'" x2="'+f(e.b.x)+'" y2="'+f(e.b.y)+'" stroke="'+t.c+'"'+(t.dash?' stroke-dasharray="'+t.dash+'"':'')+'/>';
+  }).join('');
+  const labels=Object.keys(WEB.groups).map(g=>'<text class="wg" x="'+f(WEB.groups[g].x)+'" y="'+f(WEB.groups[g].top-14)+'">'+esc(g)+'</text>').join('');
+  const dots=WEB.nodes.map(n=>{
+    const s=SUIT[n.n]||['#14100D','#EFE4CD'], r=n.r;
+    return '<g class="wn'+(n.deg>=7?' major':'')+'" data-n="'+n.i+'" transform="translate('+f(n.x)+' '+f(n.y)+')">'
+      +'<title>'+esc(n.n)+' · '+esc(n.g)+' · '+n.deg+' connection'+(n.deg===1?'':'s')+'</title>'
+      +'<circle class="whit" r="'+f(Math.max(r+6,17))+'"/>'
+      +'<circle r="'+f(r)+'" fill="'+s[0]+'"/>'
+      +'<path d="M'+f(-r)+' 0A'+f(r)+' '+f(r)+' 0 0 0 '+f(r)+' 0Z" fill="'+s[1]+'" transform="rotate(-45)"/>'
+      +'<circle class="wring" r="'+f(r)+'"/></g>';
+  }).join('');
+  /* Names on their own top layer, so a neighbouring dot never paints over one. */
+  const names=WEB.nodes.map(n=>'<text class="wl" data-n="'+n.i+'" x="'+f(n.x)+'" y="'+f(n.y+n.r)+'" style="transform:translateY(calc(var(--ts) * 13px))">'+esc(n.n)+'</text>').join('');
+  svg.innerHTML='<g>'+lines+'</g><g>'+labels+'</g><g>'+dots+'</g><g>'+names+'</g>';
+  webApplyVB(); webApplySel(); renderWebList();
+}
+function webApplySel(){
+  const svg=document.getElementById('websvg'); if(!svg) return;
+  const onN=new Set(), onE=new Set();
+  if(webSel!==null){
+    const n=WEB.nodes[webSel]; onN.add(n.i);
+    n.rels.forEach(e=>{ if(e.s&&!spoilers) return; onE.add(e.i); onN.add((e.a===n?e.b:e.a).i); });
+  }
+  svg.classList.toggle('has-sel', webSel!==null);
+  svg.querySelectorAll('.wn').forEach(g=>{const i=+g.dataset.n; g.classList.toggle('on',onN.has(i)); g.classList.toggle('sel',i===webSel);});
+  webApplySel.on=onN;
+  svg.querySelectorAll('.we').forEach(l=>l.classList.toggle('on',onE.has(+l.dataset.e)));
+  const pick=document.getElementById('webpick'); if(pick) pick.value=webSel===null?'':String(webSel);
+  webLabels();
+  renderWebPanel();
+}
+function renderWebPanel(){
+  const el=document.getElementById('webpanel'); if(!el) return;
+  if(webSel===null){ el.innerHTML='<p class="wphint">Tap anyone on the map, or pick a name above, to see who they’re tied to and how.</p>'; return; }
+  const n=WEB.nodes[webSel]; let hidden=0;
+  const blocks=REL_TYPES.map(t=>{
+    const rows=n.rels.filter(e=>e.t===t.k).filter(e=>{ if(e.s&&!spoilers){hidden++;return false;} return true; });
+    if(!rows.length) return '';
+    return '<div class="wptype"><span class="wpkey">'+lineKey(t)+t.label+'</span><ul>'+rows.map(e=>{
+      const other=e.a===n?e.b:e.a, what=e.a===n?e.la:e.lb;
+      return '<li><button class="wpgo" data-webgo="'+other.i+'">'+esc(other.n)+'</button> — '+esc(what)+'</li>';
+    }).join('')+'</ul></div>';
+  }).join('');
+  el.innerHTML='<div class="wphead">'+avatarHTML(n.c)+'<div><span class="wpname">'+esc(n.n)+'</span>'
+    +'<span class="wpgroup">'+esc(n.g)+' · '+n.deg+' connection'+(n.deg===1?'':'s')+'</span></div></div>'
+    +'<div class="wptypes">'+blocks+'</div>'
+    +(hidden?'<p class="wpspoil">'+hidden+' spoiler connection'+(hidden===1?' is':'s are')+' hidden. Switch spoilers on to see '+(hidden===1?'it':'them')+'.</p>':'');
+}
+function renderWebList(){
+  const el=document.getElementById('weblist'); if(!el) return;
+  const rows=WEB.edges.filter(e=>!(e.s&&!spoilers)).slice().sort((p,q)=>p.a.n.localeCompare(q.a.n)||p.b.n.localeCompare(q.b.n));
+  el.innerHTML='<table><thead><tr><th>Characters</th><th>Type</th><th>Connection</th></tr></thead><tbody>'+rows.map(e=>
+    '<tr><td>'+esc(e.a.n)+' &amp; '+esc(e.b.n)+'</td><td>'+relType(e.t).label+'</td><td>'
+    +esc(e.b.n)+': '+esc(e.la)+(e.lb!==e.la?'; '+esc(e.a.n)+': '+esc(e.lb):'')+'</td></tr>').join('')+'</tbody></table>';
+}
+/* Frame the character together with everyone they're tied to, rather than a
+   fixed zoom that can crop half their circle off-screen. */
+function webFocus(i){
+  webSel=i; const n=WEB.nodes[i], svg=document.getElementById('websvg');
+  const pts=[n].concat(n.rels.filter(e=>!(e.s&&!spoilers)).map(e=>e.a===n?e.b:e.a));
+  const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y), pad=120;
+  const aspect=(svg.clientHeight||460)/(svg.clientWidth||700);
+  let w=Math.max(Math.max(...xs)-Math.min(...xs)+pad*2, WEB.box.w/3.2);
+  const h0=Math.max(...ys)-Math.min(...ys)+pad*2;
+  if(h0>w*aspect) w=h0/aspect;
+  w=Math.min(w, WEB.box.w*1.05);
+  const h=w*aspect, cx=(Math.max(...xs)+Math.min(...xs))/2, cy=(Math.max(...ys)+Math.min(...ys))/2;
+  webVB={x:cx-w/2, y:cy-h/2, w, h};
+  webApplyVB(); webApplySel();
+}
+function webZoom(factor,cx,cy){
+  const b=WEB.box, w=Math.min(b.w*1.15, Math.max(b.w/6, webVB.w/factor)), k=w/webVB.w;
+  if(cx===undefined){cx=webVB.x+webVB.w/2; cy=webVB.y+webVB.h/2;}
+  webVB={x:cx-(cx-webVB.x)*k, y:cy-(cy-webVB.y)*k, w, h:webVB.h*k};
+  webApplyVB();
+}
+function syncWebSpoil(){
+  const b=document.getElementById('webspoil'); if(!b) return;
+  b.setAttribute('aria-pressed', spoilers); b.textContent=spoilers?'Spoilers showing':'Spoilers hidden';
+}
+(function initWeb(){
+  const svg=document.getElementById('websvg'); if(!svg) return;
+  document.getElementById('webkey').innerHTML=REL_TYPES.map(t=>{
+    const k=WEB.edges.filter(e=>e.t===t.k).length;
+    return '<span>'+lineKey(t)+t.label+' <small>('+k+')</small></span>';
+  }).join('');
+  const pick=document.getElementById('webpick');
+  pick.innerHTML='<option value="">Everyone</option>'+WEB.nodes.slice().sort((p,q)=>p.n.localeCompare(q.n))
+    .map(n=>'<option value="'+n.i+'">'+esc(n.n)+'</option>').join('');
+  pick.addEventListener('change',()=>{ if(pick.value===''){ webSel=null; webApplySel(); } else webFocus(+pick.value); });
+  document.getElementById('webspoil').addEventListener('click',()=>document.getElementById('spoil').click());
+  document.getElementById('webzin').addEventListener('click',()=>webZoom(1.5));
+  document.getElementById('webzout').addEventListener('click',()=>webZoom(1/1.5));
+  document.getElementById('webzfit').addEventListener('click',()=>{webVB=Object.assign({},WEB.box); webApplyVB();});
+  document.getElementById('webpanel').addEventListener('click',e=>{const g=e.target.closest('[data-webgo]'); if(g) webFocus(+g.dataset.webgo);});
+
+  const ptrs=new Map(); let drag=null, pinch=null;
+  const toSvg=(x,y)=>{const pt=svg.createSVGPoint(); pt.x=x; pt.y=y; return pt.matrixTransform(svg.getScreenCTM().inverse());};
+  svg.addEventListener('pointerdown',e=>{
+    ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(ptrs.size===1){ drag={x:e.clientX,y:e.clientY,vx:webVB.x,vy:webVB.y,moved:false,node:e.target.closest('.wn')}; }
+    else if(ptrs.size===2){ drag=null; const [p,q]=[...ptrs.values()]; pinch=Math.hypot(p.x-q.x,p.y-q.y); }
+    if(e.pointerType==='mouse') svg.setPointerCapture(e.pointerId);
+  });
+  svg.addEventListener('pointermove',e=>{
+    if(!ptrs.has(e.pointerId)) return;
+    ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pinch&&ptrs.size===2){ const [p,q]=[...ptrs.values()], d=Math.hypot(p.x-q.x,p.y-q.y), m=toSvg((p.x+q.x)/2,(p.y+q.y)/2);
+      webZoom(d/pinch,m.x,m.y); pinch=d; return; }
+    if(!drag) return;
+    const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
+    if(!drag.moved&&Math.hypot(dx,dy)>5){ drag.moved=true; svg.classList.add('dragging'); }
+    if(drag.moved&&e.pointerType==='mouse'){ const s=1/svg.getScreenCTM().a; webVB.x=drag.vx-dx*s; webVB.y=drag.vy-dy*s; webApplyVB(); }
+  });
+  const end=e=>{
+    if(drag&&!drag.moved&&e.type==='pointerup'){ webSel=drag.node?+drag.node.dataset.n:null; webApplySel(); }
+    ptrs.delete(e.pointerId); if(ptrs.size<2) pinch=null; if(!ptrs.size){ drag=null; svg.classList.remove('dragging'); }
+  };
+  svg.addEventListener('pointerup',end); svg.addEventListener('pointercancel',end);
+  document.getElementById('tab-threads').addEventListener('click',()=>requestAnimationFrame(()=>{webApplyVB.lastW=null; webApplyVB();}));
+  addEventListener('resize',()=>{webApplyVB.lastW=null; webApplyVB();});
+  svg.addEventListener('wheel',e=>{ if(!e.ctrlKey) return; e.preventDefault(); const m=toSvg(e.clientX,e.clientY); webZoom(Math.exp(-e.deltaY*.01),m.x,m.y); },{passive:false});
+
+  syncWebSpoil(); renderWeb();
+})();
+
 function renderThreads(){
+  renderMultiverse();
   document.getElementById('thlist').innerHTML = THREADS.map(t=>{
     const done=t.steps.filter(s=>watched.has(s.id)).length;
     const pct=Math.round(done/t.steps.length*100);
