@@ -269,15 +269,10 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 .chead{display:flex;align-items:center;gap:13px;padding-right:62px}
 .chid{min-width:0;flex:1}
 /* Diagonal two-tone frame in the character's suit colours. */
-.av{flex:none;position:relative;width:80px;height:80px;padding:7px;border:2.5px solid var(--line);
+.av{flex:none;width:80px;height:80px;padding:7px;border:2.5px solid var(--line);
   background:linear-gradient(135deg,var(--c1) 0 50%,var(--c2) 50% 100%);box-shadow:3px 3px 0 var(--shadow)}
-.avin,.avmono{display:block;width:100%;height:100%;border:2px solid var(--line)}
-.avin{overflow:hidden;background:var(--bg)}
-.avin img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%}
-/* Says outright it is a fan, not the credited actor. */
-.avtag{position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);white-space:nowrap;
-  font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.12em;
-  font-size:9px;line-height:1;padding:3px 5px 2px;background:var(--invert-bg);color:var(--invert-text)}
+.av img,.avmono{display:block;width:100%;height:100%;border:2px solid var(--line)}
+.av img{object-fit:cover;object-position:50% 22%;background:var(--bg)}
 .avmono{display:flex;align-items:center;justify-content:center;background:var(--invert-bg);
   color:var(--yellow);font-family:"Bangers";font-size:26px;letter-spacing:.03em;line-height:1}
 .ch .cmeta{display:flex;margin-top:11px;border:2.5px solid var(--line);background:var(--bg)}
@@ -587,7 +582,6 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 .credits ul{margin:8px 0 0;padding:0;list-style:none;columns:2 260px;column-gap:28px;font-size:11.5px}
 .credits li{break-inside:avoid;margin-bottom:3px}
 .credits a{color:inherit}
-.credits .crhead{margin:10px 0 0;font-weight:700}
 
 
 /* ---------- PROGRESS CODE ---------- */
@@ -837,7 +831,7 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   <footer class="legal">
     <span class="lhead">Unofficial fan guide</span>
     <p>Marvel, MCU, Avengers, and all related characters, titles, logos and imagery are trademarks and/or the property of Marvel Characters, Inc. and The Walt Disney Company. This is an independent fan-made reference. It is not affiliated with, endorsed by, sponsored by, or connected to Marvel, Marvel Studios, Disney, Sony Pictures, or any of their subsidiaries.</p>
-    <p>All films, series and specials referenced remain the property of their respective rights holders. No copyrighted footage, artwork or promotional material is reproduced here &mdash; every description is original writing. Cast photos show the performers; photos tagged Cosplay show fans in costume, not the credited actors. All are freely licensed from Wikimedia Commons; credits below.</p>
+    <p>All films, series and specials referenced remain the property of their respective rights holders. No copyrighted footage, artwork or promotional material is reproduced here &mdash; every description is original writing. Cast photos show the performers, not their characters, and are freely licensed from Wikimedia Commons; credits below.</p>
     <p>Release dates, runtimes and cast credits are compiled from public sources and are approximate. In-universe placements are officially confirmed only up to roughly <i>Avengers: Endgame</i>; later dates are the fan community&rsquo;s best reconstruction from on-screen evidence and may be wrong. Corrections welcome.</p>
     <p>Watch progress is stored on your own device. Nothing is transmitted to a server, and no account is required. Your progress code is generated locally in your browser.</p>
     <details class="credits"><summary>Photo credits</summary><div id="photocredits"></div></details>
@@ -1818,53 +1812,6 @@ const PHOTOS = {
  "Zoe Saldaña":{"f":"cast/zoe-saldana.jpg","by":"Kevin Payravi","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Zoe_Salda%C3%B1a_at_the_2024_Toronto_International_Film_Festival_(cropped).jpg"}
 };
 
-/* Fans in costume, for characters whose on-screen look is a suit, a mask,
-   CGI or heavy makeup rather than the actor's own face. Also freely licensed
-   from Commons, and only used where it reads as the character better than
-   the actor does. x/y are the focal point (%) and z the zoom, since most
-   are full-length convention shots; the files themselves are unmodified. */
-const COSPLAY = {
- "Iron Man":{"f":"cast/cosplay/iron-man.jpg","by":"Theo.M.","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Gamescom_2015_(20166575398).jpg","x":47,"y":26,"z":2.3},
- "Captain America":{"f":"cast/cosplay/captain-america.jpg","by":"Nicholas Gemini","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Romics_2014_-_Spring_Edition_63.JPG","x":50,"y":7,"z":2.0},
- "Thor":{"f":"cast/cosplay/thor.jpg","by":"GabboT","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:C2E2_2014_-_Thor_(14085076448).jpg","x":50,"y":7,"z":2.0},
- "Hulk":{"f":"cast/cosplay/hulk.jpg","by":"Prefeitura de Olinda from Brasil","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Enquanto_Isso_na_Sala_da_Justi%C3%A7a_(6909875435)_(2).jpg","x":50,"y":10,"z":1.25},
- "Black Widow":{"f":"cast/cosplay/black-widow.jpg","by":"The Conmunity - Pop Culture Geek from Los Angeles, CA, USA","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Anime_Expo_2012_(14024498333).jpg","x":50,"y":7,"z":2.0},
- "Hawkeye":{"f":"cast/cosplay/hawkeye.jpg","by":"GabboT","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:C2E2_2014_-_Hawkeye_(14271753974).jpg","x":50,"y":7,"z":2.0},
- "Falcon / Captain America":{"f":"cast/cosplay/falcon-captain-america.jpg","by":"Romer Jed Medina from Newark, NJ, United States","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:2021-10-8_to_2021-10-9_-_NYCC_(Touch_Edits_-_045)_(51573888219).jpg","x":50,"y":10,"z":1.25},
- "Winter Soldier":{"f":"cast/cosplay/winter-soldier.jpg","by":"William Tung from USA","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:San_Diego_Comic-Con_2014_-_The_Winter_Soldier_(14585123057).jpg","x":50,"y":10,"z":1.25},
- "War Machine":{"f":"cast/cosplay/war-machine.jpg","by":"Roger Murmann from Eppertshausen, Deutschland","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:MCM_2013_-_War_Machine_(8978354359).jpg","x":50,"y":10,"z":1.25},
- "Wasp":{"f":"cast/cosplay/wasp.jpg","by":"Miguel Discart","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Cosplay_of_the_Wasp_from_Marvel_Comics_at_Made_in_Asia_2023_(cropped).jpg","x":50,"y":10,"z":1.25},
- "Spider-Man":{"f":"cast/cosplay/spider-man.jpg","by":"Chongkian","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Cosplay_of_Spider-Man_at_Nijigen_Expo_2022.jpg","x":32,"y":30,"z":2.1},
- "Black Panther":{"f":"cast/cosplay/black-panther.jpg","by":"Chris Favero from USA","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Black_Panther_C2E2_2016_(25935754126).jpg","x":50,"y":7,"z":2.0},
- "Doctor Strange":{"f":"cast/cosplay/doctor-strange.jpg","by":"Sergey Galyonkin from Raleigh, USA","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Igromir_2016_(29967018111).jpg","x":50,"y":10,"z":1.25},
- "Captain Marvel":{"f":"cast/cosplay/captain-marvel.jpg","by":"William Tung","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:WonderCon_2019_-_Captain_Marvel.jpg","x":50,"y":10,"z":1.25},
- "Star-Lord":{"f":"cast/cosplay/star-lord.jpg","by":"Ian Aberle","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Star-Lord.jpg","x":50,"y":10,"z":1.25},
- "Gamora":{"f":"cast/cosplay/gamora.jpg","by":"Louise5505","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Gamora_cosplay.jpg","x":50,"y":10,"z":1.25},
- "Rocket":{"f":"cast/cosplay/rocket.jpg","by":"Nicholas Moreau","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Wikinews_B_Rocket_Raccoon_IMG_1053.jpg","x":50,"y":7,"z":2.0},
- "Groot":{"f":"cast/cosplay/groot.jpg","by":"GabboT","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:C2E2_2016_Contest_-_Rocket_Racoon_%26_Groot_(34129762356).jpg","x":50,"y":7,"z":2.0},
- "Drax":{"f":"cast/cosplay/drax.jpg","by":"Mooshuu from San Diego","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:SDCC_2015-4927_(18974525464).jpg","x":50,"y":10,"z":1.25},
- "Nebula":{"f":"cast/cosplay/nebula.jpg","by":"Miguel Discart","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Nebula_GOTG_Cosplay_at_Brussels_Comic_Con_2023-05-21.jpg","x":50,"y":10,"z":1.25},
- "Mantis":{"f":"cast/cosplay/mantis.jpg","by":"Miguel Discart","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Cosplay_of_Mantis_from_Guardians_of_the_Galaxy_at_Comiccon_Holland_2023.jpg","x":50,"y":10,"z":1.25},
- "Thanos":{"f":"cast/cosplay/thanos.jpg","by":"LostplanetKD73","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Sdcc_2018_Cosplay_of_Thanos.jpg","x":50,"y":7,"z":2.0},
- "Yondu":{"f":"cast/cosplay/yondu.jpg","by":"Crosa","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Yondu_cosplay.jpg","x":50,"y":10,"z":1.25},
- "Ms. Marvel":{"f":"cast/cosplay/ms-marvel.jpg","by":"Chris Favero from USA","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:C2e2-friday-April_26,_2014-1000-Edit_(14141573965).jpg","x":85,"y":10,"z":2.2},
- "US Agent":{"f":"cast/cosplay/us-agent.jpg","by":"Artistosteles","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:U.S._Agent_Madrid_Comic_Pop_2021_-_2.jpg","x":50,"y":7,"z":2.0},
- "Moon Knight":{"f":"cast/cosplay/moon-knight.jpg","by":"greyloch","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Mr._Moon_Knight_Cosplay_at_Dragon_Con_2015.jpg","x":50,"y":10,"z":1.25},
- "She-Hulk":{"f":"cast/cosplay/she-hulk.jpg","by":"greyloch from Washington, DC, area, U.S.A.","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Gamma-Bomb_She-Hulk_(9456803767).jpg","x":50,"y":7,"z":2.0},
- "Deadpool":{"f":"cast/cosplay/deadpool.jpg","by":"The Conmunity - Pop Culture Geek from Los Angeles, CA, USA","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Comikaze_Expo_2011_-_Deadpool_and_Typhoid_Mary_(6324616725).jpg","x":35,"y":7,"z":2.0},
- "Wolverine":{"f":"cast/cosplay/wolverine.jpg","by":"The Conmunity - Pop Culture Geek from Los Angeles, CA, USA","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Long_Beach_Comic_Expo_2012_-_Wolverine_(7186647586).jpg","x":50,"y":10,"z":1.25},
- "Daredevil":{"f":"cast/cosplay/daredevil.jpg","by":"myself (User:Piotrus)","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Gen_Con_Indy_2008_-_costumes_172.JPG","x":50,"y":14,"z":2.8},
- "The Punisher":{"f":"cast/cosplay/the-punisher.jpg","by":"forzaq8","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:The_Punisher_cosplayer.jpg","x":50,"y":10,"z":1.25},
- "The Thing":{"f":"cast/cosplay/the-thing.jpg","by":"Richie S from Brooklyn, NY, United States","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:New_York_Comic_Con_2015_-_The_Thing_(21481502684).jpg","x":50,"y":10,"z":1.25},
- "Doctor Doom":{"f":"cast/cosplay/doctor-doom.jpg","by":"William Tung from USA","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:WonderCon_2014_-_Doctor_Doom_cosplay_(13955026023).jpg","x":50,"y":10,"z":1.25},
- "Ultron":{"f":"cast/cosplay/ultron.jpg","by":"Pat Loika","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Dragon_Con_2013_-_Ultron_(9694672339).jpg","x":50,"y":10,"z":1.25},
- "Crossbones":{"f":"cast/cosplay/crossbones.jpg","by":"Pat Loika","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Dragon_Con_2013_-_Crossbones_(9693799017).jpg","x":50,"y":10,"z":1.25},
- "Mysterio":{"f":"cast/cosplay/mysterio.jpg","by":"William Tung","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:WonderCon_2019_-_Mysterio_Cosplay.jpg","x":50,"y":10,"z":1.25},
- "Hela":{"f":"cast/cosplay/hela.jpg","by":"Miguel Discart","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:2018-03-17_13-33-51_ILCE-6500_DSC04915_DxO_(28101542348).jpg","x":50,"y":10,"z":1.25},
- "Ronan the Accuser":{"f":"cast/cosplay/ronan-the-accuser.jpg","by":"greyloch from Washington, DC, area, U.S.A.","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Ronan_the_Accuser_(16601202526).jpg","x":50,"y":10,"z":1.25},
- "Korg":{"f":"cast/cosplay/korg.jpg","by":"Curlyrnd","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:NYCC_Friday_2022_by_Curlyrnd_32.jpg","x":50,"y":7,"z":2.0}
-};
-
 /* Two signature suit colours per character, framing the photo so the
    character still reads at a glance. Colours are not copyrightable; the suit
    designs are. Ink and cream means no costume. */
@@ -2005,30 +1952,19 @@ function monogram(n){
   return (w.length>1 ? w[0][0]+w[1][0] : w[0][0]).toUpperCase();
 }
 function avatarHTML(c){
-  const suit=SUIT[c.n]||['#14100D','#EFE4CD'], cp=COSPLAY[c.n];
-  const who=photoActor(c), ph=!cp&&who&&PHOTOS[who];
-  let inner;
-  if(cp){
-    const at=cp.x+'% '+cp.y+'%';
-    inner='<span class="avin"><img src="'+cp.f+'" alt="Cosplay of '+esc(c.n)+'" loading="lazy" decoding="async" width="64" height="64"'
-      +' style="object-position:'+at+';transform:scale('+cp.z+');transform-origin:'+at+'"></span>'
-      +'<span class="avtag">Cosplay</span>';
-  } else if(ph){
-    inner='<span class="avin"><img src="'+ph.f+'" alt="'+esc(who)+'" loading="lazy" decoding="async" width="64" height="64"></span>';
-  } else {
-    inner='<span class="avmono" aria-hidden="true">'+monogram(c.n)+'</span>';
-  }
+  const suit=SUIT[c.n]||['#14100D','#EFE4CD'], who=photoActor(c), ph=who&&PHOTOS[who];
+  const inner = ph
+    ? '<img src="'+ph.f+'" alt="'+esc(who)+'" loading="lazy" decoding="async" width="64" height="64">'
+    : '<span class="avmono" aria-hidden="true">'+monogram(c.n)+'</span>';
   return '<span class="av" style="--c1:'+suit[0]+';--c2:'+suit[1]+'">'+inner+'</span>';
 }
 function renderPhotoCredits(){
   const el=document.getElementById('photocredits'); if(!el) return;
-  const list=(obj,label)=>'<ul>'+Object.keys(obj).sort().map(k=>{
-    const p=obj[k];
+  el.innerHTML='<ul>'+Object.keys(PHOTOS).sort().map(a=>{
+    const p=PHOTOS[a];
     const lic=p.lu ? '<a href="'+p.lu+'" rel="license noopener">'+esc(p.lic)+'</a>' : esc(p.lic);
-    return '<li><a href="'+p.src+'" rel="noopener">'+esc(label(k))+'</a> \u2014 '+esc(p.by)+', '+lic+'</li>';
+    return '<li><a href="'+p.src+'" rel="noopener">'+esc(a)+'</a> — '+esc(p.by)+', '+lic+'</li>';
   }).join('')+'</ul>';
-  el.innerHTML='<p class="crhead">Cosplay photos</p>'+list(COSPLAY,k=>k+' cosplay')
-    +'<p class="crhead">Cast photos</p>'+list(PHOTOS,k=>k);
 }
 renderPhotoCredits();
 
