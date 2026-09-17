@@ -697,6 +697,7 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
 .credits ul{margin:8px 0 0;padding:0;list-style:none;columns:2 260px;column-gap:28px;font-size:11.5px}
 .credits li{break-inside:avoid;margin-bottom:3px}
 .credits a{color:inherit}
+.credits .crhead{margin:10px 0 0;font-weight:700}
 
 
 /* ---------- PROGRESS CODE ---------- */
@@ -975,7 +976,7 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
   <footer class="legal">
     <span class="lhead">Unofficial fan guide</span>
     <p>Marvel, MCU, Avengers, and all related characters, titles, logos and imagery are trademarks and/or the property of Marvel Characters, Inc. and The Walt Disney Company. This is an independent fan-made reference. It is not affiliated with, endorsed by, sponsored by, or connected to Marvel, Marvel Studios, Disney, Sony Pictures, or any of their subsidiaries.</p>
-    <p>All films, series and specials referenced remain the property of their respective rights holders. No copyrighted footage, artwork or promotional material is reproduced here &mdash; every description is original writing. Cast photos show the performers, not their characters, and are freely licensed from Wikimedia Commons; credits below.</p>
+    <p>All films, series and specials referenced remain the property of their respective rights holders. Every description is original writing. Most cast photos show the performers and are freely licensed from Wikimedia Commons; a handful of character portraits are official Marvel Studios promotional images, used to identify the characters. Credits below.</p>
     <p>Release dates, runtimes and cast credits are compiled from public sources and are approximate. In-universe placements are officially confirmed only up to roughly <i>Avengers: Endgame</i>; later dates are the fan community&rsquo;s best reconstruction from on-screen evidence and may be wrong. Corrections welcome.</p>
     <p>Watch progress is stored on your own device. Nothing is transmitted to a server, and no account is required. Your progress code is generated locally in your browser.</p>
     <details class="credits"><summary>Photo credits</summary><div id="photocredits"></div></details>
@@ -2081,6 +2082,25 @@ const SUIT = {
  "Ramonda":["#E6DCC3", "#C9A227"]
 };
 
+/* Official character portraits, chosen by the site owner, for characters whose
+   on-screen look is makeup, CGI or a costume the actor's own photo can't show.
+   These are Marvel/Disney promotional images (Groot is a Sideshow Collectibles
+   figure), credited as such in the footer -- unlike the Commons photos, they
+   are not freely licensed. */
+const CHAR_PHOTOS = {
+ "Gamora":"cast/official/gamora.jpg",
+ "Rocket":"cast/official/rocket.jpg",
+ "Groot":"cast/official/groot.jpg",
+ "Drax":"cast/official/drax.jpg",
+ "Nebula":"cast/official/nebula.jpg",
+ "Mantis":"cast/official/mantis.jpg",
+ "Thanos":"cast/official/thanos.jpg",
+ "Ms. Marvel":"cast/official/ms-marvel.jpg",
+ "Yondu":"cast/official/yondu.jpg",
+ "Winter Soldier":"cast/official/winter-soldier.jpg"
+};
+const CHAR_PHOTO_CREDIT = {'Groot':'© Marvel · Sideshow Collectibles'};
+
 /* Voice roles get a badge -- Vin Diesel's face does not read as Groot.
    Recast roles use the current actor; these three name two actors with no
    clear current one, so the pick is explicit. */
@@ -2096,15 +2116,19 @@ function monogram(n){
   return (w.length>1 ? w[0][0]+w[1][0] : w[0][0]).toUpperCase();
 }
 function avatarHTML(c){
-  const suit=SUIT[c.n]||['#14100D','#EFE4CD'], who=photoActor(c), ph=who&&PHOTOS[who];
-  const inner = ph
+  const suit=SUIT[c.n]||['#14100D','#EFE4CD'], who=photoActor(c), ph=who&&PHOTOS[who], own=CHAR_PHOTOS[c.n];
+  const inner = own
+    ? '<img src="'+own+'" alt="'+esc(c.n)+'" loading="lazy" decoding="async" width="64" height="64">'
+    : ph
     ? '<img src="'+ph.f+'" alt="'+esc(who)+'" loading="lazy" decoding="async" width="64" height="64">'
     : '<span class="avmono" aria-hidden="true">'+monogram(c.n)+'</span>';
   return '<span class="av" style="--c1:'+suit[0]+';--c2:'+suit[1]+'">'+inner+'</span>';
 }
 function renderPhotoCredits(){
   const el=document.getElementById('photocredits'); if(!el) return;
-  el.innerHTML='<ul>'+Object.keys(PHOTOS).sort().map(a=>{
+  const official='<p class="crhead">Character portraits</p><ul>'+Object.keys(CHAR_PHOTOS).sort().map(n=>
+    '<li>'+esc(n)+' — '+esc(CHAR_PHOTO_CREDIT[n]||'© Marvel Studios / Disney')+'</li>').join('')+'</ul><p class="crhead">Cast photos</p>';
+  el.innerHTML=official+'<ul>'+Object.keys(PHOTOS).sort().map(a=>{
     const p=PHOTOS[a];
     const lic=p.lu ? '<a href="'+p.lu+'" rel="license noopener">'+esc(p.lic)+'</a>' : esc(p.lic);
     return '<li><a href="'+p.src+'" rel="noopener">'+esc(a)+'</a> — '+esc(p.by)+', '+lic+'</li>';
