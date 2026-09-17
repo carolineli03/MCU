@@ -950,7 +950,7 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
 
     <section class="cxsec">
       <div class="gate-head"><span class="bolt">▶</span><h2>Who’s connected to who</h2></div>
-      <p class="cxlede">All 119 characters and how they’re tied together. Tap anyone, or pick a name.</p>
+      <p class="cxlede">Every character and how they’re tied together. Tap anyone, or pick a name.</p>
       <div class="webbar">
         <select class="selctl" id="webpick" aria-label="Focus on a character"></select>
         <button class="cbtn alt" id="webspoil" aria-pressed="false">Spoilers hidden</button>
@@ -1527,10 +1527,10 @@ const CHARS = [
 {n:'She-Hulk',r:'Jennifer Walters',a:'Tatiana Maslany',g:'New guard',d:'She-Hulk',y:'2022',
  b:'Bruce Banner\u2019s cousin, a lawyer who gets Hulk powers via a blood transfusion and keeps her personality intact.',
  best:'She-Hulk', sp:'Breaks the fourth wall harder than anyone in the MCU.'},
-{n:'Deadpool',in:['deadpool','deadpool2','dw'],r:'Wade Wilson',a:'Ryan Reynolds',g:'New guard',d:'Deadpool',y:'2016',
+{n:'Deadpool',in:['deadpool','deadpool2','dw'],r:'Wade Wilson',a:'Ryan Reynolds',g:'X-Men',d:'Deadpool',y:'2016',
  b:'Immortal, foul-mouthed, aware he is in a film. Both Fox-era films are in the chart and worth watching first.',
  best:'Deadpool & Wolverine', sp:'Now officially inside the sacred timeline.'},
-{n:'Wolverine',in:['xmen','x2','xmen3','origins','thewolverine','dofp','logan','dw'],r:'Logan',a:'Hugh Jackman',g:'New guard',d:'X-Men',y:'2000',
+{n:'Wolverine',in:['xmen','x2','xmen3','origins','thewolverine','dofp','logan','dw'],r:'Logan',a:'Hugh Jackman',g:'X-Men',d:'X-Men',y:'2000',
  b:'Twenty-four years of Fox X-Men films, then a return nobody expected. A variant, not the one from Logan.',
  best:'Deadpool & Wolverine', sp:'Expected back for Doomsday.'},
 {n:'Valentina Allegra de Fontaine',in:['bw','tfatws','wakanda2','thunderbolts'],r:'\u2014',a:'Julia Louis-Dreyfus',g:'New guard',d:'Falcon and the Winter Soldier',y:'2021',
@@ -1581,6 +1581,74 @@ const CHARS = [
 {n:'The Thing',r:'Ben Grimm',a:'Ebon Moss-Bachrach',g:'Fantastic Four',d:'First Steps',y:'2025',
  b:'A pilot turned into a rock-skinned strongman. The heart of the four, and the one who paid the highest price.',
  best:'The Fantastic Four: First Steps', sp:'\u2014'},
+
+/* ---- X-MEN ---- */
+{n:'Professor X',in:['xmen','x2','xmen3','origins','firstclass','thewolverine','dofp','apocalypse','logan','darkphoenix','mom','doomsday'],r:'Charles Xavier',a:'Patrick Stewart / James McAvoy (young)',g:'X-Men',d:'X-Men',y:'2000',
+ b:'Founder of the X-Men and the world’s most powerful telepath. Runs a school for mutants and keeps believing humans and mutants can share the world.',
+ best:'X2 · Days of Future Past · Logan', sp:'Dies in Logan. Patrick Stewart has since played a different Xavier in Multiverse of Madness, and returns for Doomsday.'},
+{n:'Magneto',in:['xmen','x2','xmen3','firstclass','thewolverine','dofp','apocalypse','darkphoenix','doomsday'],r:'Erik Lehnsherr',a:'Ian McKellen / Michael Fassbender (young)',g:'X-Men',d:'X-Men',y:'2000',
+ b:'Master of magnetism, and Xavier’s oldest friend and fiercest opponent. A Holocaust survivor convinced mutants must fight or be wiped out.',
+ best:'X-Men: First Class · X2', sp:'Ends the prequel run at peace with Charles, running a mutant refuge. Ian McKellen returns for Doomsday.'},
+{n:'Cyclops',in:['xmen','x2','xmen3','origins','apocalypse','darkphoenix','doomsday'],r:'Scott Summers',a:'James Marsden / Tye Sheridan (young)',g:'X-Men',d:'X-Men',y:'2000',
+ b:'Fires destructive beams from his eyes and can only hold them back with a ruby visor. The by-the-book field leader of the team.',
+ best:'X-Men · X-Men: Apocalypse', sp:'Killed early in The Last Stand. James Marsden returns for Doomsday.'},
+{n:'Jean Grey',in:['xmen','x2','xmen3','thewolverine','dofp','apocalypse','darkphoenix'],r:'Jean Grey',a:'Famke Janssen / Sophie Turner (young)',g:'X-Men',d:'X-Men',y:'2000',
+ b:'A telepath and telekinetic whose power outgrows everyone around her, including herself, once the Phoenix wakes up.',
+ best:'X2 · X-Men: Apocalypse', sp:'Becomes the Phoenix in both timelines, and both times the people who love her have to stop her.'},
+{n:'Storm',in:['xmen','x2','xmen3','dofp','apocalypse','darkphoenix'],r:'Ororo Munroe',a:'Halle Berry / Alexandra Shipp (young)',g:'X-Men',d:'X-Men',y:'2000',
+ b:'Controls the weather. A street kid in Cairo in the prequels, and a teacher at Xavier’s school in the originals.',
+ best:'X2', sp:'Takes over running the school after The Last Stand.'},
+{n:'Mystique',in:['xmen','x2','xmen3','firstclass','dofp','apocalypse','darkphoenix','doomsday'],r:'Raven Darkhölme',a:'Rebecca Romijn / Jennifer Lawrence (young)',g:'X-Men',d:'X-Men',y:'2000',
+ b:'A shapeshifter who can become anyone. Xavier’s adoptive sister in the prequels, and Magneto’s right hand in the originals.',
+ best:'X-Men: First Class · Days of Future Past', sp:'Killed by Jean in Dark Phoenix. Rebecca Romijn returns for Doomsday.'},
+{n:'Beast',in:['xmen3','firstclass','dofp','apocalypse','darkphoenix','marvels','doomsday'],r:'Hank McCoy',a:'Kelsey Grammer / Nicholas Hoult (young)',g:'X-Men',d:'X-Men: The Last Stand',y:'2006',
+ b:'A brilliant scientist whose attempt to hide his mutation turns him blue and furred. A politician in the originals, the team’s inventor in the prequels.',
+ best:'X-Men: Days of Future Past', sp:'Kelsey Grammer’s Beast turns up in The Marvels’ post-credits scene, and returns for Doomsday.'},
+{n:'Rogue',in:['xmen','x2','xmen3','dofp'],r:'Anna Marie',a:'Anna Paquin',g:'X-Men',d:'X-Men',y:'2000',
+ b:'Absorbs the life and powers of anyone she touches, so she can’t touch anyone. The audience’s way into the first film.',
+ best:'X-Men · X2', sp:'Takes the mutant cure in The Last Stand.'},
+{n:'Nightcrawler',in:['x2','apocalypse','darkphoenix','doomsday'],r:'Kurt Wagner',a:'Alan Cumming / Kodi Smit-McPhee (young)',g:'X-Men',d:'X2',y:'2003',
+ b:'A teleporting, devout former circus performer who looks like a demon and is the gentlest person in any room.',
+ best:'X2', sp:'Alan Cumming returns for Doomsday.'},
+{n:'Iceman',in:['xmen','x2','xmen3','dofp'],r:'Bobby Drake',a:'Shawn Ashmore',g:'X-Men',d:'X-Men',y:'2000',s:1,
+ b:'Freezes anything he touches. Rogue’s boyfriend and the most normal kid at the school.',
+ best:'X2', sp:'—'},
+{n:'Colossus',in:['x2','xmen3','dofp','deadpool','deadpool2','dw'],r:'Piotr Rasputin',a:'Daniel Cudmore / Stefan Kapičić (Deadpool films)',g:'X-Men',d:'X2',y:'2003',s:1,
+ b:'A gentle Russian giant who turns his skin to organic steel. Background muscle in the X-Men films, Deadpool’s long-suffering conscience in the Deadpool ones.',
+ best:'Deadpool', sp:'—'},
+{n:'Quicksilver',in:['dofp','apocalypse','darkphoenix','wandavision'],r:'Peter Maximoff',a:'Evan Peters',g:'X-Men',d:'X-Men: Days of Future Past',y:'2014',s:1,
+ b:'Moves faster than anyone can see and has no patience for anyone who can’t keep up. Steals every scene he’s in.',
+ best:'Days of Future Past · Apocalypse', sp:'Evan Peters also turns up in WandaVision, playing someone who only claims to be Wanda’s brother.'},
+{n:'Pyro',in:['xmen','x2','xmen3','dw'],r:'John Allerdyce',a:'Aaron Stanford',g:'X-Men',d:'X-Men',y:'2000',s:1,
+ b:'A student who can bend fire but not create it, and who walks out on Xavier to join Magneto.',
+ best:'X2', sp:'Turns up in the Void in Deadpool & Wolverine.'},
+{n:'William Stryker',in:['x2','origins','dofp','apocalypse'],r:'William Stryker',a:'Brian Cox / Danny Huston / Josh Helman',g:'X-Men',d:'X2',y:'2003',s:1,
+ b:'A military scientist obsessed with controlling mutants. Behind Logan’s adamantium skeleton, and every lie Logan was told about it.',
+ best:'X2', sp:'—'},
+{n:'Apocalypse',in:['apocalypse'],r:'En Sabah Nur',a:'Oscar Isaac',g:'X-Men',d:'X-Men: Apocalypse',y:'2016',s:1,
+ b:'The first mutant, buried for thousands of years and furious about the world he wakes up to.',
+ best:'X-Men: Apocalypse', sp:'—'},
+{n:'X-23',in:['logan','dw'],r:'Laura Kinney',a:'Dafne Keen',g:'X-Men',d:'Logan',y:'2017',
+ b:'A girl bred in a lab from Logan’s DNA, with his claws and his temper.',
+ best:'Logan', sp:'Returns, grown up, in Deadpool & Wolverine.'},
+{n:'Negasonic Teenage Warhead',in:['deadpool','deadpool2','dw'],r:'Ellie Phimister',a:'Brianna Hildebrand',g:'X-Men',d:'Deadpool',y:'2016',s:1,
+ b:'An X-Men trainee with explosive powers and no interest whatsoever in Deadpool’s jokes.',
+ best:'Deadpool', sp:'—'},
+{n:'Cable',in:['deadpool2'],r:'Nathan Summers',a:'Josh Brolin',g:'X-Men',d:'Deadpool 2',y:'2018',s:1,
+ b:'A cybernetic soldier from a ruined future, sent back to stop a murder before it happens.',
+ best:'Deadpool 2', sp:'—'},
+{n:'Domino',in:['deadpool2'],r:'Neena Thurman',a:'Zazie Beetz',g:'X-Men',d:'Deadpool 2',y:'2018',s:1,
+ b:'Her power is luck, which Deadpool refuses to accept is a real superpower right up until it keeps working.',
+ best:'Deadpool 2', sp:'—'},
+{n:'Gambit',in:['dw','doomsday'],r:'Remy LeBeau',a:'Channing Tatum',g:'X-Men',d:'Deadpool & Wolverine',y:'2024',s:1,
+ b:'A card-throwing Cajun thief. The version fans were promised for a decade finally turns up in the Void.',
+ best:'Deadpool & Wolverine', sp:'Returns for Doomsday.'},
+{n:'Vanessa',in:['deadpool','deadpool2','dw'],r:'Vanessa Carlysle',a:'Morena Baccarin',g:'X-Men',d:'Deadpool',y:'2016',s:1,
+ b:'Wade’s fiancée, and the reason for nearly everything he does.',
+ best:'Deadpool', sp:'Killed at the start of Deadpool 2, saved by time travel at the end.'},
+{n:'Cassandra Nova',in:['dw'],r:'Cassandra Nova',a:'Emma Corrin',g:'X-Men',d:'Deadpool & Wolverine',y:'2024',s:1,
+ b:'Charles Xavier’s twin sister, ruling the Void with his powers and none of his conscience.',
+ best:'Deadpool & Wolverine', sp:'—'},
 
 /* ---- BIG BADS ---- */
 {n:'Doctor Doom',r:'Victor von Doom',a:'Robert Downey Jr.',g:'Big bads',d:'Avengers: Doomsday',y:'2026',
@@ -1804,6 +1872,7 @@ const GROUPS = [
  {k:'Street level',  t:'Hell\u2019s Kitchen', note:'The grounded corner, largely inherited from the Netflix run.'},
  {k:'Mystic',        t:'Magic users',     note:'Sorcerers, witches and one very inconvenient teenager.'},
  {k:'Fantastic Four',t:'The First Family',note:'From Earth-828, a separate universe, and central to Doomsday.'},
+ {k:'X-Men',         t:'The mutants',     note:'Fox’s X-Men universe, folded into the MCU by Deadpool & Wolverine and headed for Doomsday.'},
  {k:'Big bads',      t:'The opposition',  note:'The villains who actually mattered.'}
 ];
 
@@ -1954,7 +2023,27 @@ const PHOTOS = {
  "Wyatt Russell":{"f":"cast/wyatt-russell.jpg","by":"Video by W!ZARD Radio Media; cropped, rotated, lightened by User:GRuban","lic":"CC BY 3.0","lu":"https://creativecommons.org/licenses/by/3.0","src":"https://commons.wikimedia.org/wiki/File:Wyatt_Russell_on_Wizard_Radio_Media.jpg"},
  "Xochitl Gomez":{"f":"cast/xochitl-gomez.jpg","by":"The White House","lic":"Public domain","lu":"","src":"https://commons.wikimedia.org/wiki/File:Xochitl_Gomez_-_2024_(cropped).jpg"},
  "Zendaya":{"f":"cast/zendaya.jpg","by":"PhilipRomano","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Zendaya-byPhilipRomano.jpg"},
- "Zoe Saldaña":{"f":"cast/zoe-saldana.jpg","by":"Kevin Payravi","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Zoe_Salda%C3%B1a_at_the_2024_Toronto_International_Film_Festival_(cropped).jpg"}
+ "Zoe Saldaña":{"f":"cast/zoe-saldana.jpg","by":"Kevin Payravi","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Zoe_Salda%C3%B1a_at_the_2024_Toronto_International_Film_Festival_(cropped).jpg"},
+ "Aaron Stanford":{"f":"cast/aaron-stanford.jpg","by":"Thibault","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Aaron_Stanford_-_Nikita_(cropped).jpg"},
+ "Alan Cumming":{"f":"cast/alan-cumming.jpg","by":"Scottish Government","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:FM_and_Alan_Cumming_in_NY-4_(cropped).jpg"},
+ "Anna Paquin":{"f":"cast/anna-paquin.jpg","by":"Somewhere In Toronto","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:AnnaPaquinToronto2018_(cropped).jpg"},
+ "Brian Cox":{"f":"cast/brian-cox.jpg","by":"Amy Martin Photography","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Brian_Cox_Edinburgh_2025.jpg"},
+ "Brianna Hildebrand":{"f":"cast/brianna-hildebrand.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Brianna_Hildebrand_by_Gage_Skidmore.jpg"},
+ "Channing Tatum":{"f":"cast/channing-tatum.jpg","by":"Harald Krichel","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Channing_Tatum_at_the_2026_Berlin_International_Film_Festival-60735.jpg"},
+ "Dafne Keen":{"f":"cast/dafne-keen.jpg","by":"Gage Skidmore from Peoria, AZ, United States of America","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Dafne_Keen_(48383778052)_(cropped).jpg"},
+ "Daniel Cudmore":{"f":"cast/daniel-cudmore.jpg","by":"Super Festivals","lic":"CC BY 2.0","lu":"https://creativecommons.org/licenses/by/2.0","src":"https://commons.wikimedia.org/wiki/File:Daniel_Cudmore_Photo_Op_GalaxyCon_Louisville_2019.jpg"},
+ "Emma Corrin":{"f":"cast/emma-corrin.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Emma_Corrin_in_2024_by_Gage_Skidmore.jpg"},
+ "Evan Peters":{"f":"cast/evan-peters.jpg","by":"Cacahuate1995","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Evan_Peters.jpg"},
+ "Famke Janssen":{"f":"cast/famke-janssen.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Famke_Janssen_by_Gage_Skidmore_2.jpg"},
+ "Halle Berry":{"f":"cast/halle-berry.jpg","by":"Harald Krichel","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Halle_Berry-1910.jpg"},
+ "Ian McKellen":{"f":"cast/ian-mckellen.jpg","by":"Gage Skidmore","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:SDCC13_-_Ian_McKellen.jpg"},
+ "James Marsden":{"f":"cast/james-marsden.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:James_Marsden_by_Gage_Skidmore.jpg"},
+ "Kelsey Grammer":{"f":"cast/kelsey-grammer.jpg","by":"Greg2600","lic":"CC BY-SA 2.0","lu":"https://creativecommons.org/licenses/by-sa/2.0","src":"https://commons.wikimedia.org/wiki/File:Kelsey_Grammer_2016.jpg"},
+ "Morena Baccarin":{"f":"cast/morena-baccarin.jpg","by":"Kevin Payravi","lic":"CC BY-SA 4.0","lu":"https://creativecommons.org/licenses/by-sa/4.0","src":"https://commons.wikimedia.org/wiki/File:Morena_Baccarin_at_the_2024_Toronto_International_Film_Festival_2_(cropped).jpg"},
+ "Patrick Stewart":{"f":"cast/patrick-stewart.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Patrick_Stewart_by_Gage_Skidmore_2.jpg"},
+ "Rebecca Romijn":{"f":"cast/rebecca-romijn.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Rebecca_Romijn_by_Gage_Skidmore.jpg"},
+ "Shawn Ashmore":{"f":"cast/shawn-ashmore.jpg","by":"Kevin Paul","lic":"CC BY 4.0","lu":"https://creativecommons.org/licenses/by/4.0","src":"https://commons.wikimedia.org/wiki/File:Shawn_Ashmore_at_San_Diego_Comic_Con_2026-3.jpg"},
+ "Zazie Beetz":{"f":"cast/zazie-beetz.jpg","by":"Gage Skidmore","lic":"CC BY-SA 3.0","lu":"https://creativecommons.org/licenses/by-sa/3.0","src":"https://commons.wikimedia.org/wiki/File:Zazie_Beetz_by_Gage_Skidmore.jpg"}
 };
 
 /* Two signature suit colours per character, framing the photo so the
@@ -2079,7 +2168,29 @@ const SUIT = {
  "Okoye":["#A3161A", "#C9A227"],
  "Nakia":["#2F6B3A", "#C9A227"],
  "M’Baku":["#6B4A2E", "#1B1B1F"],
- "Ramonda":["#E6DCC3", "#C9A227"]
+ "Ramonda":["#E6DCC3", "#C9A227"],
+ "Professor X":["#1C2B5A", "#D9A82E"],
+ "Magneto":["#8E1B2C", "#5B2E7A"],
+ "Cyclops":["#B3121D", "#1B1B1F"],
+ "Jean Grey":["#E0662A", "#D9A82E"],
+ "Storm":["#E6E9ED", "#1B1B1F"],
+ "Mystique":["#2A55A5", "#C0272D"],
+ "Beast":["#3C5BA8", "#1B1B1F"],
+ "Rogue":["#3F7D3A", "#E6DCC3"],
+ "Nightcrawler":["#2A3F8F", "#1B1B1F"],
+ "Iceman":["#9FD3F0", "#E6E9ED"],
+ "Colossus":["#9AA4AE", "#1B1B1F"],
+ "Quicksilver":["#A9B0B7", "#1F3A6B"],
+ "Pyro":["#E0662A", "#1B1B1F"],
+ "William Stryker":["#14100D", "#EFE4CD"],
+ "Apocalypse":["#3C6FA8", "#C9A227"],
+ "X-23":["#1B1B1F", "#9AA4AE"],
+ "Negasonic Teenage Warhead":["#D9A21B", "#1C2B5A"],
+ "Cable":["#4A4F55", "#E0662A"],
+ "Domino":["#1B1B1F", "#E6E9ED"],
+ "Gambit":["#C8246B", "#6B4A2E"],
+ "Vanessa":["#14100D", "#EFE4CD"],
+ "Cassandra Nova":["#1B1B1F", "#E6E9ED"]
 };
 
 /* Official character portraits, chosen by the site owner, for characters whose
@@ -2104,7 +2215,10 @@ const CHAR_PHOTO_CREDIT = {'Groot':'© Marvel · Sideshow Collectibles'};
 /* Voice roles get a badge -- Vin Diesel's face does not read as Groot.
    Recast roles use the current actor; these three name two actors with no
    clear current one, so the pick is explicit. */
-const PHOTO_ACTOR = {'Howard Stark':'John Slattery','Red Skull':'Hugo Weaving','Cassie Lang':'Kathryn Newton'};
+const PHOTO_ACTOR = {'Howard Stark':'John Slattery','Red Skull':'Hugo Weaving','Cassie Lang':'Kathryn Newton',
+  /* X-Men roles played young and old: the original actor, who returns for Doomsday */
+  'Professor X':'Patrick Stewart','Magneto':'Ian McKellen','Cyclops':'James Marsden','Jean Grey':'Famke Janssen','Storm':'Halle Berry',
+  'Mystique':'Rebecca Romijn','Beast':'Kelsey Grammer','Nightcrawler':'Alan Cumming','Colossus':'Daniel Cudmore','William Stryker':'Brian Cox'};
 function photoActor(c){
   if(/\(voice\)/.test(c.a)) return null;
   if(PHOTO_ACTOR[c.n]) return PHOTO_ACTOR[c.n];
@@ -2860,7 +2974,49 @@ const RELS = [
  ["Erik Selvig", "Jane Foster", "ally", "protégée", "mentor", 0],
  ["Jane Foster", "Darcy Lewis", "ally", "intern turned friend", "boss turned friend", 0],
  ["Ned Leeds", "MJ", "ally", "friend", "friend", 0],
- ["Aunt May", "Happy Hogan", "romance", "brief romance", "brief romance", 0]
+ ["Aunt May", "Happy Hogan", "romance", "brief romance", "brief romance", 0],
+ ["Professor X", "Magneto", "enemy", "oldest friend and greatest rival", "oldest friend and greatest rival", 0],
+ ["Professor X", "Mystique", "family", "adoptive sister", "adoptive brother", 0],
+ ["Professor X", "Cyclops", "ally", "student", "mentor", 0],
+ ["Professor X", "Jean Grey", "ally", "student", "mentor", 0],
+ ["Professor X", "Storm", "ally", "teacher at his school", "mentor", 0],
+ ["Professor X", "Beast", "ally", "friend and first recruit", "mentor", 0],
+ ["Professor X", "Wolverine", "ally", "the recruit he never gave up on", "mentor", 0],
+ ["Professor X", "Cassandra Nova", "family", "twin sister", "twin brother", 0],
+ ["Professor X", "X-23", "ally", "the girl they protect", "protector", 0],
+ ["Professor X", "Apocalypse", "enemy", "the god who wants his body", "the vessel he wants", 0],
+ ["Professor X", "Doctor Strange", "ally", "the visitor he puts on trial on Earth-838", "an Illuminati Xavier on Earth-838", 0],
+ ["Scarlet Witch", "Professor X", "enemy", "the Xavier she kills on Earth-838", "kills his Earth-838 self", 1],
+ ["Magneto", "Mystique", "ally", "right hand", "leader", 0],
+ ["Magneto", "Quicksilver", "family", "son", "father", 1],
+ ["Magneto", "Pyro", "ally", "recruit", "leader", 0],
+ ["Magneto", "Rogue", "enemy", "the girl he tried to use", "tried to use her powers", 0],
+ ["Magneto", "William Stryker", "enemy", "the man hunting mutants", "the mutant he hunts", 0],
+ ["Magneto", "Apocalypse", "ally", "the god he serves, then turns on", "his Horseman", 0],
+ ["Cyclops", "Jean Grey", "romance", "love", "love", 0],
+ ["Cyclops", "Wolverine", "enemy", "rival for Jean", "rival for Jean", 0],
+ ["Jean Grey", "Wolverine", "romance", "the love that never happens", "the love that never happens", 0],
+ ["Mystique", "Jean Grey", "enemy", "the friend who kills her", "kills her", 1],
+ ["Mystique", "Beast", "romance", "love", "love", 0],
+ ["Rogue", "Iceman", "romance", "boyfriend", "girlfriend", 0],
+ ["Rogue", "Wolverine", "ally", "protector", "the kid he protects", 0],
+ ["Iceman", "Pyro", "enemy", "friend turned enemy", "friend turned enemy", 0],
+ ["Wolverine", "William Stryker", "enemy", "the man who made him", "his experiment", 0],
+ ["Wolverine", "X-23", "family", "daughter", "father", 0],
+ ["Wolverine", "Gambit", "ally", "fellow Void survivor", "fellow Void survivor", 0],
+ ["Wolverine", "Cassandra Nova", "enemy", "ruler of the Void", "ruler of the Void", 0],
+ ["Deadpool", "Vanessa", "romance", "fiancée", "fiancé", 0],
+ ["Deadpool", "Colossus", "ally", "long-suffering mentor", "the recruit he despairs of", 0],
+ ["Deadpool", "Negasonic Teenage Warhead", "ally", "unimpressed teammate", "unimpressed teammate", 0],
+ ["Deadpool", "Cable", "enemy", "enemy turned ally", "enemy turned ally", 0],
+ ["Deadpool", "Domino", "ally", "X-Force teammate", "X-Force teammate", 0],
+ ["Deadpool", "Cassandra Nova", "enemy", "ruler of the Void", "ruler of the Void", 0],
+ ["Deadpool", "X-23", "ally", "Void ally", "Void ally", 0],
+ ["Deadpool", "Gambit", "ally", "Void ally", "Void ally", 0],
+ ["Cable", "Domino", "ally", "teammate", "teammate", 0],
+ ["Colossus", "Negasonic Teenage Warhead", "ally", "trainee", "mentor", 0],
+ ["Scarlet Witch", "Quicksilver", "enemy", "the “brother” who turns up in Westview", "the Wanda he fooled", 1],
+ ["Beast", "Monica Rambeau", "ally", "the hero he finds in another universe", "the Beast who finds her", 1]
 ];
 
 /* Laid out once at load with a small deterministic force simulation --
@@ -2875,7 +3031,7 @@ const WEB = (function(){
   const edges=[];
   RELS.forEach(r=>{const a=by.get(r[0]), b=by.get(r[1]); if(!a||!b) return;
     const e={i:edges.length,a,b,t:r[2],la:r[3],lb:r[4],s:!!r[5]}; edges.push(e); a.deg++; b.deg++; a.rels.push(e); b.rels.push(e);});
-  const RING=['Second wave','Wakanda','Big bads','Fantastic Four','Cosmic','Asgard','Inner circle','Street level','New guard','Mystic'];
+  const RING=['Second wave','Wakanda','Big bads','Fantastic Four','Cosmic','Asgard','Inner circle','Street level','New guard','X-Men','Mystic'];
   const anchor={'Founders':{x:0,y:0}};
   RING.forEach((g,k)=>{const a=-Math.PI/2+k*2*Math.PI/RING.length; anchor[g]={x:Math.cos(a)*900,y:Math.sin(a)*680};});
   nodes.forEach(n=>{const a=anchor[n.g]||{x:0,y:0}; n.x=a.x+(rnd()-.5)*140; n.y=a.y+(rnd()-.5)*140; n.r=7+Math.min(n.deg,12)*.75;});
