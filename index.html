@@ -751,6 +751,13 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
 .legal p{margin:0 0 9px}
 .legal p:last-child{margin-bottom:0}
 @media (min-width:1000px){.legal{columns:2;column-gap:40px}.legal .lhead{column-span:all}}
+.guides{margin:30px 0 0}
+.guidelinks{display:grid;gap:10px}
+.guidelinks a{border:3px solid var(--line);background:var(--surface);box-shadow:4px 4px 0 var(--shadow);
+  padding:11px 13px;text-decoration:none;color:var(--text);transition:transform .1s ease,box-shadow .1s ease}
+@media (hover:hover){.guidelinks a:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--shadow)}}
+.guidelinks b{display:block;font-family:"Archivo Black";font-size:14px;color:var(--red-ink)}
+.guidelinks span{display:block;font-size:13.5px;margin-top:3px;opacity:.8}
 .faq{margin:34px 0 0}
 .faqq{border:3px solid var(--line);background:var(--surface);box-shadow:4px 4px 0 var(--shadow);padding:11px 13px;margin-bottom:10px}
 .faqq summary{cursor:pointer;font-family:"Archivo Black";font-size:14px;line-height:1.3}
@@ -1276,6 +1283,15 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
       <details class="faqq"><summary>Do I need to watch the Disney+ shows?</summary><p>A few matter: WandaVision, both seasons of Loki, and Daredevil: Born Again all feed directly into later films. Most of the rest are optional, and this guide marks which is which.</p></details>
       <details class="faqq"><summary>Where do the X-Men fit into the MCU?</summary><p>Fox’s X-Men films were a separate universe until Deadpool &amp; Wolverine, where the TVA pulls Deadpool and Logan out of it and into the MCU. The original cast — Patrick Stewart, Ian McKellen, James Marsden, Rebecca Romijn and Alan Cumming — return for Avengers: Doomsday.</p></details>
       <details class="faqq"><summary>What should I watch before Avengers: Doomsday?</summary><p>The Fantastic Four: First Steps and Thunderbolts* are the on-ramps, Loki season 2 explains the multiverse rules, and Deadpool &amp; Wolverine sets up the X-Men crossing over. The original X-Men films are worth knowing but not required.</p></details>
+  </section>
+
+  <section class="cxsec guides">
+    <div class="gate-head"><span class="bolt">▶</span><h2>More guides</h2></div>
+    <div class="guidelinks">
+      <a href="what-to-watch-before-doomsday.html"><b>What to watch before Doomsday</b><span>Four titles, about eleven hours. Everything else is optional.</span></a>
+      <a href="x-men-in-the-mcu.html"><b>Where the X-Men fit into the MCU</b><span>Every mutant nod, and which Fox films are worth your time.</span></a>
+      <a href="marvel-shows-that-matter.html"><b>Which Marvel shows actually matter</b><span>Five the films depend on. The rest is up to you.</span></a>
+    </div>
   </section>
 
   <footer class="legal">

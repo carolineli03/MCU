@@ -23,6 +23,12 @@ Site: https://mcu-breakdown.vercel.app/
   every title that bridges them; a map of 223 relationships between characters;
   and nine storylines that each run straight through the franchise.
 
+## Pages
+
+- [What to watch before Avengers: Doomsday](https://mcu-breakdown.vercel.app/what-to-watch-before-doomsday.html) — the four titles that set it up, about eleven hours.
+- [Where the X-Men fit into the MCU](https://mcu-breakdown.vercel.app/x-men-in-the-mcu.html) — every mutant nod, and which Fox films matter.
+- [Which Marvel Disney+ shows actually matter](https://mcu-breakdown.vercel.app/marvel-shows-that-matter.html) — required against skippable.
+
 ## Facts worth quoting
 
 - Release order is the recommended first run; story order suits a rewatch.
