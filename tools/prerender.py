@@ -71,17 +71,30 @@ for t in threads:
                f'<span class="thsub">{esc(t["sub"])}</span></span></div>'
                f'<p class="thblurb">{esc(t["blurb"])}</p><ol class="chain">{steps}</ol></article>')
 
-def put(container_open, container_id, parts):
-    """replace whatever sits inside the container with the generated markup"""
-    global s
-    i = s.index(container_open); j = s.index('>', i) + 1
-    close = '</main>' if container_open.startswith('<main') else '</div>'
-    k = s.index(close, j)
-    s = s[:j] + '\n' + '\n'.join(parts) + '\n' + ' ' * 2 + s[k:]
+def put(container_open, parts):
+    """Replace everything inside the container with the generated markup.
 
-put('<main class="chart" id="chart"', 'chart', chart)
-put('<div id="roster"', 'roster', roster)
-put('<div class="thlist" id="thlist"', 'thlist', thl)
+    Scans for the container's *matching* close tag by depth, not the first one:
+    the markup we write contains nested divs of its own, so a naive search
+    would leave the old copy behind and duplicate the whole list on a re-run.
+    """
+    global s
+    tag = 'main' if container_open.startswith('<main') else 'div'
+    i = s.index(container_open); j = s.index('>', i) + 1
+    depth, k = 1, j
+    while depth:
+        nxt_open = s.find('<' + tag, k); nxt_close = s.find('</' + tag + '>', k)
+        assert nxt_close != -1, f'unbalanced {tag} after {container_open[:40]}'
+        if nxt_open != -1 and nxt_open < nxt_close:
+            depth += 1; k = nxt_open + 1
+        else:
+            depth -= 1; k = nxt_close + len(tag) + 3
+    end = k - (len(tag) + 3)
+    s = s[:j] + '\n' + '\n'.join(parts) + '\n  ' + s[end:]
+
+put('<main class="chart" id="chart"', chart)
+put('<div id="roster"', roster)
+put('<div class="thlist" id="thlist"', thl)
 SRC.write_text(s, encoding='utf-8')
 print(f'pre-rendered {len(chart)} titles, {len(roster)} characters, {len(thl)} threads '
       f'({SRC.stat().st_size//1024} KB)')

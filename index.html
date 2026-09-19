@@ -28,6 +28,54 @@
  "inLanguage":"en","isFamilyFriendly":true,
  "about":{"@type":"CreativeWorkSeries","name":"Marvel Cinematic Universe"}}
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What order should I watch the Marvel movies in?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Release order for a first run — the reveals were built to land in that sequence. Story order re-sorts everything by when it happens, which is better for a rewatch but defuses half of Endgame. This guide does both, and remembers what you have watched."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How long does it take to watch the whole MCU?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "About 58 hours for the essentials, roughly 132 for the recommended path, and about 211 hours for every film, series and special. At two evenings a week that is a little over a year for the full run."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Do I need to watch the Disney+ shows?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A few matter: WandaVision, both seasons of Loki, and Daredevil: Born Again all feed directly into later films. Most of the rest are optional, and this guide marks which is which."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Where do the X-Men fit into the MCU?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Fox’s X-Men films were a separate universe until Deadpool & Wolverine, where the TVA pulls Deadpool and Logan out of it and into the MCU. The original cast — Patrick Stewart, Ian McKellen, James Marsden, Rebecca Romijn and Alan Cumming — return for Avengers: Doomsday."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What should I watch before Avengers: Doomsday?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The Fantastic Four: First Steps and Thunderbolts* are the on-ramps, Loki season 2 explains the multiverse rules, and Deadpool & Wolverine sets up the X-Men crossing over. The original X-Men films are worth knowing but not required."
+   }
+  }
+ ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Archivo+Black&family=Barlow+Condensed:wght@600;700&family=Barlow:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -56,6 +104,10 @@ body{
   font-size:16px;line-height:1.45;padding-bottom:64px;overflow-x:hidden;
 }
 .wrap{max-width:760px;margin:0 auto;padding:0 16px}
+/* Real headings for search engines and screen readers, off-screen for everyone
+   else. Not display:none -- that would hide them from both. */
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 
 /* .tseg is still used by the character-list role switch. */
 .tseg{display:flex;border:2.5px solid var(--line)}
@@ -699,6 +751,11 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
 .legal p{margin:0 0 9px}
 .legal p:last-child{margin-bottom:0}
 @media (min-width:1000px){.legal{columns:2;column-gap:40px}.legal .lhead{column-span:all}}
+.faq{margin:34px 0 0}
+.faqq{border:3px solid var(--line);background:var(--surface);box-shadow:4px 4px 0 var(--shadow);padding:11px 13px;margin-bottom:10px}
+.faqq summary{cursor:pointer;font-family:"Archivo Black";font-size:14px;line-height:1.3}
+.faqq p{margin:9px 0 0;font-size:14.5px;line-height:1.4}
+.faqq summary:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 .credits{column-span:all;margin-top:12px}
 .credits summary{cursor:pointer;font-family:"Archivo Black";font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
 .credits ul{margin:8px 0 0;padding:0;list-style:none;columns:2 260px;column-gap:28px;font-size:11.5px}
@@ -790,6 +847,7 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
 
 
   <div class="pane" id="pane-watch" role="tabpanel" aria-labelledby="tab-watch">
+    <h2 class="vh">Marvel watch order: every film and series in order</h2>
 
   <section class="onboard" id="onboard" hidden>
     <span class="obk">First time here</span>
@@ -994,6 +1052,7 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
   </div><!-- /pane-watch -->
 
   <div class="pane" id="pane-chars" role="tabpanel" aria-labelledby="tab-chars" hidden>
+    <h2 class="vh">Who’s who: every MCU and X-Men character</h2>
 
     <section class="searchbar">
       <label for="q">Find a character</label>
@@ -1209,6 +1268,15 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
 <article class="th"><div class="thhead"><span><span class="thname">Fury and S.H.I.E.L.D.</span><span class="thsub">The organisation that built the team</span></span></div><p class="thblurb">A slow-burn collapse across fifteen years, from post-credits tease to total irrelevance.</p><ol class="chain"><li><span class="cht">Iron Man</span><span class="chn">A man in a coat waits in Tony’s living room after the credits.</span></li><li><span class="cht">Iron Man 2</span><span class="chn">The Avengers Initiative gets a name and a file.</span></li><li><span class="cht">The Avengers</span><span class="chn">It works exactly once — and Coulson dying is what makes it work.</span></li><li><span class="cht">Captain America: The Winter Soldier</span><span class="chn">HYDRA was inside the whole time. S.H.I.E.L.D. is dissolved.</span></li><li><span class="cht">Captain Marvel</span><span class="chn">A 1995 flashback showing how Fury got the idea, and the eye.</span></li><li><span class="cht">Secret Invasion</span><span class="chn">Skrulls he promised to help, twenty years unhoused, coming to collect.</span></li><li><span class="cht">The Marvels</span><span class="chn">Fury back in orbit, running S.A.B.E.R., mostly alone.</span></li></ol></article>
   </div>
   </div>
+
+  <section class="cxsec faq">
+    <div class="gate-head"><span class="bolt">▶</span><h2>Common questions</h2></div>
+      <details class="faqq"><summary>What order should I watch the Marvel movies in?</summary><p>Release order for a first run — the reveals were built to land in that sequence. Story order re-sorts everything by when it happens, which is better for a rewatch but defuses half of Endgame. This guide does both, and remembers what you have watched.</p></details>
+      <details class="faqq"><summary>How long does it take to watch the whole MCU?</summary><p>About 58 hours for the essentials, roughly 132 for the recommended path, and about 211 hours for every film, series and special. At two evenings a week that is a little over a year for the full run.</p></details>
+      <details class="faqq"><summary>Do I need to watch the Disney+ shows?</summary><p>A few matter: WandaVision, both seasons of Loki, and Daredevil: Born Again all feed directly into later films. Most of the rest are optional, and this guide marks which is which.</p></details>
+      <details class="faqq"><summary>Where do the X-Men fit into the MCU?</summary><p>Fox’s X-Men films were a separate universe until Deadpool &amp; Wolverine, where the TVA pulls Deadpool and Logan out of it and into the MCU. The original cast — Patrick Stewart, Ian McKellen, James Marsden, Rebecca Romijn and Alan Cumming — return for Avengers: Doomsday.</p></details>
+      <details class="faqq"><summary>What should I watch before Avengers: Doomsday?</summary><p>The Fantastic Four: First Steps and Thunderbolts* are the on-ramps, Loki season 2 explains the multiverse rules, and Deadpool &amp; Wolverine sets up the X-Men crossing over. The original X-Men films are worth knowing but not required.</p></details>
+  </section>
 
   <footer class="legal">
     <span class="lhead">Unofficial fan guide</span>

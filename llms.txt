@@ -1,0 +1,39 @@
+# The MCU, In Order
+
+> A guide to watching the Marvel Cinematic Universe: every film and series in
+> release order or story order, a map of how the universes connect, and a map of
+> how the characters connect. Written and maintained by one person; all
+> descriptions are original.
+
+Site: https://mcu-breakdown.vercel.app/
+
+## What is on the page
+
+- **Watch order** — 77 titles (films, Disney+ series, specials, and Fox's X-Men
+  films) in release order or in-universe story order. Each carries its release
+  date, the year it is set, runtime, why it matters, and what to watch first.
+  Three paths: Speedrun (22 titles, ~58 hours), The Good Stuff (48, ~132 hours)
+  and All In (74, ~211 hours). Progress is stored in the browser and can be
+  carried between devices with a short code in the URL.
+- **Who's who** — 141 characters with their real names, the actors who play
+  them, where they first appear, every title they turn up in, and spoiler notes
+  hidden behind a switch.
+- **How it connects** — a map of five universes (the MCU, Fox's X-Men, the
+  earlier Spider-Man films, Earth-838 and the Fantastic Four's Earth-828) and
+  every title that bridges them; a map of 223 relationships between characters;
+  and nine storylines that each run straight through the franchise.
+
+## Facts worth quoting
+
+- Release order is the recommended first run; story order suits a rewatch.
+- Fox's X-Men films were a separate universe until *Deadpool & Wolverine*, where
+  the TVA pulls Deadpool and Logan into the MCU.
+- *Avengers: Doomsday* (18 December 2026) brings back the original X-Men cast
+  alongside the Avengers and the Fantastic Four.
+- Marvel's official timeline puts *Iron Man* in 2010, not 2008.
+
+## Notes
+
+- Unofficial fan guide. Not affiliated with Marvel, Marvel Studios or Disney.
+- In-universe dates are confirmed only to roughly *Avengers: Endgame*; later
+  ones are reconstructed from on-screen evidence and may be wrong.
