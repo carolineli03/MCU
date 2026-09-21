@@ -714,6 +714,14 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
 .wpgo{font:inherit;font-family:"Archivo Black";font-size:13.5px;background:none;border:none;padding:0;color:var(--text);cursor:pointer;
   text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px}
 .wpgo:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wptog{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 5px;margin:3px 0 2px}
+.wptog > span{font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:10.5px;opacity:.6;margin-right:2px}
+.wptog button{font:inherit;font-family:"Barlow Condensed";font-weight:700;font-size:12.5px;line-height:1.2;padding:1px 6px;cursor:pointer;
+  border:1.5px solid var(--line);background:var(--bg);color:var(--text)}
+.wptog button:hover{background:var(--yellow);color:var(--on-warm)}
+.wptog button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wptog em{font-size:12px;opacity:.6}
+.wptype li + li{margin-top:4px}
 .wpspoil{margin:12px 0 0;font-size:12.5px;font-style:italic;opacity:.65}
 .weblist{margin-top:12px}
 .weblist summary{cursor:pointer;font-family:"Archivo Black";font-size:12px;letter-spacing:.05em;text-transform:uppercase}
@@ -1822,7 +1830,7 @@ const CAST = {
  "nwh":[["Spider-Man", "Tom Holland"], ["MJ", "Zendaya"], ["Ned Leeds", "Jacob Batalon"], ["Doctor Strange", "Benedict Cumberbatch"], ["Aunt May", "Marisa Tomei"], ["Green Goblin", "Willem Dafoe"], ["Doctor Octopus", "Alfred Molina"], ["Electro", "Jamie Foxx"], ["Peter-Two", "Tobey Maguire"], ["Peter-Three", "Andrew Garfield"], ["Happy Hogan", "Jon Favreau"], ["Wong", "Benedict Wong"], ["Sandman", "Thomas Haden Church"], ["Lizard", "Rhys Ifans"]],
  "moonknight":[["Moon Knight", "Oscar Isaac"], ["Layla El-Faouly", "May Calamawy"], ["Arthur Harrow", "Ethan Hawke"], ["Khonshu", "F. Murray Abraham"], ["Taweret", "Antonia Salib"], ["Ammit", "Saba Mubarak"]],
  "mom":[["Doctor Strange", "Benedict Cumberbatch"], ["Scarlet Witch", "Elizabeth Olsen"], ["America Chavez", "Xochitl Gomez"], ["Wong", "Benedict Wong"], ["Christine Palmer", "Rachel McAdams"], ["Mordo", "Chiwetel Ejiofor"], ["Professor X", "Patrick Stewart"], ["Peggy Carter", "Hayley Atwell"], ["Maria Rambeau / Captain Marvel", "Lashana Lynch"], ["Black Bolt", "Anson Mount"], ["Mister Fantastic", "John Krasinski"]],
- "msmarvel":[["Ms. Marvel", "Iman Vellani"], ["Muneeba Khan", "Zenobia Shroff"], ["Yusuf Khan", "Mohan Kapur"], ["Aamir Khan", "Saagar Shaikh"], ["Bruno Carrelli", "Matt Lintz"], ["Nakia Bahadir", "Yasmeen Fletcher"], ["Kamran", "Rish Shah"], ["Najma", "Nimra Bucha"], ["Waleed", "Farhan Akhtar"], ["Sadie Deever", "Alysia Reiner"]],
+ "msmarvel":[["Ms. Marvel", "Iman Vellani"], ["Muneeba Khan", "Zenobia Shroff"], ["Yusuf Khan", "Mohan Kapur"], ["Aamir Khan", "Saagar Shaikh"], ["Bruno Carrelli", "Matt Lintz"], ["Nakia Bahadir", "Yasmeen Fletcher"], ["Kamran", "Rish Shah"], ["Najma", "Nimra Bucha"], ["Waleed", "Farhan Akhtar"], ["Sadie Deever", "Alysia Reiner"], ["Captain Marvel", "Brie Larson"]],
  "lat":[["Thor", "Chris Hemsworth"], ["Jane Foster", "Natalie Portman"], ["Gorr the God Butcher", "Christian Bale"], ["Valkyrie", "Tessa Thompson"], ["Korg", "Taika Waititi"], ["Zeus", "Russell Crowe"], ["Star-Lord", "Chris Pratt"]],
  "iamgroot":[["Groot", "Vin Diesel"]],
  "shehulk":[["She-Hulk", "Tatiana Maslany"], ["Hulk", "Mark Ruffalo"], ["Nikki Ramos", "Ginger Gonzaga"], ["Pug", "Josh Segarra"], ["Mallory Book", "Renée Elise Goldsberry"], ["Titania", "Jameela Jamil"], ["Abomination", "Tim Roth"], ["Wong", "Benedict Wong"], ["Daredevil", "Charlie Cox"], ["Todd Phelps", "Jon Bass"]],
@@ -3564,7 +3572,8 @@ function renderWeb(){
   const lines=WEB.edges.map(e=>{
     if(e.s&&!spoilers) return '';
     const t=relType(e.t);
-    return '<line class="we" data-e="'+e.i+'" x1="'+f(e.a.x)+'" y1="'+f(e.a.y)+'" x2="'+f(e.b.x)+'" y2="'+f(e.b.y)+'" stroke="'+t.c+'"'+(t.dash?' stroke-dasharray="'+t.dash+'"':'')+'/>';
+    return '<line class="we" data-e="'+e.i+'" x1="'+f(e.a.x)+'" y1="'+f(e.a.y)+'" x2="'+f(e.b.x)+'" y2="'+f(e.b.y)+'" stroke="'+t.c+'"'+(t.dash?' stroke-dasharray="'+t.dash+'"':'')+'><title>'
+      +esc(e.a.n)+' & '+esc(e.b.n)+' \u00b7 '+t.label+(togetherIn(e.a.n,e.b.n).length?' \u00b7 together in '+togetherIn(e.a.n,e.b.n).map(it=>esc(it.title)).join(', '):'')+'</title></line>';
   }).join('');
   const labels=Object.keys(WEB.groups).map(g=>'<text class="wg" x="'+f(WEB.groups[g].x)+'" y="'+f(WEB.groups[g].top-14)+'">'+esc(g)+'</text>').join('');
   const dots=WEB.nodes.map(n=>{
@@ -3596,6 +3605,29 @@ function webApplySel(){
   webLabels();
   renderWebPanel();
 }
+/* Every title a character is on screen in: the cast list first (the fullest
+   record), then the profile's own appearance list and debut. Cached by name. */
+let _onScreen=null;
+function onScreen(name){
+  if(!_onScreen){
+    _onScreen=new Map();
+    const add=(n,id)=>{ if(!id) return; if(!_onScreen.has(n)) _onScreen.set(n,new Set()); _onScreen.get(n).add(id); };
+    Object.keys(CAST).forEach(id=>CAST[id].forEach(([n])=>add(n,id)));
+    CHARS.forEach(c=>{ (c.in||[]).forEach(id=>add(c.n,id)); add(c.n,debutOf(c)); });
+  }
+  return _onScreen.get(name)||new Set();
+}
+/* The titles two characters share, in release order. */
+function togetherIn(a,b){
+  const A=onScreen(a), B=onScreen(b);
+  return DATA.filter(r=>r.t==='i' && A.has(r.id) && B.has(r.id));
+}
+function togetherHTML(a,b){
+  const ts=togetherIn(a,b);
+  return '<div class="wptog"><span>Together in</span>'+(ts.length
+    ? ts.map(it=>'<button type="button" data-websheet="'+it.id+'">'+esc(it.title)+'</button>').join('')
+    : '<em>Not on screen together yet</em>')+'</div>';
+}
 function renderWebPanel(){
   const el=document.getElementById('webpanel'); if(!el) return;
   if(webSel===null){ el.innerHTML='<p class="wphint">Tap anyone on the map, or pick a name above, to see who they’re tied to and how.</p>'; return; }
@@ -3605,7 +3637,7 @@ function renderWebPanel(){
     if(!rows.length) return '';
     return '<div class="wptype"><span class="wpkey">'+lineKey(t)+t.label+'</span><ul>'+rows.map(e=>{
       const other=e.a===n?e.b:e.a, what=e.a===n?e.la:e.lb;
-      return '<li><button class="wpgo" data-webgo="'+other.i+'">'+esc(other.n)+'</button> — '+esc(what)+'</li>';
+      return '<li><button class="wpgo" data-webgo="'+other.i+'">'+esc(other.n)+'</button> — '+esc(what)+togetherHTML(n.n,other.n)+'</li>';
     }).join('')+'</ul></div>';
   }).join('');
   el.innerHTML='<div class="wphead">'+avatarHTML(n.c)+'<div><span class="wpname">'+esc(n.n)+'</span>'
@@ -3616,9 +3648,9 @@ function renderWebPanel(){
 function renderWebList(){
   const el=document.getElementById('weblist'); if(!el) return;
   const rows=WEB.edges.filter(e=>!(e.s&&!spoilers)).slice().sort((p,q)=>p.a.n.localeCompare(q.a.n)||p.b.n.localeCompare(q.b.n));
-  el.innerHTML='<table><thead><tr><th>Characters</th><th>Type</th><th>Connection</th></tr></thead><tbody>'+rows.map(e=>
+  el.innerHTML='<table><thead><tr><th>Characters</th><th>Type</th><th>Connection</th><th>Together in</th></tr></thead><tbody>'+rows.map(e=>
     '<tr><td>'+esc(e.a.n)+' &amp; '+esc(e.b.n)+'</td><td>'+relType(e.t).label+'</td><td>'
-    +esc(e.b.n)+': '+esc(e.la)+(e.lb!==e.la?'; '+esc(e.a.n)+': '+esc(e.lb):'')+'</td></tr>').join('')+'</tbody></table>';
+    +esc(e.b.n)+': '+esc(e.la)+(e.lb!==e.la?'; '+esc(e.a.n)+': '+esc(e.lb):'')+'</td><td>'+(togetherIn(e.a.n,e.b.n).map(it=>esc(it.title)).join(', ')||'\u2014')+'</td></tr>').join('')+'</tbody></table>';
 }
 /* Frame the character together with everyone they're tied to, rather than a
    fixed zoom that can crop half their circle off-screen. */
@@ -3722,7 +3754,8 @@ function initWebCombo(){
   document.getElementById('webzin').addEventListener('click',()=>webZoom(1.5));
   document.getElementById('webzout').addEventListener('click',()=>webZoom(1/1.5));
   document.getElementById('webzfit').addEventListener('click',()=>{webVB=Object.assign({},WEB.box); webApplyVB();});
-  document.getElementById('webpanel').addEventListener('click',e=>{const g=e.target.closest('[data-webgo]'); if(g) webFocus(+g.dataset.webgo);});
+  document.getElementById('webpanel').addEventListener('click',e=>{const g=e.target.closest('[data-webgo]'); if(g) webFocus(+g.dataset.webgo);
+    const t=e.target.closest('[data-websheet]'); if(t){ e.stopPropagation(); openSheet(t.dataset.websheet); }});
 
   const ptrs=new Map(); let drag=null, pinch=null;
   const toSvg=(x,y)=>{const pt=svg.createSVGPoint(); pt.x=x; pt.y=y; return pt.matrixTransform(svg.getScreenCTM().inverse());};
