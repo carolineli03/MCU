@@ -547,6 +547,17 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
   cursor:pointer;text-align:left}
 .chip:hover{background:var(--blue);color:var(--on-accent)}
 .chip:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+/* Character chips carry a name and, where known, the actor for this title.
+   Linked ones open the Who's who profile; plain ones have no profile to open,
+   so they drop the button look rather than pretend to be clickable. */
+.castchips{gap:7px}
+.chip.cc{display:inline-flex;flex-direction:column;align-items:flex-start;text-align:left;line-height:1.15;padding:5px 9px 5px}
+.chip.cc b{font-weight:700}
+.chip.cc i{font-style:normal;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--yellow);color:var(--on-warm);padding:1px 4px;margin-left:4px}
+.chip.cc small{font-family:"Barlow";font-weight:400;font-size:11.5px;letter-spacing:0;text-transform:none;opacity:.7;margin-top:1px}
+.chip.cc.plain{border-style:dashed;background:transparent;cursor:default}
+.chip.cc.plain:hover{background:transparent;color:inherit}
+.shsec small{font-family:"Barlow Condensed";font-weight:700;opacity:.55;margin-left:4px}
 .shbtn{width:100%;margin-top:18px;font-family:"Barlow Condensed";font-weight:700;
   text-transform:uppercase;letter-spacing:.09em;font-size:14px;padding:13px;border:3px solid var(--line);
   background:var(--red);color:var(--on-accent);cursor:pointer}
@@ -1729,6 +1740,8 @@ async function load(){
   render();
   if(cameFromLink) toast('Loaded the progress in this link', cameFromLink, true);
 }
+const CAST = {};
+
 const CHARS = [
 /* ---- FOUNDING AVENGERS ---- */
 {n:'Iron Man',in:['ironman','im2','avengers','im3','aou','civil','homecoming','iw','endgame'],r:'Tony Stark',a:'Robert Downey Jr.',g:'Founders',d:'Iron Man',y:'2008',
@@ -2976,16 +2989,27 @@ function debutOf(c){
   return _debutMap.get(c);
 }
 
+/* Everyone in a title. The per-title CAST list comes first, in billing order,
+   with the actor who played the part in *that* title; anyone in it who has a
+   Who's who profile becomes a link. Profiles whose appearances include the
+   title but who aren't in CAST are added after, so nothing already known is
+   dropped. The old version only matched names found in the one-line
+   description, which left Ironheart showing one person and Eternals none. */
 function castFor(it){
-  const hay = (it.title + ' ' + it.why).toLowerCase(), out = [];
-  CHARS.forEach(c=>{
-    const debut = debutOf(c) === it.id;
-    const named = hay.includes(c.n.toLowerCase())
-      || (c.r && c.r.length > 4 && c.r !== '\u2014' && hay.includes(c.r.toLowerCase()));
-    if(debut || named) out.push({c:c, debut:debut});
+  const out=[], seen=new Set();
+  const prof=n=>CHARS.find(c=>c.n===n);
+  (CAST[it.id]||[]).forEach(([name,actor])=>{
+    const c=prof(name); if(seen.has(name)) return; seen.add(name);
+    out.push({name, actor, c, debut: !!(c && debutOf(c)===it.id)});
   });
-  out.sort((a,b)=> (b.debut?1:0)-(a.debut?1:0) || (a.c.s?1:0)-(b.c.s?1:0));
-  return out.slice(0,10);
+  CHARS.forEach(c=>{
+    if(seen.has(c.n)) return;
+    const ins = c.in && c.in.length ? c.in : [];
+    if(ins.includes(it.id) || debutOf(c)===it.id){
+      seen.add(c.n); out.push({name:c.n, actor:'', c, debut: debutOf(c)===it.id});
+    }
+  });
+  return out;
 }
 function openSheet(id){
   const it=DATA.find(r=>r.t==='i'&&r.id===id); if(!it) return;
@@ -3017,9 +3041,13 @@ function openSheet(id){
         + '</div>'
       : '')
    + (cast.length
-      ? '<span class="shsec">Who to know here</span><div class="chips">'
-        + cast.map(x=>'<button class="chip" data-char="'+encodeURIComponent(x.c.n)+'">'
-            + x.c.n + (x.debut?' \u00b7 debuts':'') + '</button>').join('') + '</div>'
+      ? '<span class="shsec">Characters <small>'+cast.length+'</small></span><div class="chips castchips">'
+        + cast.map(x=>{
+            const inner='<b>'+esc(x.name)+(x.debut?' <i>debut</i>':'')+'</b>'+(x.actor?'<small>'+esc(x.actor)+'</small>':'');
+            return x.c
+              ? '<button class="chip cc" data-char="'+encodeURIComponent(x.c.n)+'" title="Open in Who\u2019s who">'+inner+'</button>'
+              : '<span class="chip cc plain">'+inner+'</span>';
+          }).join('') + '</div>'
       : '')
    + (it.tier==='coming' ? ''
       : '<button class="shbtn'+(done?' on':'')+'" data-tick="'+it.id+'">'
