@@ -15,7 +15,7 @@ Site: https://mcu-breakdown.vercel.app/
   Three paths: Speedrun (22 titles, ~58 hours), The Good Stuff (48, ~132 hours)
   and All In (74, ~211 hours). Progress is stored in the browser and can be
   carried between devices with a short code in the URL.
-- **Who's who** — 141 characters with their real names, the actors who play
+- **Who's who** — 143 characters with their real names, the actors who play
   them, where they first appear, every title they turn up in, and spoiler notes
   hidden behind a switch.
 - **How it connects** — a map of five universes (the MCU, Fox's X-Men, the
