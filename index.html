@@ -643,7 +643,33 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
 
 /* ---------- character web ---------- */
 .webbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
-.webbar .selctl{flex:1 1 200px;max-width:320px}
+/* Search-as-you-type picker: a text box that filters, a caret that opens the
+   full list, and a clear button. Keyboard follows the ARIA combobox pattern. */
+.combo{position:relative;flex:1 1 220px;max-width:360px}
+.comboin{width:100%;min-height:38px;font:inherit;font-family:"Barlow Condensed";font-weight:700;font-size:15px;
+  padding:7px 62px 6px 10px;border:2.5px solid var(--line);background:var(--bg);color:var(--text);
+  box-shadow:3px 3px 0 var(--shadow)}
+.comboin::placeholder{color:var(--text);opacity:.45;font-weight:600}
+.comboin:focus{outline:3px solid var(--blue);outline-offset:2px}
+.combotog,.comboclr{position:absolute;top:2.5px;bottom:5.5px;width:30px;border:none;background:transparent;
+  color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.combotog{right:3px}
+.comboclr{right:31px;font-size:20px;line-height:1;font-family:"Archivo Black"}
+.combotog i{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;
+  border-top:7px solid currentColor;transition:transform .15s ease}
+.combo.open .combotog i{transform:rotate(180deg)}
+.combolist{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:40;margin:0;padding:4px 0;list-style:none;
+  max-height:320px;overflow:auto;border:2.5px solid var(--line);background:var(--surface);box-shadow:4px 4px 0 var(--shadow)}
+.combolist li{display:flex;align-items:center;gap:10px;padding:7px 10px;cursor:pointer}
+.combolist li[aria-selected="true"]{background:var(--invert-bg);color:var(--invert-text)}
+.combolist li.cur b::after{content:" ✔";color:var(--red-ink)}
+.combolist li .av{width:34px;height:34px;padding:2.5px;border-width:2px;box-shadow:none;flex:none}
+.combolist li .avmono{font-size:14px}
+.combolist .ct{min-width:0}
+.combolist b{display:block;font-family:"Barlow Condensed";font-weight:700;font-size:15px;line-height:1.1}
+.combolist small{display:block;font-size:12px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.combolist mark{background:var(--yellow);color:var(--on-warm);padding:0 1px}
+.combolist .empty{cursor:default;font-size:14px;opacity:.7}
 .webbar .cbtn{min-height:38px}
 .webkey{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;margin:0 0 10px}
 .webkey span{display:inline-flex;align-items:center;gap:7px}
@@ -1254,9 +1280,15 @@ span.mvt{color:var(--text);text-decoration:none;cursor:default}
 
     <section class="cxsec">
       <div class="gate-head"><span class="bolt">▶</span><h2>Who’s connected to who</h2></div>
-      <p class="cxlede">Every character and how they’re tied together. Tap anyone, or pick a name.</p>
+      <p class="cxlede">Every character and how they’re tied together. Tap anyone, or search for a name.</p>
       <div class="webbar">
-        <select class="selctl" id="webpick" aria-label="Focus on a character"></select>
+        <div class="combo" id="webcombo">
+          <input id="webq" class="comboin" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false"
+            aria-controls="weblb" aria-label="Search for a character" placeholder="Search a character, actor or alias…" autocomplete="off" spellcheck="false">
+          <button type="button" class="comboclr" id="webclr" aria-label="Clear and show everyone" hidden>×</button>
+          <button type="button" class="combotog" id="webtog" aria-label="Show all characters" tabindex="-1"><i></i></button>
+          <ul class="combolist" id="weblb" role="listbox" aria-label="Characters" hidden></ul>
+        </div>
         <button class="cbtn alt" id="webspoil" aria-pressed="false">Spoilers hidden</button>
       </div>
       <div class="webkey" id="webkey"></div>
@@ -3560,7 +3592,7 @@ function webApplySel(){
   svg.querySelectorAll('.wn').forEach(g=>{const i=+g.dataset.n; g.classList.toggle('on',onN.has(i)); g.classList.toggle('sel',i===webSel);});
   webApplySel.on=onN;
   svg.querySelectorAll('.we').forEach(l=>l.classList.toggle('on',onE.has(+l.dataset.e)));
-  const pick=document.getElementById('webpick'); if(pick) pick.value=webSel===null?'':String(webSel);
+  if(typeof webComboSync==='function') webComboSync();
   webLabels();
   renderWebPanel();
 }
@@ -3613,16 +3645,79 @@ function syncWebSpoil(){
   const b=document.getElementById('webspoil'); if(!b) return;
   b.setAttribute('aria-pressed', spoilers); b.textContent=spoilers?'Spoilers showing':'Spoilers hidden';
 }
+/* ---------- character picker: search as you type ----------
+   Matches the character name, their real name, the actor, and ignores accents
+   and case, so "brie", "carol danvers" and "saldana" all land somewhere. Name
+   matches rank first, then name contains, then real name or actor. */
+function foldText(x){ return String(x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(); }
+let webComboSync=null;
+function initWebCombo(){
+  const box=document.getElementById('webcombo'), q=document.getElementById('webq'), lb=document.getElementById('weblb');
+  const tog=document.getElementById('webtog'), clr=document.getElementById('webclr');
+  const all=WEB.nodes.slice().sort((a,b)=>a.n.localeCompare(b.n));
+  let items=[], active=-1;
+
+  const mark=(text,qq)=>{ if(!qq) return esc(text); const f=foldText(text), i=f.indexOf(qq);
+    return i<0 ? esc(text) : esc(text.slice(0,i))+'<mark>'+esc(text.slice(i,i+qq.length))+'</mark>'+esc(text.slice(i+qq.length)); };
+  function matches(qq){
+    if(!qq) return all;
+    const scored=[];
+    for(const n of all){
+      const name=foldText(n.n), real=foldText(n.c.r), actor=foldText(n.c.a);
+      let s = name.startsWith(qq) ? 0 : name.split(/[\s/]+/).some(w=>w.startsWith(qq)) ? 1 : name.includes(qq) ? 2
+            : (real.includes(qq)||actor.includes(qq)) ? 3 : -1;
+      if(s>=0) scored.push([s,n]);
+    }
+    return scored.sort((a,b)=>a[0]-b[0]||a[1].n.localeCompare(b[1].n)).map(x=>x[1]);
+  }
+  function render(){
+    const qq=foldText(q.value.trim());
+    items=matches(qq);
+    if(active>=items.length) active=items.length-1;
+    lb.innerHTML = items.length ? items.map((n,k)=>{
+      const sub=[n.c.r && n.c.r!=='—' ? n.c.r : '', n.c.a].filter(Boolean).join(' · ');
+      return '<li role="option" id="wo'+n.i+'" data-i="'+n.i+'" aria-selected="'+(k===active)+'"'+(n.i===webSel?' class="cur"':'')+'>'
+        + avatarHTML(n.c) + '<span class="ct"><b>'+mark(n.n,qq)+'</b><small>'+mark(sub,qq)+' · '+esc(n.g)+'</small></span></li>';
+    }).join('') : '<li class="empty" aria-disabled="true">Nobody matches “'+esc(q.value.trim())+'”</li>';
+    q.setAttribute('aria-activedescendant', active>=0&&items[active] ? 'wo'+items[active].i : '');
+    const cur=lb.querySelector('[aria-selected="true"]'); if(cur) cur.scrollIntoView({block:'nearest'});
+  }
+  function open(){ if(!lb.hidden) return; lb.hidden=false; box.classList.add('open'); q.setAttribute('aria-expanded','true'); render(); }
+  function close(){ lb.hidden=true; box.classList.remove('open'); q.setAttribute('aria-expanded','false'); active=-1; q.removeAttribute('aria-activedescendant'); }
+  function choose(i){ close(); webFocus(i); q.blur(); }
+  webComboSync=()=>{
+    clr.hidden = webSel===null && !q.value;
+    if(document.activeElement!==q) q.value = webSel===null ? '' : WEB.nodes[webSel].n;
+  };
+
+  q.addEventListener('focus',()=>{ q.select(); open(); });
+  q.addEventListener('input',()=>{ active=q.value.trim()?0:-1; clr.hidden=!q.value&&webSel===null; open(); render(); });
+  q.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'){ e.preventDefault(); open(); active=Math.min(items.length-1,active+1); render(); }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); active=Math.max(0,active-1); render(); }
+    else if(e.key==='Home'&&!lb.hidden){ e.preventDefault(); active=0; render(); }
+    else if(e.key==='End'&&!lb.hidden){ e.preventDefault(); active=items.length-1; render(); }
+    else if(e.key==='Enter'){ e.preventDefault(); const t=items[active>=0?active:0]; if(t) choose(t.i); }
+    else if(e.key==='Escape'){ if(!lb.hidden){ close(); } else { q.value=''; webSel=null; webApplySel(); } }
+  });
+  q.addEventListener('blur',()=>{ close(); webComboSync(); });
+  /* pointerdown, not click, and preventDefault: otherwise the input blurs and
+     closes the list before the click on an option ever lands. */
+  lb.addEventListener('pointerdown',e=>{ const li=e.target.closest('li[data-i]'); e.preventDefault(); if(li) choose(+li.dataset.i); });
+  lb.addEventListener('pointermove',e=>{ const li=e.target.closest('li[data-i]'); if(!li) return;
+    const k=items.findIndex(n=>n.i===+li.dataset.i); if(k!==active){ active=k; render(); } });
+  tog.addEventListener('pointerdown',e=>{ e.preventDefault(); if(lb.hidden){ q.focus(); } else { close(); q.blur(); } });
+  clr.addEventListener('click',()=>{ q.value=''; webSel=null; webApplySel(); q.focus(); });
+  webComboSync();
+}
+
 (function initWeb(){
   const svg=document.getElementById('websvg'); if(!svg) return;
   document.getElementById('webkey').innerHTML=REL_TYPES.map(t=>{
     const k=WEB.edges.filter(e=>e.t===t.k).length;
     return '<span>'+lineKey(t)+t.label+' <small>('+k+')</small></span>';
   }).join('');
-  const pick=document.getElementById('webpick');
-  pick.innerHTML='<option value="">Everyone</option>'+WEB.nodes.slice().sort((p,q)=>p.n.localeCompare(q.n))
-    .map(n=>'<option value="'+n.i+'">'+esc(n.n)+'</option>').join('');
-  pick.addEventListener('change',()=>{ if(pick.value===''){ webSel=null; webApplySel(); } else webFocus(+pick.value); });
+  initWebCombo();
   document.getElementById('webspoil').addEventListener('click',()=>document.getElementById('spoil').click());
   document.getElementById('webzin').addEventListener('click',()=>webZoom(1.5));
   document.getElementById('webzout').addEventListener('click',()=>webZoom(1/1.5));
