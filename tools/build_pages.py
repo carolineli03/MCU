@@ -145,7 +145,47 @@ body2 = """    <p>For twenty-four years the X-Men were not in the MCU at all. Th
     ("Deadpool <em>(2016)</em>","Wade&rsquo;s origin. Deadpool &amp; Wolverine assumes you know him.","1h 48m"),
     ("Deadpool 2 <em>(2018)</em>","Cable, Domino, and the life Deadpool &amp; Wolverine picks up from.","1h 59m"),
     ("Logan <em>(2017)</em>","Wolverine&rsquo;s ending, and the film Deadpool &amp; Wolverine spends its runtime answering.","2h 17m"),
-]) + """    <h2>A detail most guides get wrong</h2>
+]) + """    <h2>Why the timeline doesn&rsquo;t line up</h2>
+    <p>Days of Future Past sends Wolverine&rsquo;s mind back to 1973, and he changes what happens there.
+    Everything after that point is rewritten. So Fox&rsquo;s films are two versions of the same history,
+    one of which the studio stopped acknowledging &mdash; plus a handful of contradictions nobody
+    planned at all.</p>
+""" + table("Two versions of the same history", ["Film","Set in","Which history"], [
+    ("X-Men: First Class <em>(2011)</em>","1962","Both. It happens before the change."),
+    ("X-Men Origins: Wolverine <em>(2009)</em>","1845&ndash;1979","The original one. Overwritten, and quietly dropped."),
+    ("X-Men, X2, The Last Stand","2000&ndash;2006","The original one. Also overwritten."),
+    ("The Wolverine <em>(2013)</em>","2013","The original one, after The Last Stand."),
+    ("X-Men: Days of Future Past <em>(2014)</em>","1973 and 2023","The hinge. The 1973 trip splits history in two."),
+    ("X-Men: Apocalypse <em>(2016)</em>","1983","The rewritten one."),
+    ("Dark Phoenix <em>(2019)</em>","1992","The rewritten one."),
+    ("Deadpool, Deadpool 2","present day","The rewritten one, loosely. The films joke about it."),
+    ("Logan <em>(2017)</em>","2029","Its own ending, and the one Deadpool &amp; Wolverine treats as final."),
+]) + """    <h3>The Stryker problem</h3>
+    <p>William Stryker is the clearest symptom. Three actors play him, and his age runs backwards:</p>
+""" + table("One man, three ages", ["Film","Actor","How old he looks"], [
+    ("Days of Future Past <em>(1973)</em>","Josh Helman","Late twenties, wearing Vietnam-era ribbons only."),
+    ("Origins: Wolverine <em>(1979)</em>","Danny Huston","Mid forties, with Korean War ribbons &mdash; so born around 1930."),
+    ("Apocalypse <em>(1983)</em>","Josh Helman","Still late twenties, four years after Huston played him at forty-five."),
+    ("X2 <em>(2003)</em>","Brian Cox","Late fifties, which fits Helman&rsquo;s version and not Huston&rsquo;s."),
+]) + """    <p>There is no in-universe explanation. The real one is that when Days of Future Past rewrote
+    history, Fox recast the young Stryker and stopped referring to Origins at all. That film goes
+    further: the Stryker who pulls Wolverine out of the Potomac in the last scene isn&rsquo;t Stryker.
+    His eyes flash yellow &mdash; it is Mystique. The one event Origins exists to tell you about is
+    handed to someone else in a five-second shot. Apocalypse then puts the real Stryker back in charge
+    of the Weapon X lab in 1983 anyway, and no film reconciles the two.</p>
+
+    <h3>The other things that don&rsquo;t fit</h3>
+""" + table("Known contradictions", ["What","The problem"], [
+    ("Emma Frost","An adult telepath working for Shaw in 1962, a teenager in 1979. Two actors, seventeen years apart, aging the wrong way."),
+    ("Cyclops","A teenager at Stryker&rsquo;s facility in 1979, which would make him about forty in X-Men (2000). James Marsden was twenty-six."),
+    ("Deadpool","Mutilated into &ldquo;Weapon XI&rdquo; with his mouth sewn shut in 1979, then handed a fresh origin in the present in 2016. The later films treat the first version as a punchline."),
+    ("Nobody ages","McAvoy, Fassbender and Lawrence look identical across 1962, 1973, 1983 and 1992. Thirty years pass and the cast does not."),
+    ("Xavier walking","Paralysed at the end of First Class in 1962, walking again in 1979. The serum from Days of Future Past is the patch fans use, and it arrived five years later."),
+]) + """    <p>None of this matters for Doomsday. The MCU treats Fox&rsquo;s films as one universe,
+    Earth-10005, and the multiverse framing means it never has to tidy the inside of it. If you want the
+    version that holds together, watch X-Men, X2 and Days of Future Past and leave the rest.</p>
+
+    <h2>A detail most guides get wrong</h2>
     <p>The Professor X in Multiverse of Madness is not the Fox one. He is an Earth-838 variant who
     happens to share an actor &mdash; one of several universes the MCU has visited, and separate from
     Earth-10005, where Deadpool and Logan come from. The films are deliberately vague about it. The
@@ -156,7 +196,11 @@ p2=page('x-men-in-the-mcu.html',
   'Fox’s X-Men were a separate universe until Deadpool & Wolverine. Every mutant nod the MCU has made, which Fox films are worth watching, and what Doomsday brings back.',
   'Where the X-Men fit into the MCU',
   'A separate universe for twenty-four years, folded in by a Deadpool film, and back properly in Doomsday.', body2,
-  [("Are the X-Men part of the MCU?",
+  [("Why does William Stryker look so much older in X-Men Origins: Wolverine than in X-Men: Apocalypse?",
+    "Because they are two different versions of history and two different actors. Danny Huston plays him in 1979 in Origins as a man of about forty-five; Josh Helman plays him in 1973 and again in 1983 as a man in his late twenties. Days of Future Past rewrote everything after 1973, and Fox stopped acknowledging Origins and recast the younger Stryker. There is no in-universe explanation."),
+   ("Why is the X-Men timeline so confusing?",
+    "Days of Future Past sends Wolverine back to 1973 and changes what happens, so every film after that point exists in a rewritten history. X-Men, X2, The Last Stand, Origins: Wolverine and The Wolverine belong to the original version; Apocalypse and Dark Phoenix belong to the rewritten one; First Class happens before the split. The films also contradict each other by accident on Emma Frost, Cyclops, Deadpool and how fast anyone ages."),
+   ("Are the X-Men part of the MCU?",
     "They are now. Fox's X-Men films were their own universe, Earth-10005, until Deadpool & Wolverine (2024), where the TVA pulls Deadpool and Wolverine into the MCU. The original cast returns in Avengers: Doomsday in December 2026."),
    ("Which X-Men films should I watch?",
     "Six of the thirteen carry what matters now: X-Men (2000), X2, Days of Future Past, Deadpool, Deadpool 2 and Logan.")])
