@@ -258,6 +258,21 @@ h1 .sm{display:block;font-size:clamp(16px,4.6vw,.42em);color:var(--text);text-sh
 /* ---------- RIBBON ---------- */
 .phase{position:relative;margin:34px 0 18px}
 .phase::before{content:"";position:absolute;left:-22px;top:50%;width:22px;height:4px;background:var(--line)}
+.foxorder{margin:10px 0 0;border:2.5px solid var(--line);background:var(--surface);box-shadow:4px 4px 0 var(--shadow);padding:0}
+.foxorder summary{cursor:pointer;padding:9px 12px;font-family:"Archivo Black";font-size:12.5px;line-height:1.3}
+.foxorder[open] summary{border-bottom:2.5px solid var(--line)}
+.foxorder > :not(summary){margin:0;padding:0 12px}
+.foxwhy{font-size:13px;padding-top:10px!important;opacity:.85}
+.foxhd{margin-top:12px!important;font-family:"Barlow Condensed";font-weight:700;text-transform:uppercase;letter-spacing:.09em;font-size:11px;opacity:.7}
+.foxlist{list-style:none;margin:5px 0 0!important;display:grid;gap:6px;counter-reset:none}
+.foxlist li{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 7px;font-size:13px;line-height:1.3}
+.foxlist li b{font-family:"Archivo Black";font-size:12px;color:var(--red-ink);min-width:14px}
+.foxlist span{opacity:.75}
+.foxlist .foxt{font:inherit;font-family:"Archivo Black";font-size:13px;background:none;border:none;padding:0;color:var(--text);
+  cursor:pointer;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px;text-align:left}
+.foxlist .foxt:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.foxlist.skip .foxt{text-decoration-line:line-through underline;opacity:.75}
+.foxtot{padding-bottom:12px!important;margin-top:10px!important;font-family:"Archivo Black";font-size:12px;color:var(--red-ink)}
 .ribbon{background:var(--ribbon-bg);color:var(--ribbon-text);padding:9px 16px 8px;transform:skewX(-7deg);
   box-shadow:5px 5px 0 var(--red);display:inline-block}
 .ribbon .inner{transform:skewX(7deg);display:block}
@@ -1562,9 +1577,47 @@ function milestoneHTML(ph){
    +'<span class="mk">Phase complete</span><span class="mt">'+ph.ttl+'</span>'
    +'<span class="mb">'+ph.n+' cleared. Keep going.</span></div></div>';
 }
-function ribbon(n,ttl,note){
+/* The X-Men films are the one run where release order and story order both
+   mislead, so the Fox ribbon carries its own order. Every Fox film is listed:
+   the eight worth watching, the two optional, and the four to skip. */
+const FOX_ORDER = {
+  watch: [['xmen','Xavier, Magneto and the rivalry Doomsday is built on'],
+          ['x2','The best of them, and where Nightcrawler arrives'],
+          ['firstclass','1962, and how Xavier and Magneto started as friends'],
+          ['dofp','The hinge — it rewrites everything you just watched'],
+          ['deadpool','Wade’s origin, and a break from the Xavier films'],
+          ['deadpool2','Cable and Domino, both of whom Deadpool & Wolverine assumes you know'],
+          ['logan','Out of release order on purpose. Wolverine’s ending hits hardest last'],
+          ['dw','Opens on Logan’s grave and spends the film answering it']],
+  maybe: [['xmen3','Shows you the deaths Days of Future Past undoes'],
+          ['thewolverine','Its post-credits scene leads straight into Days of Future Past']],
+  skip:  [['origins','Overwritten by Days of Future Past, and contradicts everything around it'],
+          ['apocalypse','The rewritten timeline going nowhere'],
+          ['darkphoenix','The same, and the ending of a story the films already told better'],
+          ['newmutants','A horror film the studio buried for two years']]
+};
+function foxLine(id, why, n){
+  const it=DATA.find(r=>r.t==='i'&&r.id===id); if(!it) return '';
+  return '<li>'+(n?'<b>'+n+'</b>':'')+'<button type="button" class="foxt" data-open="'+id+'">'+esc(it.title)+'</button>'
+    +'<span>'+why+'</span></li>';
+}
+function foxPanel(){
+  return '<details class="foxorder"><summary>Watching the X-Men films? Here is the order that makes sense</summary>'
+   + '<p class="foxwhy">Not chronological. Days of Future Past only works if you have already seen the future it goes '
+   + 'back to undo, and watching by in-universe year puts the contradictions front and centre. '
+   + '<a href="x-men-in-the-mcu.html">The full explanation is here</a>.</p>'
+   + '<p class="foxhd">Watch these eight, in this order</p><ol class="foxlist">'
+   + FOX_ORDER.watch.map((r,i)=>foxLine(r[0],r[1],i+1)).join('')+'</ol>'
+   + '<p class="foxhd">Optional, both before Days of Future Past</p><ul class="foxlist">'
+   + FOX_ORDER.maybe.map(r=>foxLine(r[0],r[1])).join('')+'</ul>'
+   + '<p class="foxhd">Skip these four</p><ul class="foxlist skip">'
+   + FOX_ORDER.skip.map(r=>foxLine(r[0],r[1])).join('')+'</ul>'
+   + '<p class="foxtot">The eight run about 16 and a half hours.</p></details>';
+}
+function ribbon(n,ttl,note,aside){
   return '<div class="phase"><div class="ribbon"><span class="inner"><span class="pn">'+n
-   +'</span><span class="pt">'+ttl+'</span></span></div><p class="phase-note">'+note+'</p></div>';
+   +'</span><span class="pt">'+ttl+'</span></span></div><p class="phase-note">'+note+'</p>'
+   +(aside||'')+'</div>';
 }
 function branchHTML(b){
   return '<div class="branch"><span class="bq">'+b.q+'</span><h3>'+b.label+'</h3><p>'+b.text
@@ -1591,7 +1644,7 @@ function render(){
       if(row.t==='phase'){flush();pend=row;curPhase=row;return;}
       if(row.t==='branch'){flush();curPhase=null;html+=branchHTML(row);return;}
       if(!visible(row))return;
-      if(pend){html+=ribbon(pend.n,pend.ttl,pend.note);pend=null;}
+      if(pend){html+=ribbon(pend.n,pend.ttl,pend.note,pend.ttl==='The Fox Years'?foxPanel():'');pend=null;}
       seen.push(row.id);
       html+='<div class="node">'+cardHTML(row,++num)+'</div>';
     });
@@ -1601,7 +1654,7 @@ function render(){
     let cur=-1;
     items.forEach(it=>{
       const ei=ERAS.findIndex(e=>it.s>=e.min&&it.s<=e.max);
-      if(ei!==cur){cur=ei;const e=ERAS[ei];html+=ribbon(e.n,e.ttl,e.note);}
+      if(ei!==cur){cur=ei;const e=ERAS[ei];html+=ribbon(e.n,e.ttl,e.note,e.ttl==='The Fox X-Men'?foxPanel():'');}
       html+='<div class="node">'+cardHTML(it,++num)+'</div>';
     });
     DATA.filter(r=>r.t==='branch').forEach(b=>{html+=branchHTML(b);});
