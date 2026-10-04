@@ -136,16 +136,31 @@ body2 = """    <p>For twenty-four years the X-Men were not in the MCU at all. Th
     ("The Marvels <em>(2023)</em>","Monica wakes in a world with Kelsey Grammer&rsquo;s Beast. A different universe again, and the clearest signal yet."),
     ("Deadpool &amp; Wolverine <em>(2024)</em>","The TVA, the Void, and Fox&rsquo;s universe folded into canon. Cameos from across the Fox era."),
     ("Avengers: Doomsday <em>(2026)</em>","Stewart, McKellen, Marsden, Romijn and Cumming all return, alongside the Avengers and the Fantastic Four."),
-]) + """    <h2>Which Fox films are worth watching</h2>
-    <p>Thirteen films, and most of them you can skip. These six carry the parts that matter now.</p>
-""" + table("The ones to watch", ["Film","Why","Runtime"], [
-    ("X-Men <em>(2000)</em>","Introduces Xavier, Magneto, Cyclops and Mystique &mdash; the cast Doomsday is bringing back.","1h 44m"),
-    ("X2 <em>(2003)</em>","Still the best of them, and where Nightcrawler arrives.","2h 14m"),
-    ("X-Men: Days of Future Past <em>(2014)</em>","Both casts in one film. If you watch only one, make it this.","2h 12m"),
-    ("Deadpool <em>(2016)</em>","Wade&rsquo;s origin. Deadpool &amp; Wolverine assumes you know him.","1h 48m"),
-    ("Deadpool 2 <em>(2018)</em>","Cable, Domino, and the life Deadpool &amp; Wolverine picks up from.","1h 59m"),
-    ("Logan <em>(2017)</em>","Wolverine&rsquo;s ending, and the film Deadpool &amp; Wolverine spends its runtime answering.","2h 17m"),
-]) + """    <h2>Why the timeline doesn&rsquo;t line up</h2>
+]) + """    <h2>Which films to watch, and in what order</h2>
+    <p>Thirteen films, and most of them you can skip. Eight carry what matters, and the order is not
+    chronological. Days of Future Past only works if you have already seen the future it goes
+    back to undo, and watching by in-universe year puts the contradictions front and centre. Release
+    order, with the overwritten films left out, is the version that makes sense.</p>
+""" + table("Eight films, in this order", ["", "Film", "Why here"], [
+    ("1","X-Men <em>(2000)</em>","Xavier, Magneto, Rogue and Wolverine, and the rivalry Doomsday is built on."),
+    ("2","X2 <em>(2003)</em>","The best of them. Stryker, Nightcrawler, and the ending that sets up Jean."),
+    ("3","X-Men: First Class <em>(2011)</em>","1962, and how Xavier and Magneto started as friends. It happens before the split, so it counts either way."),
+    ("4","X-Men: Days of Future Past <em>(2014)</em>","The hinge. Both casts in one film, and it rewrites what you just watched. This is why you watch in this order."),
+    ("5","Deadpool <em>(2016)</em>","Wade&rsquo;s origin, and a break from the Xavier films."),
+    ("6","Deadpool 2 <em>(2018)</em>","Cable and Domino, both of whom Deadpool &amp; Wolverine assumes you know."),
+    ("7","Logan <em>(2017)</em>","Out of release order on purpose. It is Wolverine&rsquo;s ending, and it hits hardest last."),
+    ("8","Deadpool &amp; Wolverine <em>(2024)</em>","The crossover. It opens on Logan&rsquo;s grave and spends the film answering it."),
+]) + """    <p class="tot">Total: about 16 and a half hours.</p>
+    <p>Two optional additions, both slotting in before Days of Future Past:
+    <strong>The Last Stand</strong> (2006) shows you the deaths Days of Future Past undoes, and
+    <strong>The Wolverine</strong> (2013) ends on a post-credits scene that leads straight into it.
+    Neither is good, and neither is required.</p>
+    <p>Skip <strong>X-Men Origins: Wolverine</strong>, <strong>Apocalypse</strong>,
+    <strong>Dark Phoenix</strong> and <strong>The New Mutants</strong>. The first is overwritten, the
+    middle two are the rewritten timeline going nowhere, and the last is a horror film the studio
+    buried.</p>
+
+    <h2>Why the timeline doesn&rsquo;t line up</h2>
     <p>Days of Future Past sends Wolverine&rsquo;s mind back to 1973, and he changes what happens there.
     Everything after that point is rewritten. So Fox&rsquo;s films are two versions of the same history,
     one of which the studio stopped acknowledging &mdash; plus a handful of contradictions nobody
@@ -196,14 +211,16 @@ p2=page('x-men-in-the-mcu.html',
   'Fox’s X-Men were a separate universe until Deadpool & Wolverine. Every mutant nod the MCU has made, which Fox films are worth watching, and what Doomsday brings back.',
   'Where the X-Men fit into the MCU',
   'A separate universe for twenty-four years, folded in by a Deadpool film, and back properly in Doomsday.', body2,
-  [("Why does William Stryker look so much older in X-Men Origins: Wolverine than in X-Men: Apocalypse?",
+  [("What order should I watch the X-Men movies in?",
+    "Release order, minus the films that were overwritten: X-Men (2000), X2, First Class, Days of Future Past, Deadpool, Deadpool 2, then Logan and Deadpool & Wolverine last. Do not watch chronologically \u2014 Days of Future Past only works if you have already seen the future it goes back to undo. Skip Origins: Wolverine, Apocalypse, Dark Phoenix and The New Mutants."),
+   ("Why does William Stryker look so much older in X-Men Origins: Wolverine than in X-Men: Apocalypse?",
     "Because they are two different versions of history and two different actors. Danny Huston plays him in 1979 in Origins as a man of about forty-five; Josh Helman plays him in 1973 and again in 1983 as a man in his late twenties. Days of Future Past rewrote everything after 1973, and Fox stopped acknowledging Origins and recast the younger Stryker. There is no in-universe explanation."),
    ("Why is the X-Men timeline so confusing?",
     "Days of Future Past sends Wolverine back to 1973 and changes what happens, so every film after that point exists in a rewritten history. X-Men, X2, The Last Stand, Origins: Wolverine and The Wolverine belong to the original version; Apocalypse and Dark Phoenix belong to the rewritten one; First Class happens before the split. The films also contradict each other by accident on Emma Frost, Cyclops, Deadpool and how fast anyone ages."),
    ("Are the X-Men part of the MCU?",
     "They are now. Fox's X-Men films were their own universe, Earth-10005, until Deadpool & Wolverine (2024), where the TVA pulls Deadpool and Wolverine into the MCU. The original cast returns in Avengers: Doomsday in December 2026."),
    ("Which X-Men films should I watch?",
-    "Six of the thirteen carry what matters now: X-Men (2000), X2, Days of Future Past, Deadpool, Deadpool 2 and Logan.")])
+    "Eight of the thirteen, in release order with the overwritten ones left out: X-Men (2000), X2, First Class, Days of Future Past, Deadpool, Deadpool 2, then Logan and Deadpool & Wolverine last. About sixteen and a half hours.")])
 
 # ---------------- 3. Disney+ shows ----------------
 body3 = """    <p>There are more than twenty Marvel series now, and the honest position is that most of them do
